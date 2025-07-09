@@ -1,0 +1,6 @@
+join wise_crab center
+wise_crab: You fucking liar! You said you would kill me! What are you waiting for?
+- Thanks for the money, old geezer
+	wise_crab: Now I am doomed to live for the rest of eternity without money to pay someone to kill me
+	wise_crab: I hate you!
+[signal arg="exit"]

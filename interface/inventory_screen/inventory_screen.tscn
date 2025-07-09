@@ -1,0 +1,76 @@
+[gd_scene load_steps=2 format=3 uid="uid://cyjhneb42ifgx"]
+
+[ext_resource type="Script" uid="uid://bfqe5swklatfv" path="res://interface/inventory_screen/inventory_screen.gd" id="1_nvxay"]
+
+[node name="InventoryScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("1_nvxay")
+metadata/_edit_use_anchors_ = true
+
+[node name="TopInfoPanel" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -124.0
+offset_right = 124.0
+offset_bottom = 23.0
+grow_horizontal = 2
+
+[node name="MaxMassLabel" type="Label" parent="TopInfoPanel"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "MaxMass TEMP"
+
+[node name="ItemCountLabel" type="Label" parent="TopInfoPanel"]
+layout_mode = 2
+text = "ItemCountLabel"
+
+[node name="MainContent" type="HSplitContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 34.0
+offset_bottom = -85.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ItemListPanel" type="VBoxContainer" parent="MainContent"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ItemList" type="ItemList" parent="MainContent/ItemListPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="InfoPanel" type="VBoxContainer" parent="MainContent"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="ItemDetails" type="Label" parent="MainContent/InfoPanel"]
+layout_mode = 2
+text = "fasdfdasfadsfsadf"
+
+[node name="Item3DPreview" type="SubViewportContainer" parent="MainContent/InfoPanel"]
+layout_mode = 2
+
+[node name="SubViewport" type="SubViewport" parent="MainContent/InfoPanel/Item3DPreview"]
+handle_input_locally = false
+render_target_update_mode = 4
+
+[node name="ItemPreviewRoot" type="Node3D" parent="MainContent/InfoPanel/Item3DPreview/SubViewport"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="MainContent/InfoPanel/Item3DPreview/SubViewport"]
+transform = Transform3D(-0.866023, -0.388576, 0.314662, 0, 0.62932, 0.777146, -0.500003, 0.673027, -0.545006, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.76943)

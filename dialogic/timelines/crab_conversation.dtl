@@ -1,0 +1,25 @@
+join wise_crab center
+wise_crab: Hello
+wise_crab: I am a wise old crab who has wandered these lands for over three thousand years
+wise_crab: I wish to give you some money
+wise_crab: In exchange for ending my miserable existence
+wise_crab: I am so old that my shell has rendered me immobile
+wise_crab: Please end my suffering
+- Sure, I'll kill you
+	wise_crab: Thank you kind soul
+	[signal arg="give_money"]
+- No, I refuse to
+	wise_crab: Fuck you then.
+	[signal arg="fuck_you"]
+- I'm too weak to kill you
+	wise_crab: You literally have a gun there
+	Just kill me
+	- Fine.
+		wise_crab: Thank you kind soul
+		[signal arg="give_money"]
+	- No.
+		wise_crab: Fuck you then.
+		[signal arg="fuck_you"]
+
+leave wise_crab
+[signal arg="exit"]

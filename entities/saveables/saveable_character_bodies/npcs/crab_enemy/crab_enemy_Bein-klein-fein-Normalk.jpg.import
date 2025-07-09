@@ -1,0 +1,38 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://dof0imxopb5ix"
+path.s3tc="res://.godot/imported/crab_enemy_Bein-klein-fein-Normalk.jpg-0fa25f7965c6a77965c660d181664c16.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "e8ae1fbb2d08a3a56d892566fba2ee81"
+}
+
+[deps]
+
+source_file="res://entities/saveables/saveable_character_bodies/npcs/crab_enemy/crab_enemy_Bein-klein-fein-Normalk.jpg"
+dest_files=["res://.godot/imported/crab_enemy_Bein-klein-fein-Normalk.jpg-0fa25f7965c6a77965c660d181664c16.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=1
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=1
+roughness/src_normal="res://entities/saveables/saveable_character_bodies/npcs/crab_enemy/crab_enemy_Bein-klein-fein-Normalk.jpg"
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0

@@ -1,0 +1,84 @@
+[gd_scene load_steps=3 format=3 uid="uid://cnhe0gojod7vi"]
+
+[ext_resource type="Script" uid="uid://dmrvc6cr7esfr" path="res://interface/player_hud/player_hud.gd" id="1_mlvnn"]
+[ext_resource type="PackedScene" uid="uid://ddohxg6ua5vix" path="res://interface/input_overlay/input_overlay.tscn" id="2_qjxdm"]
+
+[node name="PlayerHUD" type="CanvasLayer"]
+script = ExtResource("1_mlvnn")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="DisplayNameLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Display Name: TEMP"
+
+[node name="TimeLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Time: TEMP"
+
+[node name="HealthLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Health: TEMP"
+
+[node name="WealthLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Wealth: TEMP"
+
+[node name="InputOverlay" parent="MarginContainer" instance=ExtResource("2_qjxdm")]
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="CenterContainer"]
+layout_mode = 2
+text = "+"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="ObjectNameLabel" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Example Name"
+
+[node name="InteractPromptLabel" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Interact [E]"
+
+[node name="RightInventoryContainer" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -275.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="InventoryList" type="VBoxContainer" parent="RightInventoryContainer"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -249.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="RightInventoryContainer/InventoryList"]
+layout_mode = 2
+text = "TEMP LABEL FOR INVENTORY"

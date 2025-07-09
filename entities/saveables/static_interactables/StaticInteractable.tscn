@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dnd10ldnmycnp"]
+
+[ext_resource type="Script" uid="uid://ck63k3hw3wyp4" path="res://entities/saveables/static_interactables/StaticInteractable.gd" id="1_ri7pn"]
+
+[node name="StaticInteractable" type="Node3D"]
+script = ExtResource("1_ri7pn")

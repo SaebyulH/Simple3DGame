@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://i54y6502wuq1"]
+
+[ext_resource type="Script" uid="uid://tkgo01jj6vdx" path="res://entities/player/equipped_item.gd" id="1_52het"]
+[ext_resource type="PackedScene" uid="uid://bce3jryf8skms" path="res://entities/player/viewmodels/shit_pistol_model.tscn" id="2_5yp10"]
+
+[node name="EquippedItem" type="Node3D"]
+script = ExtResource("1_52het")
+
+[node name="ShitGunPreview" parent="." instance=ExtResource("2_5yp10")]
+visible = false

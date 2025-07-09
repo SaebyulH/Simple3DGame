@@ -1,0 +1,44 @@
+[gd_scene load_steps=2 format=3 uid="uid://ck8akymllm7pi"]
+
+[ext_resource type="Script" uid="uid://ycfcnyowlkji" path="res://interface/pause_menu/pause_menu.gd" id="1_n87rw"]
+
+[node name="PauseMenu" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_n87rw")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="QuitToMenu" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "Quit to Main Menu (without saving)"
+
+[node name="ReturnToGame" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "Return to Game"
+
+[node name="SaveGame" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "Save Game
+"
+
+[connection signal="pressed" from="Control/VBoxContainer/QuitToMenu" to="." method="_on_quit_to_menu_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/ReturnToGame" to="." method="_on_return_to_game_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/SaveGame" to="." method="_on_save_game_pressed"]

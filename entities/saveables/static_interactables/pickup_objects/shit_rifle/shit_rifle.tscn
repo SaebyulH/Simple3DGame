@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://hso3sebrmhek"]
+
+[ext_resource type="Script" uid="uid://dp7yengloi8g4" path="res://entities/saveables/static_interactables/pickup_objects/shit_rifle/shit_rifle.gd" id="1_uurqr"]
+[ext_resource type="PackedScene" uid="uid://cmyg36mo7688m" path="res://entities/saveables/static_interactables/pickup_objects/shit_rifle/shitrifle.glb" id="2_6eb8v"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vgxjg"]
+
+[node name="ShitRifle" type="RigidBody3D"]
+transform = Transform3D(0.999096, 0, 0, 0, 0.999096, 0, 0, 0, 0.999096, 0, 0, 0)
+script = ExtResource("1_uurqr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(-1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("BoxShape3D_vgxjg")
+
+[node name="shitrifle" parent="." instance=ExtResource("2_6eb8v")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)

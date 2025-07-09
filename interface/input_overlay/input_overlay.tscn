@@ -1,0 +1,141 @@
+[gd_scene load_steps=3 format=3 uid="uid://ddohxg6ua5vix"]
+
+[ext_resource type="Script" uid="uid://bvl6tsbm1unuv" path="res://interface/input_overlay/input_overlay.gd" id="1_sfdye"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ekxwf"]
+font_color = Color(0, 0, 0, 1)
+
+[node name="InputOverlay" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_sfdye")
+
+[node name="W" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 1568.0
+offset_top = 768.0
+offset_right = 1632.0
+offset_bottom = 832.0
+
+[node name="Label" type="Label" parent="W"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "W"
+label_settings = SubResource("LabelSettings_ekxwf")
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="A" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 1472.0
+offset_top = 864.0
+offset_right = 1536.0
+offset_bottom = 928.0
+
+[node name="Label" type="Label" parent="A"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "A"
+label_settings = SubResource("LabelSettings_ekxwf")
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="S" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 1568.0
+offset_top = 864.0
+offset_right = 1632.0
+offset_bottom = 928.0
+
+[node name="Label" type="Label" parent="S"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "S"
+label_settings = SubResource("LabelSettings_ekxwf")
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="D" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 1664.0
+offset_top = 864.0
+offset_right = 1728.0
+offset_bottom = 928.0
+
+[node name="Label" type="Label" parent="D"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "D"
+label_settings = SubResource("LabelSettings_ekxwf")
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Space" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 1664.0
+offset_top = 960.0
+offset_right = 1856.0
+offset_bottom = 1024.0
+
+[node name="Label" type="Label" parent="Space"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Space"
+label_settings = SubResource("LabelSettings_ekxwf")
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Ctrl" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 1472.0
+offset_top = 960.0
+offset_right = 1536.0
+offset_bottom = 1024.0
+
+[node name="Label" type="Label" parent="Ctrl"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Ctrl"
+label_settings = SubResource("LabelSettings_ekxwf")
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Shift" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 1568.0
+offset_top = 960.0
+offset_right = 1632.0
+offset_bottom = 1024.0
+
+[node name="Label" type="Label" parent="Shift"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Shift"
+label_settings = SubResource("LabelSettings_ekxwf")
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true

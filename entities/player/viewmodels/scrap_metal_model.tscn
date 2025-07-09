@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://ibvgg3a17hwd"]
+
+[ext_resource type="PackedScene" uid="uid://mwndgaglld4g" path="res://entities/saveables/static_interactables/scrapmetal.glb" id="1_d7jm3"]
+
+[node name="ScrapMetalModel" type="Node3D"]
+
+[node name="scrapmetal" parent="." instance=ExtResource("1_d7jm3")]

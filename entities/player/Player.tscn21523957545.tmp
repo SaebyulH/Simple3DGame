@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://ccexf8pwesf6c"]
+
+[ext_resource type="Script" uid="uid://cass8ms31dqmv" path="res://entities/player/Player.gd" id="1_4mpe4"]
+[ext_resource type="PackedScene" uid="uid://i54y6502wuq1" path="res://entities/player/equipped_item.tscn" id="2_swt4a"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bu0v1"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_iwpo4"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_cvunv"]
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_4mpe4")
+
+[node name="Head" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.696272, 0)
+
+[node name="SpringParent" type="Node3D" parent="Head"]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="Head/SpringParent"]
+spring_length = 8.0
+
+[node name="RayCast3D" type="RayCast3D" parent="Head/SpringParent/SpringArm3D"]
+target_position = Vector3(0, 0, -100)
+
+[node name="Camera3D" type="Camera3D" parent="Head/SpringParent/SpringArm3D"]
+
+[node name="EquippedItem" parent="Head" instance=ExtResource("2_swt4a")]
+transform = Transform3D(-0.0934883, 0, -8.17301e-09, 0, 0.0934883, 0, 8.17301e-09, 0, -0.0934883, 0.576057, -0.412164, -1.10879)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_bu0v1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_iwpo4")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.216807, 0, 0, 0, 0.216807, 0, 0, 0, 0.216807, 0, 1.23806, 0)
+mesh = SubResource("BoxMesh_cvunv")

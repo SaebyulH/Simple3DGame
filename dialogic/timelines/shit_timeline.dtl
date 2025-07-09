@@ -1,0 +1,9 @@
+join mysterious_box left
+[sound path="res://assets/Recording.mp3" volume="-80.0"]
+HOLA NUEVA AMIGA QUE TAL 
+- hola
+	hola hola hola
+- no hola
+	vete a la mierda
+[signal arg="exit"]
+return
