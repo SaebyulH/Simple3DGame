@@ -1,7 +1,10 @@
 extends SaveableCharacterBody3D
 class_name CrabEnemy
 
-@export var player_path: NodePath  # Set this in the editor
+@export var display_name:= "Stalker Crab"
+@onready var player: Node = get_tree().get_root().get_node("Main/Player")  # Adjust this path as needed
+
+
 @export var max_speed: float = 3.0
 @export var current_health = 100
 @export var max_health = 100
@@ -10,16 +13,10 @@ class_name CrabEnemy
 
 var damage_timer := 0.0  # seconds
 
-
-
-var player: Node3D = null
-
 func _ready():
-	super._ready()
-	if has_node(player_path):
-		player = get_node(player_path)
-	else:
-		push_error("🦀 CrabEnemy: Player not found at path: " + str(player_path))
+	super()
+	scene_path = "res://entities/saveables/saveable_character_bodies/npcs/crab_enemy/crab_enemy.tscn"
+
 
 func change_health(amount: float) -> void:
 	current_health = clamp(current_health + amount, 0, max_health)
@@ -32,10 +29,11 @@ func change_health(amount: float) -> void:
 		
 
 	if current_health <= 0:
-		visible = false
-		set_physics_process(false)
-		set_process(false)
-		$CollisionShape3D.disabled = true
+		#visible = false
+		#set_physics_process(false)
+		#set_process(false)
+		#$CollisionShape3D.disabled = true
+		queue_free()
 
 
 func _physics_process(delta):
@@ -55,31 +53,12 @@ func _physics_process(delta):
 	
 	move_and_slide()
 
-
 func get_save_data() -> Dictionary:
-	return {
-		"save_id": save_id,
-		"position": global_transform.origin,
-		"visible": visible,
-		"velocity": velocity,
-		"current_health" : current_health
-	}
+	var data = super()
+	data[current_health] = current_health
+	return data
 
 func apply_save_data(data: Dictionary) -> void:
-	if data.has("position"):
-		global_transform.origin = data["position"]
-	if data.has("visible"):
-		visible = data.visible
-		if data.visible:
-			
-			set_physics_process(true)
-			set_process(true)
-			$CollisionShape3D.disabled = false
-		else:
-			set_physics_process(false)
-			set_process(false)
-			$CollisionShape3D.disabled = true
-	if data.has("velocity"):
-		velocity = data["velocity"]
+	super(data)
 	if data.has("current_health"):
-		current_health = data["current_health"]	
+		current_health = data["current_health"]

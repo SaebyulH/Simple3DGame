@@ -23,6 +23,11 @@ func _input(event: InputEvent) -> void:
 			or event.as_text() == "S" 
 			or event.as_text() == "D"
 			
+			or event.as_text() == "Q"
+			
+			or event.as_text() == "E"
+			
+			
 			or event.as_text() == "Space"
 			
 			or event.as_text() == "Ctrl"

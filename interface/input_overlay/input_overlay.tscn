@@ -7,11 +7,10 @@ font_color = Color(0, 0, 0, 1)
 
 [node name="InputOverlay" type="Control"]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
+size_flags_horizontal = 3
+size_flags_vertical = 2
+mouse_filter = 1
 script = ExtResource("1_sfdye")
 
 [node name="W" type="ColorRect" parent="."]
@@ -31,6 +30,40 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
+[node name="Q" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 1472.0
+offset_top = 768.0
+offset_right = 1536.0
+offset_bottom = 832.0
+
+[node name="Label" type="Label" parent="Q"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Q"
+label_settings = SubResource("LabelSettings_ekxwf")
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="E" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 1664.0
+offset_top = 768.0
+offset_right = 1728.0
+offset_bottom = 832.0
+
+[node name="Label" type="Label" parent="E"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "E"
+label_settings = SubResource("LabelSettings_ekxwf")
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
 [node name="A" type="ColorRect" parent="."]
 layout_mode = 0
 offset_left = 1472.0
@@ -43,6 +76,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 text = "A"
 label_settings = SubResource("LabelSettings_ekxwf")
 horizontal_alignment = 1

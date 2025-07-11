@@ -1,18 +1,19 @@
 extends SaveableCharacterBody3D
 class_name TalkingCrab
 
+@export var display_name := "Wise Crab"
+@onready var player: Node = get_tree().get_root().get_node("Main/Player")  # Adjust this path as needed
 @export var current_health = 100
 @export var max_health = 100
 @export var damage_anim_duration: float = 1.0
 @onready var processor: Node = get_tree().get_root().get_node("Main/Processor")  # Adjust this path as needed
 
-
 var lie := false
-#@export var being_damaged := false
 var damage_timer := 0.0  # seconds
-@onready var player: Node = get_tree().get_root().get_node("Main/Player")  # Adjust this path as needed
 
 func _ready() -> void:
+	super()
+	scene_path = "res://entities/saveables/saveable_character_bodies/npcs/talking_crab/TalkingCrab.tscn"
 	Dialogic.signal_event.connect(DialogicSignal)
 
 func change_health(amount: float) -> void:
@@ -26,10 +27,11 @@ func change_health(amount: float) -> void:
 		
 
 	if current_health <= 0:
-		visible = false
-		set_physics_process(false)
-		set_process(false)
-		$CollisionShape3D.disabled = true
+		queue_free()
+		#hide()
+		#set_physics_process(false)
+		#set_process(false)
+		#$CollisionShape3D.disabled = true
 
 func interact(_player):  # You can keep this parameter if you want, but it's unused now
 	if(lie):
@@ -60,22 +62,13 @@ func start_dialogue(arg: String):
 	
 
 func get_save_data() -> Dictionary:
-	return {
-		"save_id": save_id,
-		"position": global_transform.origin,
-		"visible": visible,
-		"velocity": velocity,
-		"current_health" : current_health,
-		"lie" : lie,
-	}
+	var data = super()
+	data[current_health] = current_health
+	data[lie] = lie
+	return data
 
 func apply_save_data(data: Dictionary) -> void:
-	if data.has("position"):
-		global_transform.origin = data["position"]
-	if data.has("visible"):
-		visible = data["visible"]
-	if data.has("velocity"):
-		velocity = data["velocity"]
+	super(data)
 	if data.has("current_health"):
 		current_health = data["current_health"]	
 	if data.has("lie"):

@@ -4,7 +4,9 @@ class_name Player
 # Constants
 enum CameraMode { FIRST_PERSON, THIRD_PERSON }
 enum MoveMode {WALK, SPRINT, CROUCH}
+
 const INTERACT_DISTANCE := 2.0 # Interact Distance for interactable props
+const ENEMY_STATS_DISTANCE := 15.0 # Distance to see enemy stats
 const DEFAULT_SKIN_ROTATION := Vector3(0, PI, 0)
 const SNAP_FIRST_PERSON_DISTANCE := 2
 const SPRING_EXTENDED_LENGTH := 2.3
@@ -32,11 +34,13 @@ var y_velocity := 0.0
 @export var health := 100
 @export var max_health := 100
 @export var display_name := "Main Character"
+
 var wealth := 0
 var inventory_data: InventoryData = InventoryData.new()
 var elapsed_time := 0.0
 
 ######################################################
+@onready var processor := get_parent().get_node("Processor")
 @onready var spring := $Head/SpringParent/SpringArm3D
 @onready var skin := $Skin/MaxSkin
 @onready var animation_tree := $Skin/MaxSkin/AnimationTree
@@ -86,6 +90,10 @@ func _process(delta):
 		camera.global_position = head_bone.global_position
 	set_face_visibility(camera_mode == CameraMode.THIRD_PERSON)
 	
+func get_effective_speed() -> float:
+	var factor = (SPRINT_FACTOR if move_mode == MoveMode.SPRINT else (CROUCH_FACTOR if move_mode == MoveMode.CROUCH else 1))
+	return speed * factor
+	
 func _physics_process(delta):
 	# Basic gravity
 	if not is_on_floor():
@@ -120,8 +128,7 @@ func _physics_process(delta):
 		input_dir = input_dir.normalized()
 		var direction = (transform.basis * input_dir).normalized()
 		
-		var factor = (SPRINT_FACTOR if move_mode == MoveMode.SPRINT else (CROUCH_FACTOR if move_mode == MoveMode.CROUCH else 1))
-		velocity = direction * speed * factor
+		velocity = direction * get_effective_speed()
 		velocity.y = y_velocity
 		move_and_slide()
 		
@@ -177,19 +184,14 @@ func _unhandled_input(event):
 		perform_primary_fire()
 	if event.is_action_pressed("toggle_camera"):
 		toggle_camera_mode()
-		
-	
 	if event.is_action_pressed("holster"):
 		holster()
-
-
+	if event.is_action_pressed("drop"):
+		drop_current_item()
 func set_face_visibility(visibility : bool):
 	face.visible = visibility
 	eyelashes.visible = visibility
 	eyes.visible = visibility
-
-
-	
 
 func toggle_camera_mode():
 	camera_mode = CameraMode.THIRD_PERSON if camera_mode == CameraMode.FIRST_PERSON else CameraMode.FIRST_PERSON
@@ -209,10 +211,6 @@ func snap_to_first():
 
 func update_spring_length(delta):
 	spring.spring_length = lerp(spring.spring_length, target_spring_length, spring_interp_speed * delta)
-	
-	
-
-
 
 # Checks for interactible inside of a range 
 func check_for_interactable():
@@ -224,20 +222,41 @@ func check_for_interactable():
 		var target = raycast.get_collider()
 		if target and target.has_method("interact"):
 			interact_target = target
-
+			
+			
+			var target_name = ""
+			var verb = "Interact"
 			if target.has_method("get_display_name"):
-				hud.show_interactable_name(target.get_display_name())
+				target_name = target.get_display_name()
 			elif "display_name" in target:
-				hud.show_interactable_name(target.display_name)
+				target_name = target.display_name
 			else:
-				hud.show_interactable_name(target.name)
-
+				target_name = target.name
+			
+			if target.has_method("get_interact_verb"):
+				verb = target.get_interact_verb()
+			hud.show_interactable_name(target_name, verb)
 			return
 
 	# If nothing valid hit
 	interact_target = null
 	hud.hide_interactable_ui()
+	check_for_enemy()
+	
+func check_for_enemy():
+	raycast.target_position = Vector3.FORWARD * (ENEMY_STATS_DISTANCE + SPRING_EXTENDED_LENGTH)
+	raycast.force_raycast_update()
 
+	if raycast.is_colliding():
+		var target = raycast.get_collider()
+		#TODO
+		if target and target is SaveableCharacterBody3D:
+			hud.show_enemy_stats(target)
+			return
+
+	# If nothing valid hit
+	hud.hide_enemy_stats()
+	
 # Save functions ###################################################################################
 func get_save_data() -> PlayerData:
 	var data = PlayerData.new()
@@ -304,10 +323,15 @@ func change_health(amount: int):
 		print("Player " + status + " by " + str(abs(amount)) + " HP.")
 		if health + amount < 0:
 			health = 0
+			die()
 			print("player is now dead")
 		elif health + amount > max_health:
 			health = max_health
 			print("max health reached")
+
+func die():
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	get_tree().change_scene_to_file("res://interface/death_screen/death_screen.tscn")
 
 func change_wealth(amount: int):
 	if wealth + amount < 0:
@@ -368,6 +392,22 @@ func update_equipped_item():
 	else:
 		equipped_item.equip_item(null)
 		print("unequipped any item")
+
+
+func set_inventory_selection(index: int):
+	var item_count = inventory_data.items.size()
+	if index <= -1:
+		inventory_data.current_index = -1
+	else:
+		inventory_data.current_index = index
+		inventory_data.current_index = clamp(inventory_data.current_index, 0, item_count - 1)
+	update_equipped_item()
+
+func drop_current_item():
+	if inventory_data.current_index >= 0:
+		processor.spawn_pickup_near_player(inventory_data.dictionaries[inventory_data.current_index])
+		inventory_data.remove_current_item()
+		update_inventory_selection(0)
 
 func holster():
 	equipped_item.equip_item(null)

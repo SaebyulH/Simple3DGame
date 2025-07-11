@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://b3aaxgaxo0ncy"]
+
+[ext_resource type="Script" uid="uid://dgjqf6seya6ca" path="res://entities/saveables/saveable_interactables/pickup_objects/shit_pistol/shit_pistol.gd" id="1_rum3i"]
+[ext_resource type="PackedScene" uid="uid://q8fqloebpl4s" path="res://entities/saveables/saveable_interactables/pickup_objects/shit_pistol/shitpistol.glb" id="2_rum3i"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vgxjg"]
+
+[node name="ShitPistol" type="RigidBody3D"]
+transform = Transform3D(0.999096, 0, 0, 0, 0.999096, 0, 0, 0, 0.999096, 0, 0, 0)
+script = ExtResource("1_rum3i")
+display_name = "Shit Pistol"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(-1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("BoxShape3D_vgxjg")
+
+[node name="shitpistol" parent="." instance=ExtResource("2_rum3i")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bce3jryf8skms"]
 
-[ext_resource type="PackedScene" uid="uid://q8fqloebpl4s" path="res://entities/saveables/static_interactables/pickup_objects/shit_pistol/shitpistol.glb" id="1_c5jph"]
+[ext_resource type="PackedScene" uid="uid://q8fqloebpl4s" path="res://entities/saveables/saveable_interactables/pickup_objects/shit_pistol/shitpistol.glb" id="1_c5jph"]
 
 [node name="ShitPistolModel" type="Node3D"]
 

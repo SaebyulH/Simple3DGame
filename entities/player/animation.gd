@@ -27,6 +27,6 @@ func _physics_process(delta: float) -> void:
 	smoothed_velocity = smoothed_velocity.lerp(velocity2D, blend_lerp_speed * delta)
 	animation_tree.set("parameters/BlendSpace2D/blend_position", smoothed_velocity)
 	
-	animation_tree.set("parameters/idle_walk_blend/blend_amount", smoothed_velocity.length()/player.speed)
+	animation_tree.set("parameters/idle_walk_blend/blend_amount", smoothed_velocity.length()/player.get_effective_speed())
 	
 	

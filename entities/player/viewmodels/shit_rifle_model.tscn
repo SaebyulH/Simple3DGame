@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ctlr0pekfs4j"]
 
-[ext_resource type="PackedScene" uid="uid://cmyg36mo7688m" path="res://entities/saveables/static_interactables/pickup_objects/shit_rifle/shitrifle.glb" id="1_1nyk1"]
+[ext_resource type="PackedScene" uid="uid://cmyg36mo7688m" path="res://entities/saveables/saveable_interactables/pickup_objects/shit_rifle/shitrifle.glb" id="1_1nyk1"]
 
 [node name="ShitRifleModel" type="Node3D"]
 

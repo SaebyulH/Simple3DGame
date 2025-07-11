@@ -1,87 +1,100 @@
-extends Control
+extends CanvasLayer
 
-@export var inventory_data: InventoryData
+@export var player : Player
+#@export var inventory_data: InventoryData
 
-@onready var item_list: ItemList = $MainContent/ItemListPanel/ItemList
-@onready var max_mass_label: Label = $TopInfoPanel/MaxMassLabel
-@onready var item_count_label: Label = $TopInfoPanel/ItemCountLabel
-@onready var item_details: Label = $MainContent/InfoPanel/ItemDetails
-@onready var item_preview_root: Node3D = $MainContent/InfoPanel/Item3DPreview/SubViewport/ItemPreviewRoot
+@onready var item_list: ItemList = $VBoxContainer/MainContent/ItemListPanel/ItemList
+@onready var max_mass_label: Label = $VBoxContainer/TopInfoPanel/MaxMassLabel
+@onready var item_count_label: Label = $VBoxContainer/TopInfoPanel/ItemCountLabel
+@onready var item_details: Label = $VBoxContainer/MainContent/InfoPanel/ItemDetails
+@onready var preview: Node3D = $VBoxContainer/MainContent/InfoPanel/SubViewportContainer/SubViewport/ItemPreviewRoot
+@onready var drop_button : Button = $VBoxContainer/MainContent/InfoPanel/DropButton
+#var _last_item_count: int = -1
+var rotation_speed := 1.0 # Radians per second
 
-var hovered_index := -1
+func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	update_header()
+	update_list()
 
-func _ready():
-	item_list.item_clicked.connect(_on_item_clicked)
-	item_list.allow_reselect = true
 
-	#item_list.item_mouse_entered.connect(_on_item_hovered)
-	$MainContent/ItemListPanel.connect("mouse_exited", _on_mouse_exited)
-	
-func _on_item_clicked(index: int, at_position: Vector2, mouse_button_index: int) -> void:
-	# Optional: check for left click only
-	if mouse_button_index == MOUSE_BUTTON_LEFT:
-		inventory_data.current_index = index
-		show_item_info(inventory_data.items[index])
-		item_list.select(index) # visually select it
+func _process(delta: float) -> void:
+	if is_instance_valid(preview):
+		preview.rotate_y(rotation_speed * delta)
+		
+func update():
+	update_header()
+	update_list()
+	update_details()
+	update_preview()
 
-func update_inventory_ui():
-	if not inventory_data:
-		return
-
-	# Top panel
-	max_mass_label.text = "Max Mass: %.1f" % inventory_data.max_mass
-	item_count_label.text = "Items: %d" % inventory_data.items.size()
-
-	# List panel
+func update_list():
 	item_list.clear()
-	for item in inventory_data.items:
-		item_list.add_item(item.display_name)
+	for i in player.inventory_data.items:
+		item_list.add_item(i.display_name)
+	
 
-	# Auto-select current item
-	if inventory_data.current_index >= 0 and inventory_data.current_index < inventory_data.items.size():
-		item_list.select(inventory_data.current_index)
-		show_item_info(inventory_data.items[inventory_data.current_index])
+
+
+func update_header():
+	max_mass_label.text = "Mass: " + str(player.inventory_data.total_mass()) + "/" +str(player.inventory_data.max_mass) + " Max"
+	item_count_label.text = "Item Count: " + str(player.inventory_data.items.size())
+
+func _on_item_list_item_selected(index: int) -> void:
+	player.set_inventory_selection(index)
+	update_details()
+	
+	
+func update_details():
+	var current_index = player.inventory_data.current_index
+	print(str(current_index))
+	if current_index >= 0:
+		item_details.text = _format_item_details(player.inventory_data.items[current_index])
+		update_preview()
+		drop_button.show()
 	else:
-		item_details.text = "No item selected."
-		update_3d_preview(null)
+		item_details.text = "No Item Selected"
+		hide_preview()
+		drop_button.hide()
+		
 
-func _on_item_selected(index: int):
-	inventory_data.current_index = index
-	show_item_info(inventory_data.items[index])
+func hide_preview():
+	preview.hide()
 
-func _on_item_hovered(index: int):
-	hovered_index = index
-	show_item_info(inventory_data.items[index])
+func update_preview():
+	preview.show()
+	# Clear previous preview
+	for child in preview.get_children():
+		child.queue_free()
+	
+	var current_index = player.inventory_data.current_index
+	if current_index < 0:
+		return
+	
+	var item: ItemData = player.inventory_data.items[current_index]
+	if item.item_scene:
+		var item_instance = item.item_scene.instantiate()
+		preview.add_child(item_instance)
+		item_instance.owner = preview # Needed for proper scene ownership
 
-func _on_mouse_exited():
-	hovered_index = -1
-	if inventory_data and inventory_data.current_index >= 0 and inventory_data.current_index < inventory_data.items.size():
-		show_item_info(inventory_data.items[inventory_data.current_index])
-
-func show_item_info(item: ItemData):
-	item_details.text = """Name: %s
-Mass: %.1f
-Value: %.1f
-Uses Ammo: %s
-Ammo Type: %s
-Range: %.1f
-Damage: %d
-Health: %d""" % [
+func _format_item_details(item: ItemData) -> String:
+	return """Name: %s
+		Mass: %.1f
+		Value: $%.2f
+		Uses Ammo: %s
+		Ammo Type: %s
+		Range: %.1f
+		Damage: %d""" % [
 		item.display_name,
 		item.mass,
 		item.value,
 		item.uses_ammo,
 		item.ammo_type.resource_name if item.uses_ammo and item.ammo_type else "N/A",
 		item.range,
-		item.damage,
-		item.health
+		item.damage
 	]
-	update_3d_preview(item)
 
-func update_3d_preview(item: ItemData):
-	for child in item_preview_root.get_children():
-		child.queue_free()
 
-	if item and item.item_scene:
-		var instance = item.item_scene.instantiate()
-		item_preview_root.add_child(instance)
+func _on_drop_button_pressed() -> void:
+	player.drop_current_item() # Replace with function body.
+	update()

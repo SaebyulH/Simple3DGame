@@ -6,12 +6,32 @@
 [node name="PlayerHUD" type="CanvasLayer"]
 script = ExtResource("1_mlvnn")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="MarginContainer2" type="MarginContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
 grow_horizontal = 2
-grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer2"]
+layout_mode = 2
+
+[node name="EnemyName" type="Label" parent="MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.188235, 0.145098, 1)
+text = "ENEMY NAME"
+
+[node name="EnemyHealth" type="Label" parent="MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.999994, 0.18741, 0.143258, 1)
+text = "ENEMY HP"
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+offset_right = 158.0
+offset_bottom = 104.0
+size_flags_horizontal = 4
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
@@ -31,9 +51,6 @@ text = "Health: TEMP"
 [node name="WealthLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Wealth: TEMP"
-
-[node name="InputOverlay" parent="MarginContainer" instance=ExtResource("2_qjxdm")]
-layout_mode = 2
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchors_preset = 15
@@ -82,3 +99,13 @@ grow_vertical = 2
 [node name="Label" type="Label" parent="RightInventoryContainer/InventoryList"]
 layout_mode = 2
 text = "TEMP LABEL FOR INVENTORY"
+
+[node name="InputOverlay" parent="." instance=ExtResource("2_qjxdm")]
+anchors_preset = -1
+anchor_right = 0.999234
+anchor_bottom = 1.01699
+offset_right = 1.4707
+offset_bottom = -18.3456
+scale = Vector2(0.5003, 0.509188)
+size_flags_horizontal = 4
+size_flags_vertical = 4

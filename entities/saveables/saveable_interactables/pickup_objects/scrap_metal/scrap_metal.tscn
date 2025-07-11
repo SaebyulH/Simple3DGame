@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://3f83eterpgbm"]
+
+[ext_resource type="PackedScene" uid="uid://mwndgaglld4g" path="res://entities/saveables/saveable_interactables/pickup_objects/scrap_metal/scrapmetal.glb" id="1_85he2"]
+[ext_resource type="Script" uid="uid://dl5br7ic351am" path="res://entities/saveables/saveable_interactables/pickup_objects/scrap_metal/scrap_metal.gd" id="1_j5dvo"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_j5dvo"]
+
+[node name="ScrapMetal" type="RigidBody3D"]
+script = ExtResource("1_j5dvo")
+display_name = "Scrap Metal"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_j5dvo")
+
+[node name="scrapmetal" parent="." instance=ExtResource("1_85he2")]
+transform = Transform3D(0.125699, 0, 0, 0, 0.125699, 0, 0, 0, 0.125699, 0, 0, 0)
