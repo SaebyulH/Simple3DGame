@@ -14,7 +14,6 @@ const SPRING_EXTENDED_LENGTH := 2.3
 const SPRINT_FACTOR := 3
 const CROUCH_FACTOR := 0.1
 
-
 var target_spring_length : float = 0.0
 var spring_interp_speed: float = 5.0  # Adjust speed as needed
 
@@ -23,19 +22,27 @@ var interact_target: Node = null
 var y_velocity := 0.0
 
 # Default values
-@export var speed := 5.0
+@export var character_data : CharacterData = CharacterData.new()
+
+
+
+
+#@export var speed := 5.0
 @export var mouse_sensitivity := 0.003
-@export var gravity := 9.8
-@export var jump_force := 5.0
-@export var can_move := true
+const GRAVITY := 9.8
+
+
+
+#@export var jump_force := 5.0
+#@export var can_move := true
 
 @export var camera_mode := CameraMode.FIRST_PERSON
 @export var move_mode := MoveMode.WALK
-@export var health := 100
-@export var max_health := 100
-@export var display_name := "Main Character"
+#@export var health := 100
+#@export var max_health := 100
+#@export var display_name := "Main Character"
 
-var wealth := 0
+#@export var wealth := 0
 var inventory_data: InventoryData = InventoryData.new()
 var elapsed_time := 0.0
 
@@ -61,7 +68,18 @@ var elapsed_time := 0.0
 
 # Ready empty for now ##########################################################
 func _ready() -> void:
-	pass
+	unimmobilize()
+	
+	#character_data.speed = 5.0
+	#character_data.jump_force = 5.0
+	#character_data.health = 100
+	#character_data.max_health = 100
+	#character_data.display_name = "Main Character"
+	#character_data.wealth = 0
+	character_data = CharacterFactory.create_player_character_data()
+	inventory_data = InventoryFactory.create_player_inventory_data()
+	update_equipped_item()
+	
 	#toggle_camera_mode()
 
 # Process functions ############################################################
@@ -71,9 +89,9 @@ func _process(delta):
 	# HUD
 	if hud:
 		hud.update_time(elapsed_time)
-		hud.update_health(health, max_health)
-		hud.update_wealth(wealth)
-		hud.update_display_name(display_name)
+		hud.update_health(character_data.health, character_data.max_health)
+		hud.update_wealth(character_data.wealth)
+		hud.update_display_name(character_data.display_name)
 		hud.update_inventory_data(inventory_data)
 		
 	# Interactions
@@ -92,19 +110,18 @@ func _process(delta):
 	
 func get_effective_speed() -> float:
 	var factor = (SPRINT_FACTOR if move_mode == MoveMode.SPRINT else (CROUCH_FACTOR if move_mode == MoveMode.CROUCH else 1))
-	return speed * factor
+	return character_data.speed * factor
 	
 func _physics_process(delta):
-	# Basic gravity
+	# Basic GRAVITY
 	if not is_on_floor():
-		y_velocity -= gravity * delta
+		y_velocity -= GRAVITY * delta
 	else:
 		y_velocity = 0
 		if Input.is_action_just_pressed("jump"):
-			y_velocity = jump_force
+			y_velocity = character_data.jump_force
 			animation_tree.set("parameters/jump/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-	
-	if can_move:
+	if character_data.can_move:
 		var input_dir = Vector3.ZERO
 		if Input.is_action_pressed("move_forward"):
 			input_dir.z -= 1
@@ -121,10 +138,7 @@ func _physics_process(delta):
 			move_mode = MoveMode.SPRINT
 		else:
 			move_mode = MoveMode.WALK
-	
-		
-		
-		
+			
 		input_dir = input_dir.normalized()
 		var direction = (transform.basis * input_dir).normalized()
 		
@@ -165,21 +179,30 @@ func _physics_process(delta):
 
 # Controls #####################################################################
 func _unhandled_input(event):
+	# Looking Around
 	if event is InputEventMouseMotion:
 		rotate_y(-event.relative.x * mouse_sensitivity)
 		head.rotate_x(-event.relative.y * mouse_sensitivity)
 		head.rotation_degrees.x = clamp(head.rotation_degrees.x, -90, 90)
-	
+	# Scrolling
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP and event.pressed:
 			update_inventory_selection(-1)
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN and event.pressed:
 			update_inventory_selection(1)
-			
+	
 	if event.is_action_pressed("interact") and interact_target:
 		if interact_target.has_method("interact"):
 			interact_target.interact(self)
-	
+	if (event.is_action_pressed("trade") 
+	and interact_target 
+	and interact_target.has_method("trade") 
+	and interact_target.tradeable):
+		if processor.trade_menu.visible:
+			processor.hide_trade()
+		else:
+			if interact_target.has_method("trade"):
+				interact_target.trade(self)
 	if event.is_action_pressed("primary_fire"):
 		perform_primary_fire()
 	if event.is_action_pressed("toggle_camera"):
@@ -188,6 +211,7 @@ func _unhandled_input(event):
 		holster()
 	if event.is_action_pressed("drop"):
 		drop_current_item()
+	
 func set_face_visibility(visibility : bool):
 	face.visible = visibility
 	eyelashes.visible = visibility
@@ -195,11 +219,9 @@ func set_face_visibility(visibility : bool):
 
 func toggle_camera_mode():
 	camera_mode = CameraMode.THIRD_PERSON if camera_mode == CameraMode.FIRST_PERSON else CameraMode.FIRST_PERSON
-	
 	# Set the target spring length based on the new mode
 	if camera_mode == CameraMode.FIRST_PERSON:
 		target_spring_length = 0.0  # Fully pulled in
-		
 	else:
 		target_spring_length = SPRING_EXTENDED_LENGTH  # Or whatever your 3rd person offset is
 
@@ -214,6 +236,7 @@ func update_spring_length(delta):
 
 # Checks for interactible inside of a range 
 func check_for_interactable():
+	check_for_enemy()
 	# This is so that in 3rd person we have more reach
 	raycast.target_position = Vector3.FORWARD * (INTERACT_DISTANCE + SPRING_EXTENDED_LENGTH)
 	raycast.force_raycast_update()
@@ -222,8 +245,6 @@ func check_for_interactable():
 		var target = raycast.get_collider()
 		if target and target.has_method("interact"):
 			interact_target = target
-			
-			
 			var target_name = ""
 			var verb = "Interact"
 			if target.has_method("get_display_name"):
@@ -236,12 +257,16 @@ func check_for_interactable():
 			if target.has_method("get_interact_verb"):
 				verb = target.get_interact_verb()
 			hud.show_interactable_name(target_name, verb)
+			if target and target.has_method("trade") and target.tradeable:
+				interact_target = target
+				hud.show_tradeable_prompt()
 			return
-
+		
 	# If nothing valid hit
 	interact_target = null
 	hud.hide_interactable_ui()
-	check_for_enemy()
+	hud.hide_tradeable_ui()
+	
 	
 func check_for_enemy():
 	raycast.target_position = Vector3.FORWARD * (ENEMY_STATS_DISTANCE + SPRING_EXTENDED_LENGTH)
@@ -266,44 +291,48 @@ func get_save_data() -> PlayerData:
 	data.body_rotation_y = rotation.y
 	data.head_rotation_x = $Head.rotation.x
 	
-	data.speed = speed
 	data.mouse_sensitivity = mouse_sensitivity
-	data.gravity = gravity
-	data.jump_force = jump_force
-	data.can_move = can_move
 	data.move_mode = move_mode
-	
-	# Gameplay stats
-	data.health = health
-	data.wealth = wealth
-	data.display_name = display_name
-	data.inventory_data = inventory_data
 	data.camera_mode = camera_mode
+	
+	data.inventory_data = inventory_data
+	data.character_data = character_data
+	
+	#data.speed = character_data.speed
+	#
+	#data.jump_force = character_data.jump_force
+	#data.can_move = character_data.can_move
+	#
+	## Gameplay stats
+	#data.health = character_data.health
+	#data.wealth = character_data.wealth
+	#data.display_name = character_data.display_name
 	
 	# Misc stats
 	data.time_elapsed = elapsed_time
 	return data
 
+#TODO: Fix to use composition
 func apply_save_data(data: PlayerData):
 	# Physical Stats
 	global_transform.origin = data.position
 	velocity = data.velocity
 	rotation.y = data.body_rotation_y
 	$Head.rotation.x = data.head_rotation_x
-	
-	speed = data.speed
 	mouse_sensitivity = data.mouse_sensitivity
-	gravity = data.gravity
-	jump_force = data.jump_force
-	can_move = data.can_move
 	move_mode = data.move_mode
-	
-	# Gameplay stats
-	health = data.health
-	wealth = data.wealth
-	display_name = data.display_name
-	inventory_data = data.inventory_data
 	camera_mode = data.camera_mode
+	
+	inventory_data = data.inventory_data
+	character_data = data.character_data
+
+	#character_data.speed = data.speed
+	#character_data.jump_force = data.jump_force
+	#character_data.can_move = data.can_move
+	#character_data.health = data.health
+	#character_data.wealth = data.wealth
+	#character_data.display_name = data.display_name
+
 	set_face_visibility(camera_mode == CameraMode.THIRD_PERSON)
 	update_equipped_item()
 	if camera_mode == CameraMode.THIRD_PERSON: 
@@ -313,47 +342,34 @@ func apply_save_data(data: PlayerData):
 
 # Gameplay Functions ###############################################################################
 func change_health(amount: int):
-	if health < 0:
-		print("health unchanged, player is already dead")
-	elif health + amount > max_health:
-		print("health unchanged, max health already reached")
-	else:
-		health += amount
-		var status = "healed" if (amount >= 0) else "damaged"
-		print("Player " + status + " by " + str(abs(amount)) + " HP.")
-		if health + amount < 0:
-			health = 0
-			die()
-			print("player is now dead")
-		elif health + amount > max_health:
-			health = max_health
-			print("max health reached")
+	character_data.change_health(amount)
+	if character_data.health <= 0: die()
 
 func die():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	get_tree().change_scene_to_file("res://interface/death_screen/death_screen.tscn")
 
 func change_wealth(amount: int):
-	if wealth + amount < 0:
+	if character_data.wealth + amount < 0:
 		print("wealth unchanged, player would be broke")
 	else:
-		wealth += amount
+		character_data.wealth += amount
 		var status = "enriched" if (amount >= 0) else "impoverished"
 		print("Player " + status + " by " + str(abs(amount)) + " dollars.")
-		if wealth + amount < 0:
+		if character_data.wealth + amount < 0:
 			print("player is broke")
 
 	#var hud = get_parent().get_node("PlayerHUD") as PlayerHUD
 	if hud:
-		hud.update_wealth(wealth)
+		hud.update_wealth(character_data.wealth)
 
 # Checks for object in range of current item, then shoots if in range
 func perform_primary_fire():
-	if inventory_data.current_index < 0 or inventory_data.current_index >= inventory_data.items.size():
+	if inventory_data.current_index < 0 or inventory_data.current_index >= inventory_data.get_size():
 		print("No item equipped")
 		return
 
-	var item = inventory_data.items[inventory_data.current_index]
+	var item = inventory_data.get_current_item()
 	if item.uses_ammo:
 		print("Not implemented: item requires ammo")
 		return
@@ -371,7 +387,7 @@ func perform_primary_fire():
 # This allows for the changing of the selected item via direction. 
 # NOT BASED ON INVENTORY SLOT NUMBER
 func update_inventory_selection(direction: int):
-	var item_count = inventory_data.items.size()
+	var item_count = inventory_data.get_size()
 	if item_count == 0:
 		inventory_data.current_index = -1
 	else:
@@ -385,8 +401,8 @@ func update_inventory_selection(direction: int):
 
 # This updates the item that the player has equipped
 func update_equipped_item():
-	if inventory_data.current_index >= 0 and inventory_data.current_index < inventory_data.items.size():
-		var item = inventory_data.items[inventory_data.current_index]
+	if inventory_data.current_index >= 0 and inventory_data.current_index < inventory_data.get_size():
+		var item = inventory_data.get_current_item()
 		equipped_item.equip_item(item)
 		print("equipped" + item.display_name)
 	else:
@@ -395,17 +411,12 @@ func update_equipped_item():
 
 
 func set_inventory_selection(index: int):
-	var item_count = inventory_data.items.size()
-	if index <= -1:
-		inventory_data.current_index = -1
-	else:
-		inventory_data.current_index = index
-		inventory_data.current_index = clamp(inventory_data.current_index, 0, item_count - 1)
+	inventory_data.set_current_index(index)
 	update_equipped_item()
 
 func drop_current_item():
 	if inventory_data.current_index >= 0:
-		processor.spawn_pickup_near_player(inventory_data.dictionaries[inventory_data.current_index])
+		processor.spawn_pickup_near_character(inventory_data.get_current_item(), self)
 		inventory_data.remove_current_item()
 		update_inventory_selection(0)
 
@@ -413,5 +424,10 @@ func holster():
 	equipped_item.equip_item(null)
 	inventory_data.current_index = -1
 	print("unequipped any item")
-	
+
+func immobilize():
+	character_data.can_move = false
+
+func unimmobilize():
+	character_data.can_move = true
 ####################################################################################################

@@ -76,6 +76,10 @@ text = "Example Name"
 layout_mode = 2
 text = "Interact [E]"
 
+[node name="TradePromptLabel" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Trade [T]"
+
 [node name="RightInventoryContainer" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 11

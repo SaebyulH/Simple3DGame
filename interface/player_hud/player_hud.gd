@@ -1,18 +1,19 @@
 extends CanvasLayer
 class_name PlayerHUD
 
-@onready var display_name_label = $MarginContainer/VBoxContainer/DisplayNameLabel
-@onready var time_label = $MarginContainer/VBoxContainer/TimeLabel
-@onready var health_label = $MarginContainer/VBoxContainer/HealthLabel
-@onready var wealth_label = $MarginContainer/VBoxContainer/WealthLabel
-@onready var object_name_label = $CenterContainer/VBoxContainer/ObjectNameLabel
-@onready var interact_prompt_label = $CenterContainer/VBoxContainer/InteractPromptLabel
-@onready var inventory_list = $RightInventoryContainer/InventoryList
+@onready var display_name_label := $MarginContainer/VBoxContainer/DisplayNameLabel
+@onready var time_label := $MarginContainer/VBoxContainer/TimeLabel
+@onready var health_label := $MarginContainer/VBoxContainer/HealthLabel
+@onready var wealth_label := $MarginContainer/VBoxContainer/WealthLabel
+@onready var object_name_label := $CenterContainer/VBoxContainer/ObjectNameLabel
+@onready var interact_prompt_label := $CenterContainer/VBoxContainer/InteractPromptLabel
+@onready var inventory_list := $RightInventoryContainer/InventoryList
 
+@onready var trade_prompt_label := $CenterContainer/VBoxContainer/TradePromptLabel
 
-@onready var enemy_name_label = $MarginContainer2/VBoxContainer/EnemyName
-@onready var enemy_health_label = $MarginContainer2/VBoxContainer/EnemyHealth
-
+@onready var enemy_name_label := $MarginContainer2/VBoxContainer/EnemyName
+@onready var enemy_health_label := $MarginContainer2/VBoxContainer/EnemyHealth
+	
 
 func update_inventory_data(inventory_data: InventoryData):
 	for child in inventory_list.get_children():
@@ -34,14 +35,12 @@ func update_inventory_data(inventory_data: InventoryData):
 
 
 func show_enemy_stats(enemy: SaveableCharacterBody3D):
-	
-	
-	if "display_name" in enemy:
+	if "display_name" in enemy.character_data:
 		enemy_name_label.show()
-		enemy_name_label.text = enemy.display_name
-	if "current_health" in enemy and "max_health" in enemy:
+		enemy_name_label.text = enemy.character_data.display_name
+	if "health" in enemy.character_data and "max_health" in enemy.character_data:
 		enemy_health_label.show()
-		enemy_health_label.text = str("Health: " + str(enemy.current_health) + "/" + str(enemy.max_health))
+		enemy_health_label.text = str("Health: " + str(enemy.character_data.health) + "/" + str(enemy.character_data.max_health))
 
 func hide_enemy_stats():
 	enemy_name_label.hide()
@@ -60,6 +59,7 @@ func format_item(item: ItemData) -> String:
 
 func _ready() -> void:
 	hide_interactable_ui()
+	hide_tradeable_ui()
 
 func update_display_name(display_name: String):
 	display_name_label.text = "Display Name: " + display_name
@@ -83,3 +83,14 @@ func show_interactable_name(name: String, verb: String):
 func hide_interactable_ui():
 	object_name_label.visible = false
 	interact_prompt_label.visible = false
+
+
+func show_tradeable_prompt():
+	#object_name_label.text = name
+	#object_name_label.visible = true
+	trade_prompt_label.text = "Trade: [T]"
+	trade_prompt_label.visible = true
+
+func hide_tradeable_ui():
+	#object_name_label.visible = false
+	trade_prompt_label.visible = false

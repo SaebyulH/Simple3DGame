@@ -72,8 +72,8 @@ func update_preview():
 		return
 	
 	var item: ItemData = player.inventory_data.items[current_index]
-	if item.item_scene:
-		var item_instance = item.item_scene.instantiate()
+	if item.view_model:
+		var item_instance = item.view_model.instantiate()
 		preview.add_child(item_instance)
 		item_instance.owner = preview # Needed for proper scene ownership
 

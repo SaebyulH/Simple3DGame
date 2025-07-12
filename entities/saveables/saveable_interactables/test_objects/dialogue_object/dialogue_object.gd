@@ -19,14 +19,14 @@ func DialogicSignal(arg: String):
 	if arg == "exit":
 		print("dialogue exited")
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-		player.can_move = true
+		player.unimmobilize()
 		processor.in_dialogue = false
 		
 func start_dialogue(arg: String):
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	Dialogic.start(arg)
 
-	player.can_move = false
+	player.immobilize()
 	processor.in_dialogue = true
 
 	#var head = player.get_node("Head")

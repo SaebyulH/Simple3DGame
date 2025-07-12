@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://dixt8o2033i0g"]
+
+[ext_resource type="Script" uid="uid://d1gnsp0i27aev" path="res://entities/saveable_character_bodies/npcs/merchant/Merchant.gd" id="1_mkhri"]
+[ext_resource type="PackedScene" uid="uid://ca5chunr44pgq" path="res://entities/saveable_character_bodies/npcs/merchant/merchant_weaponsglb.glb" id="2_f0e7m"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_mma1f"]
+height = 2.23322
+radius = 1.29785
+
+[node name="Merchant" type="CharacterBody3D"]
+script = ExtResource("1_mkhri")
+metadata/_custom_type_script = "uid://cybbvdua0635e"
+
+[node name="merchant_weaponsglb" parent="." instance=ExtResource("2_f0e7m")]
+transform = Transform3D(0.401319, 0, 0, 0, 0.401319, 0, 0, 0, 0.401319, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.03214, 0)
+shape = SubResource("CylinderShape3D_mma1f")

@@ -2,12 +2,12 @@
 extends Node3D
 class_name Saveable
 
-#@export var save_id: String = ""
+# This is a class that can save and apply it's transformation data as well as the appropriate scene
 var scene_path : String
+
+
 func _ready():
 	scene_path = "res://entities/saveables/Saveable.tscn"
-	#if not is_in_group("saveable"):
-		#add_to_group("saveable")
 
 func get_save_data() -> Dictionary:
 	return {

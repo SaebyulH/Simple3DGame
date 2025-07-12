@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://dheoftddefiyh"]
+
+[ext_resource type="Script" uid="uid://npr02di0cavn" path="res://BasicEnemy.gd" id="1_yn46p"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yn46p"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_rkr6o"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v10nj"]
+albedo_color = Color(1, 0, 0, 1)
+
+[node name="BasicEnemy" type="CharacterBody3D"]
+script = ExtResource("1_yn46p")
+metadata/_custom_type_script = "uid://cybbvdua0635e"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_yn46p")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_rkr6o")
+skeleton = NodePath("../CollisionShape3D")
+surface_material_override/0 = SubResource("StandardMaterial3D_v10nj")

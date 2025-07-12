@@ -1,0 +1,5 @@
+join arms_dealer center
+arms_dealer: Hello
+arms_dealer: I can sell you weapons
+arms_dealer: Simply press T to trade with me
+[signal arg="exit"]

@@ -16,7 +16,7 @@ func get_display_name() -> String:
 
 func get_save_data() -> Dictionary:
 	var save_data = super()
-	save_data[display_name] = display_name
+	save_data["display_name"] = display_name
 	return save_data
 
 func apply_save_data(data: Dictionary) -> void:

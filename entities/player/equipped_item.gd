@@ -13,7 +13,7 @@ func equip_item(item_data: ItemData):
 	current_item_data = item_data
 
 	# Equip new item if valid
-	if item_data and item_data.item_scene:
-		equipped_scene_instance = item_data.item_scene.instantiate()
+	if item_data and item_data.view_model:
+		equipped_scene_instance = item_data.view_model.instantiate()
 		add_child(equipped_scene_instance)
 		equipped_scene_instance.owner = self  # Optional: needed for editing from editor
