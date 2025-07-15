@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://dheoftddefiyh"]
 
-[ext_resource type="Script" uid="uid://npr02di0cavn" path="res://BasicEnemy.gd" id="1_yn46p"]
+[ext_resource type="Script" uid="uid://neajl58qda1r" path="res://entities/saveable_character_bodies/npcs/basic_enemy/basic_enemy.gd" id="1_yn46p"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yn46p"]
 

@@ -1,18 +1,27 @@
-[gd_scene load_steps=4 format=3 uid="uid://b3aaxgaxo0ncy"]
+[gd_scene load_steps=5 format=3 uid="uid://b3aaxgaxo0ncy"]
 
 [ext_resource type="Script" uid="uid://dgjqf6seya6ca" path="res://entities/saveables/saveable_interactables/pickup_objects/shit_pistol/shit_pistol.gd" id="1_rum3i"]
 [ext_resource type="PackedScene" uid="uid://q8fqloebpl4s" path="res://entities/saveables/saveable_interactables/pickup_objects/shit_pistol/shitpistol.glb" id="2_rum3i"]
+[ext_resource type="PackedScene" uid="uid://cewkecxdbg40c" path="res://entities/saveables/saveable_interactables/pickup_objects/shit_pistol/model/revolver.glb" id="3_yvwkb"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_vgxjg"]
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_yvwkb"]
+points = PackedVector3Array(0.0211391, 0.160803, 0.1747, -0.0062811, -0.000630107, 0.00681324, -0.0117903, 0.00260216, 0.00263968, -0.0121284, 0.14416, 0.352173, -0.0065802, 0.171892, 0.0637967, 0.0211391, -0.00557302, 0.0415952, -0.028773, 0.149714, 0.1747, -0.0232248, -0.00557302, 0.0415952, 0.0100481, 0.166339, 0.352173, 0.0211391, 0.0776419, 0.0194285, -0.0232248, 0.0498916, 0.00834511, -0.0065802, 0.177446, 0.34102, 0.0266873, 0.121981, 0.1747, 0.0100481, 0.14416, 0.352173, 0.00449992, 0.171892, 0.0637967, 0.0266873, 0.127499, 0.108165, 0.0211391, 0.00553425, 0.00282079, -0.0176712, -0.00557302, 0.0527481, -0.028773, 0.121981, 0.1747, -0.028773, 0.121981, 0.113759, 0.00449992, 0.177446, 0.34102, 0.0266873, 0.155249, 0.1747, 0.0155909, -0.00557302, 0.0527481, -0.0232248, 0.160803, 0.1747, -0.0232248, -0.00557302, 0.0194285, 0.0211391, 0.0554632, 0.00834511, -0.0176712, 0.116428, 0.0415952, 0.0211391, -1.93864e-05, 0.0582724, -0.0121284, 0.160803, 0.352173, -0.0232248, 0.0332666, 0.00282079, -0.0121284, 0.127499, 0.0415952, 0.0155909, 0.121981, 0.0415952)
 
 [node name="ShitPistol" type="RigidBody3D"]
 transform = Transform3D(0.999096, 0, 0, 0, 0.999096, 0, 0, 0, 0.999096, 0, 0, 0)
+center_of_mass_mode = 1
 script = ExtResource("1_rum3i")
 display_name = "Shit Pistol"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(-1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 0, 0, 1, 0, 0, 0)
-shape = SubResource("BoxShape3D_vgxjg")
-
 [node name="shitpistol" parent="." instance=ExtResource("2_rum3i")]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+visible = false
+
+[node name="revolver2" parent="." instance=ExtResource("3_yvwkb")]
+transform = Transform3D(1.30286, 0, 0, 0, 1.30286, 0, 0, 0, 1.30286, 0, -0.275917, -0.15574)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1.30286, 0, 0, 0, 1.30286, 0, 0, 0, 1.30286, 0, -0.245866, -0.15574)
+shape = SubResource("ConvexPolygonShape3D_yvwkb")
+
+[editable path="revolver2"]

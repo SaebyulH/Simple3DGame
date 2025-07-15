@@ -1,7 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://ctlr0pekfs4j"]
+[gd_scene load_steps=3 format=3 uid="uid://ctlr0pekfs4j"]
 
 [ext_resource type="PackedScene" uid="uid://cmyg36mo7688m" path="res://entities/saveables/saveable_interactables/pickup_objects/shit_rifle/shitrifle.glb" id="1_1nyk1"]
+[ext_resource type="PackedScene" uid="uid://coltga2w1iprh" path="res://entities/saveables/saveable_interactables/pickup_objects/shit_rifle/ak.glb" id="2_ealou"]
 
 [node name="ShitRifleModel" type="Node3D"]
 
 [node name="shitrifle" parent="." instance=ExtResource("1_1nyk1")]
+visible = false
+
+[node name="MuzzleOrigin" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.850113, 6.78648)
+
+[node name="ak" parent="." instance=ExtResource("2_ealou")]
+transform = Transform3D(11.6913, 0, 0, 0, 11.6913, 0, 0, 0, 11.6913, 0, -1.63876, 0.595793)

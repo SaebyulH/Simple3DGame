@@ -1,0 +1,53 @@
+[gd_scene load_steps=9 format=3 uid="uid://ck2bw42yn1a2a"]
+
+[ext_resource type="Script" uid="uid://qgphj5jvn31t" path="res://effects/muzzle_flash.gd" id="1_iylrs"]
+[ext_resource type="Texture2D" uid="uid://coopfemd5iihl" path="res://effects/Muzzle.png" id="1_vctsq"]
+[ext_resource type="ArrayMesh" uid="uid://di0jao0bv1hmm" path="res://effects/muzzle.obj" id="2_iylrs"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y806x"]
+transparency = 1
+blend_mode = 1
+cull_mode = 2
+shading_mode = 0
+vertex_color_use_as_albedo = true
+vertex_color_is_srgb = true
+albedo_texture = ExtResource("1_vctsq")
+
+[sub_resource type="CurveTexture" id="CurveTexture_vctsq"]
+
+[sub_resource type="Curve" id="Curve_vctsq"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 2.25476, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_iylrs"]
+curve = SubResource("Curve_vctsq")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_y806x"]
+angle_min = 1.07288e-05
+angle_max = 510.5
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_iylrs")
+color = Color(19.106, 1.626, 1, 1)
+alpha_curve = SubResource("CurveTexture_vctsq")
+
+[node name="MuzzleFlash" type="Node3D"]
+script = ExtResource("1_iylrs")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+visible = false
+material_override = SubResource("StandardMaterial3D_y806x")
+amount = 1
+lifetime = 0.05
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_y806x")
+draw_pass_1 = ExtResource("2_iylrs")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+visible = false
+light_color = Color(23.984, 15.853, 1, 1)
+light_energy = 0.3
+distance_fade_enabled = true
+distance_fade_begin = 5.0
+distance_fade_length = 5.0
+omni_range = 15.0

@@ -18,7 +18,11 @@ func get_interact_verb() -> String:
 func interact(player):
 	if player.inventory_data:
 		if player.inventory_data.add_item(item_data):
+			player.inventory_data.current_index = player.inventory_data.items.size() -1
+			player.inventory_data.item_mode = InventoryData.ItemMode.ACTIVE
 			player.update_equipped_item()
+			player.hud.update_ammo_label(player.inventory_data)
+			player.animation_node.switch(-1 if item_data.display_name == "Shit Pistol" else 0)
 			print("Picked up: %s" % item_data.display_name)
 			#visible = false
 			#$CollisionShape3D.disabled = true  # Optional: disable collisions

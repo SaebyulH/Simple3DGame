@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://boxuawkxu4f3b"]
+
+[ext_resource type="Script" uid="uid://bhap77oopti2n" path="res://entities/saveable_character_bodies/npcs/armed_enemy/armed_enemy.gd" id="1_mrn48"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_m5vv6"]
+
+[node name="ArmedEnemy" type="CharacterBody3D"]
+script = ExtResource("1_mrn48")
+metadata/_custom_type_script = "uid://cybbvdua0635e"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_m5vv6")
+
+[node name="Skin" type="Node3D" parent="."]

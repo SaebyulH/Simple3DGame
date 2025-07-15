@@ -29,3 +29,23 @@ func create_merchant_character_data() -> CharacterData:
 	character_data.display_name = "Merchant Character"
 	character_data.wealth = 1000
 	return character_data
+
+func create_basic_enemy_character_data() -> CharacterData:
+	var character_data = CharacterData.new()
+	character_data.speed = 2.5
+	character_data.jump_force = 5.0
+	character_data.health = 20
+	character_data.max_health = 20
+	character_data.display_name = "Basic Enemy"
+	character_data.wealth = 1000
+	return character_data
+
+func create_armed_enemy_character_data() -> CharacterData:
+	var character_data = CharacterData.new()
+	character_data.speed = 2.5
+	character_data.jump_force = 5.0
+	character_data.health = 200
+	character_data.max_health = 200
+	character_data.display_name = "Armed Enemy"
+	character_data.wealth = 1000
+	return character_data

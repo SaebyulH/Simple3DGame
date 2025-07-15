@@ -1,19 +1,14 @@
 extends Node3D
 class_name EquippedItem
 
-var current_item_data: ItemData = null
-var equipped_scene_instance: Node3D = null
-
-func equip_item(item_data: ItemData):
-	# Remove previously equipped scene
-	if equipped_scene_instance and equipped_scene_instance.is_inside_tree():
-		equipped_scene_instance.queue_free()
-		equipped_scene_instance = null
-
-	current_item_data = item_data
-
-	# Equip new item if valid
-	if item_data and item_data.view_model:
-		equipped_scene_instance = item_data.view_model.instantiate()
-		add_child(equipped_scene_instance)
-		equipped_scene_instance.owner = self  # Optional: needed for editing from editor
+func equip_item(item_data: ItemData) -> void:
+	# Remove previously equipped items
+	for child in get_children():
+		child.queue_free()
+		
+	if item_data == null or item_data.view_model == null:
+		return
+		
+	# Equip new item
+	var instance := item_data.view_model.instantiate()
+	add_child(instance)

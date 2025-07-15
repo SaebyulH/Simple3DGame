@@ -13,7 +13,18 @@ class_name PlayerHUD
 
 @onready var enemy_name_label := $MarginContainer2/VBoxContainer/EnemyName
 @onready var enemy_health_label := $MarginContainer2/VBoxContainer/EnemyHealth
-	
+@onready var ammo_label := $MarginContainer3/VBoxContainer/AmmoLabel
+
+@onready var player := get_tree().root.get_node("Main/Player")
+
+func update_ammo_label(inventory_data: InventoryData):
+	if inventory_data.get_current_item() and inventory_data.get_current_item().uses_ammo:
+		ammo_label.text = "Ammo\n" + str(inventory_data.get_current_weapon_ammo_count())
+	else:
+		ammo_label.text = "Does not use ammo"
+		
+
+
 
 func update_inventory_data(inventory_data: InventoryData):
 	for child in inventory_list.get_children():
@@ -60,6 +71,7 @@ func format_item(item: ItemData) -> String:
 func _ready() -> void:
 	hide_interactable_ui()
 	hide_tradeable_ui()
+	update_ammo_label(player.inventory_data)
 
 func update_display_name(display_name: String):
 	display_name_label.text = "Display Name: " + display_name

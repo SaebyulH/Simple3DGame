@@ -21,7 +21,7 @@ func change_health(amount: int):
 		health += amount
 		var status = "healed" if (amount >= 0) else "damaged"
 		print(display_name + status + " by " + str(abs(amount)) + " HP.")
-		if health + amount < 0:
+		if health < 0:
 			health = 0
 			print(display_name + " is now dead")
 		elif health + amount > max_health:

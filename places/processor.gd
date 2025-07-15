@@ -43,7 +43,12 @@ func _input(event):
 			hide_inventory()
 		else:
 			show_inventory()
-
+	if event.is_action_pressed("trade"):
+		if trade_menu.visible:
+			hide_trade()
+		else:
+			#show_trade()
+			pass
 func pause_game():
 	hide_inventory()
 	hide_trade()
