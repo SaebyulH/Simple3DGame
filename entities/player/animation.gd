@@ -146,8 +146,6 @@ func switch(position: float):
 	else:
 		animation_tree.set(PISTOL_RIFLE_AIR, weapon_type)	
 	
-	
-	
 	print("Switch requested: ", position)
 	animation_tree.set(SWITCH_WEAPON_BLEND, position)
 	animation_tree.set(SWITCH_WEAPON, 0)

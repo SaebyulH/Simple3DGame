@@ -17,7 +17,6 @@ func _ready() -> void:
 	update_header()
 	update_list()
 
-
 func _process(delta: float) -> void:
 	if is_instance_valid(preview):
 		preview.rotate_y(rotation_speed * delta)
@@ -33,9 +32,6 @@ func update_list():
 	for i in player.inventory_data.items:
 		item_list.add_item(i.display_name)
 	
-
-
-
 func update_header():
 	max_mass_label.text = "Mass: " + str(player.inventory_data.total_mass()) + "/" +str(player.inventory_data.max_mass) + " Max"
 	item_count_label.text = "Item Count: " + str(player.inventory_data.items.size())
@@ -93,7 +89,6 @@ func _format_item_details(item: ItemData) -> String:
 		item.range,
 		item.damage
 	]
-
 
 func _on_drop_button_pressed() -> void:
 	player.drop_current_item() # Replace with function body.

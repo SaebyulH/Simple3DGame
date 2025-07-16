@@ -45,7 +45,7 @@ draw_pass_1 = ExtResource("2_iylrs")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 visible = false
-light_color = Color(23.984, 15.853, 1, 1)
+light_color = Color(1, 1, 0.603922, 1)
 light_energy = 0.3
 distance_fade_enabled = true
 distance_fade_begin = 5.0

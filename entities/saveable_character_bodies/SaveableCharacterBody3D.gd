@@ -11,11 +11,9 @@ func _ready():
 func get_save_data() -> Dictionary:
 	return {
 		"scene_path": scene_path,
-		
 		"position": global_position,
 		"rotation": global_rotation,
 		"velocity": velocity,
-		
 		"visible": visible,
 	}
 

@@ -11,8 +11,6 @@ enum ShootingMode {AUTO, SEMI_AUTO, SAFETY}
 @export var mass: float
 @export var value: float # This will be the standardized value which may be used to calculate vendor prices 
 
-
-
 # Combat stats
 # This can apply to even non-weapon items
 @export var uses_ammo: bool
