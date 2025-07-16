@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://by88g1j3kvcfw"]
+[gd_scene load_steps=24 format=3 uid="uid://by88g1j3kvcfw"]
 
 [ext_resource type="Script" uid="uid://7dex21wiy8ay" path="res://places/saveables.gd" id="2_ab8f5"]
 [ext_resource type="PackedScene" uid="uid://b3aaxgaxo0ncy" path="res://entities/saveables/saveable_interactables/pickup_objects/shit_pistol/shit_pistol.tscn" id="4_dgel4"]
@@ -16,7 +16,6 @@
 [ext_resource type="PackedScene" uid="uid://cp72lt5mk27d5" path="res://entities/player/AdvancedCharacter.tscn" id="15_6577w"]
 [ext_resource type="PackedScene" uid="uid://dixt8o2033i0g" path="res://entities/saveable_character_bodies/npcs/merchant/Merchant.tscn" id="17_r1q15"]
 [ext_resource type="PackedScene" uid="uid://brr0hw3elr8q3" path="res://entities/saveable_character_bodies/npcs/NonPlayerCharacter.tscn" id="17_ryxa0"]
-[ext_resource type="PackedScene" uid="uid://dheoftddefiyh" path="res://entities/saveable_character_bodies/npcs/basic_enemy/basic_enemy.tscn" id="18_ab8f5"]
 [ext_resource type="PackedScene" uid="uid://bq7cq48x7nast" path="res://interface/trade_menu/trade_menu.tscn" id="18_ryxa0"]
 [ext_resource type="Script" uid="uid://dxi724w5b15f8" path="res://places/processor.gd" id="19_6577w"]
 [ext_resource type="PackedScene" uid="uid://cyjhneb42ifgx" path="res://interface/inventory_screen/inventory_screen.tscn" id="19_ab8f5"]
@@ -41,10 +40,11 @@ glow_intensity = 1.14
 fog_density = 0.0025
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_ab8f5"]
-vertices = PackedVector3Array(11.3485, -0.166018, -7.59658, 11.3485, -0.166018, -6.59658, 12.0985, -0.166018, -6.59658, 12.0985, -0.166018, -8.84658, 12.8485, -0.166018, -9.09658, 13.0985, -0.166018, -5.34658, 13.3485, -0.166018, -5.34658, 13.3485, -0.166018, -12.5966, 10.8485, -0.166018, -7.84658, 2.09849, -0.166018, -9.59658, 2.09849, -0.166018, -7.84658, 2.84849, -0.166018, -7.84658, 5.34849, -0.166018, -8.84658, 5.59849, -0.166018, -9.59658, -3.90151, -0.166018, -9.09658, -1.40151, -0.166018, -9.59658, -1.90151, -0.166018, -9.84658, -1.65151, -0.166018, -10.3466, -3.90151, -0.166018, -12.5966, 2.84849, -0.166018, -7.09658, 5.34849, -0.166018, -6.84658, 7.84849, -0.166018, -5.59658, 9.59849, -0.166018, -5.84658, 9.84849, -0.166018, -7.84658, 5.84849, -0.166018, -10.0966, 6.09849, -0.166018, -9.09658, 10.3485, -0.166018, -7.59658, 10.0985, -0.166018, -2.34658, 10.5985, -0.166018, -2.34658, 6.34849, -0.166018, -2.34658, 8.09849, -0.166018, -2.34658, 1.34849, -0.166018, -7.34658, 5.34849, -0.166018, -1.84658, 5.84849, -0.166018, 2.40342, 5.84849, -0.166018, -1.59658, -3.90151, -0.166018, 2.40342, 13.0985, -0.166018, -1.84658, 13.3485, -0.166018, 2.40342, 12.3485, -0.166018, -1.59658, 11.0985, -0.166018, -1.59658, 8.59849, -0.166018, -5.09658, 8.59849, -0.166018, -3.09658, 9.59849, -0.166018, -3.09658, 9.59849, -0.166018, -5.09658)
-polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Array(5, 4, 6), PackedInt32Array(6, 4, 7), PackedInt32Array(3, 0, 8), PackedInt32Array(10, 9, 11), PackedInt32Array(11, 9, 12), PackedInt32Array(12, 9, 13), PackedInt32Array(16, 15, 14), PackedInt32Array(16, 14, 17), PackedInt32Array(17, 14, 18), PackedInt32Array(19, 11, 20), PackedInt32Array(20, 11, 12), PackedInt32Array(3, 7, 4), PackedInt32Array(22, 21, 23), PackedInt32Array(23, 21, 25), PackedInt32Array(23, 25, 24), PackedInt32Array(26, 23, 8), PackedInt32Array(8, 23, 3), PackedInt32Array(3, 23, 7), PackedInt32Array(7, 23, 24), PackedInt32Array(17, 18, 24), PackedInt32Array(24, 18, 7), PackedInt32Array(27, 26, 28), PackedInt32Array(28, 26, 8), PackedInt32Array(12, 13, 25), PackedInt32Array(25, 13, 24), PackedInt32Array(30, 29, 21), PackedInt32Array(21, 29, 25), PackedInt32Array(10, 31, 9), PackedInt32Array(9, 31, 15), PackedInt32Array(31, 19, 32), PackedInt32Array(32, 34, 33), PackedInt32Array(15, 31, 14), PackedInt32Array(14, 31, 32), PackedInt32Array(14, 32, 33), PackedInt32Array(14, 33, 35), PackedInt32Array(19, 20, 32), PackedInt32Array(5, 6, 36), PackedInt32Array(36, 6, 37), PackedInt32Array(39, 38, 37), PackedInt32Array(38, 36, 37), PackedInt32Array(2, 38, 1), PackedInt32Array(1, 38, 39), PackedInt32Array(34, 39, 33), PackedInt32Array(33, 39, 37), PackedInt32Array(43, 42, 40), PackedInt32Array(40, 42, 41)]
+vertices = PackedVector3Array(0.658493, -0.185053, -9.72658, 1.30849, -0.185053, -9.98658, 1.56849, -0.185053, -12.7166, -4.02151, -0.185053, -12.7166, -4.02151, -0.185053, -3.48658, 0.788493, -0.185053, -3.61658, 7.54849, -0.185053, -9.85658, 7.54849, -0.185053, -12.7166, 8.71849, -0.185053, -9.72658, 13.5285, -0.185053, -12.7166, 8.71849, -0.185053, -6.99658, 8.45849, -0.185053, -6.86658, 13.5285, -0.185053, -6.73658, 1.04849, 2.78495, -9.72658, 1.04849, 2.78495, -3.09658, 1.30849, 2.78495, -3.09658, 1.30849, 2.78495, -9.72658, 4.03849, 1.79495, -9.20658, 4.42849, 1.79495, -9.33658, 4.42849, 1.79495, -9.59658, 1.56849, 1.79495, -9.59658, 4.03849, 1.79495, -7.38658, 4.42849, 1.79495, -7.51658, 4.42849, 1.79495, -8.16658, 4.03849, 1.79495, -8.29658, 2.86849, 1.79495, -7.12658, 1.56849, 1.37495, -6.21658, 2.68278, 1.76495, -6.99658, 1.56849, 1.76495, -6.99658, 4.03849, 1.79495, -7.12658, 2.73849, 1.37495, -6.21658, 2.83599, 1.76495, -6.89908, 4.68849, 1.79495, -9.20658, 4.68849, 1.79495, -8.29658, 5.85849, 1.79495, -7.38658, 6.50849, 1.79495, -6.99658, 5.72849, 1.70495, -6.86658, 5.33849, 1.79495, -3.87658, 6.50849, 1.70495, -3.09658, 6.29183, 1.79495, -7.12658, 5.77183, 1.79495, -7.03991, 5.37099, 1.70495, -4.12575, 5.53349, 1.79495, -3.74658, 5.72849, 1.70495, -3.61658, 5.97549, 1.70495, -5.83958, 3.64849, 1.79495, -3.74658, 3.77849, 1.79495, -3.09658, 5.51577, 1.79495, -3.09658, 5.76395, 1.70495, -3.09658, 8.45849, 1.79495, -7.12658, 8.45849, 1.79495, -9.59658, 6.35683, 1.79495, -7.18075, 6.75224, 1.79495, -7.01283, 5.33849, 1.70495, -6.86658, 5.33849, 1.70495, -4.12575, 2.73849, 1.01495, -5.56658, 1.56849, 0.714947, -4.00658, 2.44599, 0.714947, -5.17658, 2.59224, 0.864947, -5.37158, 2.73849, 1.22495, -5.99991, 1.56849, 1.22495, -5.97102, 1.56849, 0.774947, -5.23436, 1.56849, 0.714947, -4.9888, 2.07549, 1.07495, -5.83958, 5.07849, 0.714947, -4.00658, 5.07849, -0.00505257, -6.86658, 2.99849, 0.714947, -5.56658, 5.07849, 0.684947, -5.67491, 5.07849, 0.0849475, -6.62825, 3.20649, 0.684947, -5.69658, 2.8396, 0.864947, -5.39325, 2.52183, 0.714947, -5.04658, 2.99849, -0.00505257, -6.86658, 6.76849, -0.185053, -6.86658, 6.76849, -0.185053, -4.00658, 13.5285, -0.185053, -4.00658, 6.76849, -0.185053, -2.96658, 5.85849, -0.185053, -2.83658, 5.98849, -0.185053, 2.49342, 13.5285, -0.185053, 2.49342, 2.73849, 1.79495, -2.96658, 1.56849, 1.79495, -3.74658, 2.54349, 1.79495, -3.09658, 2.94649, 1.79495, -2.99258, 1.56849, 0.0849475, 0.0234213, 2.73849, 0.0849475, 0.0234213, 2.73849, 1.64495, -2.71741, 1.56849, 1.79495, -2.99258, 2.08341, 0.234947, -0.375027, 2.0937, 1.58495, -2.71387, 3.25849, -0.185053, 2.49342, 2.99849, -0.185053, -0.106579, 2.84249, -0.185053, 0.517421, 2.86849, -0.185053, -0.0415783, 1.30849, -0.185053, -0.106579, 1.04849, -0.185053, 2.49342, 1.46449, -0.185053, 0.517421, 1.43849, 0.0849475, -0.0415783, 2.07549, -0.185053, 0.400421, 1.30849, -0.185053, -2.70658, 0.788493, -0.185053, -2.83658, -4.02151, -0.185053, 2.49342, 2.99849, -0.185053, -2.70658)
+polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Array(5, 4, 0), PackedInt32Array(0, 4, 3), PackedInt32Array(7, 6, 2), PackedInt32Array(2, 6, 1), PackedInt32Array(6, 7, 8), PackedInt32Array(8, 7, 9), PackedInt32Array(12, 11, 10), PackedInt32Array(10, 8, 12), PackedInt32Array(12, 8, 9), PackedInt32Array(16, 15, 13), PackedInt32Array(13, 15, 14), PackedInt32Array(18, 17, 19), PackedInt32Array(19, 17, 20), PackedInt32Array(22, 21, 23), PackedInt32Array(23, 21, 24), PackedInt32Array(24, 21, 25), PackedInt32Array(26, 28, 27), PackedInt32Array(27, 28, 25), PackedInt32Array(25, 28, 24), PackedInt32Array(24, 28, 17), PackedInt32Array(17, 28, 20), PackedInt32Array(21, 29, 25), PackedInt32Array(25, 31, 27), PackedInt32Array(27, 31, 30), PackedInt32Array(27, 30, 26), PackedInt32Array(32, 18, 19), PackedInt32Array(23, 33, 22), PackedInt32Array(22, 33, 34), PackedInt32Array(43, 44, 38), PackedInt32Array(38, 44, 35), PackedInt32Array(35, 36, 39), PackedInt32Array(39, 40, 34), PackedInt32Array(40, 39, 36), PackedInt32Array(36, 44, 41), PackedInt32Array(41, 42, 37), PackedInt32Array(42, 41, 43), PackedInt32Array(43, 41, 44), PackedInt32Array(44, 36, 35), PackedInt32Array(38, 48, 43), PackedInt32Array(43, 48, 47), PackedInt32Array(43, 47, 42), PackedInt32Array(42, 47, 37), PackedInt32Array(37, 47, 46), PackedInt32Array(37, 46, 45), PackedInt32Array(35, 51, 52), PackedInt32Array(52, 51, 49), PackedInt32Array(49, 51, 50), PackedInt32Array(50, 51, 32), PackedInt32Array(50, 32, 19), PackedInt32Array(35, 39, 51), PackedInt32Array(51, 39, 34), PackedInt32Array(51, 34, 33), PackedInt32Array(51, 33, 32), PackedInt32Array(37, 54, 41), PackedInt32Array(41, 54, 53), PackedInt32Array(41, 53, 36), PackedInt32Array(62, 57, 56), PackedInt32Array(57, 63, 58), PackedInt32Array(58, 63, 55), PackedInt32Array(55, 63, 59), PackedInt32Array(59, 63, 30), PackedInt32Array(30, 63, 26), PackedInt32Array(26, 63, 60), PackedInt32Array(60, 63, 61), PackedInt32Array(61, 57, 62), PackedInt32Array(57, 61, 63), PackedInt32Array(66, 69, 70), PackedInt32Array(70, 69, 71), PackedInt32Array(71, 69, 56), PackedInt32Array(56, 69, 64), PackedInt32Array(64, 69, 67), PackedInt32Array(67, 69, 68), PackedInt32Array(68, 69, 65), PackedInt32Array(66, 70, 55), PackedInt32Array(55, 70, 58), PackedInt32Array(58, 70, 57), PackedInt32Array(57, 70, 71), PackedInt32Array(57, 71, 56), PackedInt32Array(66, 72, 69), PackedInt32Array(69, 72, 65), PackedInt32Array(73, 11, 74), PackedInt32Array(74, 11, 12), PackedInt32Array(74, 12, 75), PackedInt32Array(78, 77, 76), PackedInt32Array(76, 74, 75), PackedInt32Array(78, 76, 79), PackedInt32Array(79, 76, 75), PackedInt32Array(80, 82, 83), PackedInt32Array(83, 82, 46), PackedInt32Array(46, 82, 45), PackedInt32Array(45, 82, 81), PackedInt32Array(84, 88, 85), PackedInt32Array(85, 88, 86), PackedInt32Array(86, 82, 80), PackedInt32Array(82, 87, 81), PackedInt32Array(87, 88, 84), PackedInt32Array(88, 89, 86), PackedInt32Array(86, 89, 82), PackedInt32Array(82, 89, 87), PackedInt32Array(87, 89, 88), PackedInt32Array(85, 93, 92), PackedInt32Array(92, 93, 91), PackedInt32Array(92, 91, 90), PackedInt32Array(84, 96, 97), PackedInt32Array(97, 96, 94), PackedInt32Array(94, 96, 95), PackedInt32Array(85, 98, 84), PackedInt32Array(84, 98, 96), PackedInt32Array(96, 98, 95), PackedInt32Array(95, 98, 90), PackedInt32Array(90, 98, 92), PackedInt32Array(92, 98, 85), PackedInt32Array(99, 94, 100), PackedInt32Array(100, 94, 95), PackedInt32Array(100, 95, 101), PackedInt32Array(100, 101, 4), PackedInt32Array(100, 4, 5), PackedInt32Array(90, 91, 78), PackedInt32Array(78, 91, 102), PackedInt32Array(78, 102, 77)]
+cell_size = 0.13
 cell_height = 0.03
-agent_radius = 0.24
+agent_radius = 0.1
 detail_sample_distance = 2.0
 
 [node name="Main" type="Node3D"]
@@ -72,327 +72,153 @@ transform = Transform3D(4.55306, 0, 0, 0, 0.1, 0, 0, 0, 4.55306, 4.72869, -0.269
 size = Vector3(3.90076, 1, 3.38965)
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="Map Geometry/NavigationRegion3D/CSGCombiner3D"]
-transform = Transform3D(-0.0233188, 0, 0, 0, 0.538212, 0, 0, 0, 0.816837, 8.23514, 0.0248045, -4.09157)
-flip_faces = true
+transform = Transform3D(1.18042, 0, 0, 0, 1.2, 0, 0, 0, 0.773082, 3.22632, 0.0667039, -4.20914)
 size = Vector3(3.90076, 1, 3.38965)
 
-[node name="CSGBox3D3" type="CSGBox3D" parent="Map Geometry/NavigationRegion3D/CSGCombiner3D"]
-transform = Transform3D(-0.0233188, 0, 0, 0, 0.538212, 0, 0, 0, 0.816837, 9.91628, 0.0248045, -5.11402)
-flip_faces = true
-size = Vector3(3.90076, 1, 5.89307)
-
-[node name="CSGBox3D7" type="CSGBox3D" parent="Map Geometry/NavigationRegion3D/CSGCombiner3D"]
-transform = Transform3D(-0.0233188, 0, 0, 0, 0.538212, 0, 0, 0, 0.816837, 5.88154, 0.0248045, -5.28589)
-flip_faces = true
-size = Vector3(3.90076, 1, 8.39178)
-
 [node name="CSGBox3D8" type="CSGBox3D" parent="Map Geometry/NavigationRegion3D/CSGCombiner3D"]
-transform = Transform3D(-0.0233188, 0, 0, 0, 0.538212, 0, 0, 0, 0.816837, 10.925, 0.0248045, -4.68969)
-flip_faces = true
-size = Vector3(3.90076, 1, 6.93201)
+transform = Transform3D(1.18615, 0, 0, 0, 0.487805, 0, 0, 0, 0.776829, 4.69724, 1.50892, -8.37628)
+size = Vector3(6.38092, 1, 3.38965)
 
 [node name="CSGBox3D11" type="CSGBox3D" parent="Map Geometry/NavigationRegion3D/CSGCombiner3D"]
-transform = Transform3D(-0.0233188, 0, 0, 0, 0.538212, 0, 0, 0, 0.816837, 12.6061, 0.0248045, -5.27931)
-flip_faces = true
-size = Vector3(3.90076, 1, 8.37567)
+transform = Transform3D(1.18615, 0, 0, 0, 0.683292, 0, 0, 0, 0.776829, 4.69724, 0.0111384, -8.37628)
+size = Vector3(6.38092, 1, 3.38965)
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="Map Geometry/NavigationRegion3D/CSGCombiner3D"]
-transform = Transform3D(1.0193e-09, -2.3526e-08, -0.816837, -1.0193e-09, 0.538212, -3.57051e-08, -0.0233188, -2.3526e-08, -3.57051e-08, 9.07272, 0.0248007, -2.74666)
-flip_faces = true
-size = Vector3(3.90076, 1, 2.14746)
-
-[node name="CSGBox3D6" type="CSGBox3D" parent="Map Geometry/NavigationRegion3D/CSGCombiner3D"]
-transform = Transform3D(7.86332e-10, -2.3526e-08, -0.176703, -7.86332e-10, 0.538212, -7.72393e-09, -0.0179891, -2.3526e-08, -7.72393e-09, 2.15413, -0.136912, -7.49784)
-flip_faces = true
-size = Vector3(3.90076, 1, 5.0459)
+transform = Transform3D(1.18042, 0, 0, 0, 1.2, 0, 0, 0, 0.773082, 1.15312, 1.10209, -6.41743)
+size = Vector3(0.349306, 2.72565, 8.78442)
 
 [node name="CSGBox3D9" type="CSGBox3D" parent="Map Geometry/NavigationRegion3D/CSGCombiner3D"]
-transform = Transform3D(1.0193e-09, -2.3526e-08, -0.816837, -1.0193e-09, 0.538212, -3.57051e-08, -0.0233188, -2.3526e-08, -3.57051e-08, 8.3873, 0.0248007, -1.95007)
-flip_faces = true
-size = Vector3(3.90076, 1, 6.26611)
+transform = Transform3D(0.634739, 0, 0, 0, 0.219762, 0, 0, 0, 0.144536, 4.38022, 0.815276, -8.71866)
+size = Vector3(0.349306, 11.7989, 5.20166)
 
-[node name="CSGBox3D10" type="CSGBox3D" parent="Map Geometry/NavigationRegion3D/CSGCombiner3D"]
-transform = Transform3D(1.0193e-09, -2.3526e-08, -0.816837, -1.0193e-09, 0.538212, -3.57051e-08, -0.0233188, -2.3526e-08, -3.57051e-08, 2.0095, 0.0248007, -9.898)
-flip_faces = true
-size = Vector3(3.90076, 1, 8.57251)
+[node name="CSGBox3D12" type="CSGBox3D" parent="Map Geometry/NavigationRegion3D/CSGCombiner3D"]
+transform = Transform3D(0.634739, 0, 0, 0, 0.219762, 0, 0, 0, 0.144536, 4.38022, 0.815276, -8.71866)
+size = Vector3(0.349306, 11.7989, 5.20166)
+
+[node name="CSGBox3D13" type="CSGBox3D" parent="Map Geometry/NavigationRegion3D/CSGCombiner3D"]
+transform = Transform3D(-2.77453e-08, -9.60609e-09, -0.144536, 2.77453e-08, 0.219762, -6.31787e-09, 0.634739, -9.60609e-09, -6.31787e-09, 4.96115, 0.815276, -7.22504)
+size = Vector3(0.349306, 11.7989, 9.69214)
 
 [node name="CSGBox3D5" type="CSGBox3D" parent="Map Geometry/NavigationRegion3D/CSGCombiner3D"]
-transform = Transform3D(1.0193e-09, -7.04124e-09, -0.816837, -1.0193e-09, 0.161085, -3.57051e-08, -0.0233188, -7.04125e-09, -3.57051e-08, 9.07272, 0.210547, -5.43649)
-flip_faces = true
-size = Vector3(3.90076, 1, 2.14746)
+transform = Transform3D(1.18042, 0, 0, 0, 1.2, 0, 0, 0, 0.773082, 5.95062, 0.515033, -5.02651)
+size = Vector3(1.1406, 1.91125, 5.18604)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Map Geometry/NavigationRegion3D/CSGCombiner3D"]
+transform = Transform3D(1.18042, 0, 0, 0, 1.2, 0, 0, 0, 0.773082, 3.33389, 0.613457, -3.40843)
+size = Vector3(3.99155, 1.91125, 1)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Map Geometry/NavigationRegion3D/CSGCombiner3D"]
+transform = Transform3D(1.18042, -2.62268e-08, -4.52734e-09, 2.5799e-08, 1.03923, 0.386541, -6.91282e-09, -0.6, 0.669509, 3.22632, -0.510318, -6.35445)
+size = Vector3(3.90076, 1, 3.38965)
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="Map Geometry/NavigationRegion3D/CSGCombiner3D"]
+transform = Transform3D(-0.349785, 9.65762e-08, 3.16092e-08, -3.82239e-08, -0.857239, -0.318849, -2.04842e-09, -0.494927, 0.552264, 2.14801, 0.788472, -6.37724)
+size = Vector3(3.90076, 1, 3.38965)
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="Map Geometry/NavigationRegion3D/CSGCombiner3D"]
+transform = Transform3D(-0.349785, 9.65762e-08, 3.16092e-08, -3.8224e-08, -0.857239, -0.31885, -2.04842e-09, -0.494928, 0.552264, 2.14801, 0.282408, -1.52537)
+size = Vector3(3.90076, 1, 6.56397)
 
 [node name="Saveables" type="Node3D" parent="."]
 script = ExtResource("2_ab8f5")
 
 [node name="AdvancedCharacter" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 53.041, 0.157423, -46.1698)
+transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 43.7539, 0.128253, -3.68491)
 destination_node = NodePath("../Player/Head")
 
 [node name="AdvancedCharacter2" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 54.041, 0.157423, -46.1698)
+transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 44.0831, 0.128253, 0.859715)
 destination_node = NodePath("../Player/Head")
 
 [node name="AdvancedCharacter3" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 55.041, 0.157423, -46.1698)
+transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 44.157, 0.128253, 5.16323)
 destination_node = NodePath("../Player/Head")
 
 [node name="AdvancedCharacter4" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 56.041, 0.157423, -46.1698)
+transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 6.68655, 0.128253, -14.574)
 destination_node = NodePath("../Player/Head")
 
 [node name="AdvancedCharacter5" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 53.041, 0.157423, -47.1698)
+transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 7.01581, 0.128253, -10.0294)
 destination_node = NodePath("../Player/Head")
 
 [node name="AdvancedCharacter6" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 54.041, 0.157423, -47.1698)
+transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 7.08971, 0.128253, -5.72584)
 destination_node = NodePath("../Player/Head")
 
 [node name="AdvancedCharacter7" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 55.041, 0.157423, -47.1698)
+transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 23.9051, 5.68981, -36.5633)
 destination_node = NodePath("../Player/Head")
 
 [node name="AdvancedCharacter8" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 56.041, 0.157423, -47.1698)
+transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 24.2344, 5.68981, -32.0187)
 destination_node = NodePath("../Player/Head")
 
 [node name="AdvancedCharacter9" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 53.041, 0.157423, -48.1698)
+transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 24.3083, 5.68981, -27.7152)
 destination_node = NodePath("../Player/Head")
 
 [node name="AdvancedCharacter10" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 54.041, 0.157423, -48.1698)
+transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 27.6779, 5.68981, -36.8777)
 destination_node = NodePath("../Player/Head")
 
 [node name="AdvancedCharacter11" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 55.041, 0.157423, -48.1698)
+transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 28.0071, 5.68981, -32.3331)
 destination_node = NodePath("../Player/Head")
 
 [node name="AdvancedCharacter12" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 56.041, 0.157423, -48.1698)
+transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 28.0811, 5.68981, -28.0296)
 destination_node = NodePath("../Player/Head")
 
 [node name="AdvancedCharacter13" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 53.041, 0.157423, -49.1698)
+transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 20.1324, 5.68981, -36.6262)
 destination_node = NodePath("../Player/Head")
 
 [node name="AdvancedCharacter14" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 54.041, 0.157423, -49.1698)
+transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 20.4616, 5.68981, -32.0816)
 destination_node = NodePath("../Player/Head")
 
 [node name="AdvancedCharacter15" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 55.041, 0.157423, -49.1698)
+transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 20.5355, 5.68981, -27.7781)
 destination_node = NodePath("../Player/Head")
 
 [node name="AdvancedCharacter16" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 56.041, 0.157423, -49.1698)
+transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 33.5031, 19.4224, -54.7865)
 destination_node = NodePath("../Player/Head")
 
 [node name="AdvancedCharacter17" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 49.041, 0.157423, -46.1698)
+transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 33.8324, 19.4224, -50.2419)
 destination_node = NodePath("../Player/Head")
 
 [node name="AdvancedCharacter18" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 50.041, 0.157423, -46.1698)
+transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 33.9063, 19.4224, -45.9383)
 destination_node = NodePath("../Player/Head")
 
 [node name="AdvancedCharacter19" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 51.041, 0.157423, -46.1698)
+transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 6.89808, 19.4224, -50.3381)
 destination_node = NodePath("../Player/Head")
 
 [node name="AdvancedCharacter20" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 52.041, 0.157423, -46.1698)
+transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 7.22733, 19.4224, -45.7934)
 destination_node = NodePath("../Player/Head")
 
 [node name="AdvancedCharacter21" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 49.041, 0.157423, -47.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter22" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 50.041, 0.157423, -47.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter23" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 51.041, 0.157423, -47.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter24" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 52.041, 0.157423, -47.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter25" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 49.041, 0.157423, -48.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter26" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 50.041, 0.157423, -48.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter27" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 51.041, 0.157423, -48.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter28" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 52.041, 0.157423, -48.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter29" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 49.041, 0.157423, -49.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter30" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 50.041, 0.157423, -49.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter31" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 51.041, 0.157423, -49.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter32" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 52.041, 0.157423, -49.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter33" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 53.041, 0.157423, -50.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter34" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 54.041, 0.157423, -50.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter35" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 55.041, 0.157423, -50.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter36" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 56.041, 0.157423, -50.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter37" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 53.041, 0.157423, -51.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter38" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 54.041, 0.157423, -51.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter39" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 55.041, 0.157423, -51.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter40" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 56.041, 0.157423, -51.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter41" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 53.041, 0.157423, -52.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter42" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 54.041, 0.157423, -52.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter43" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 55.041, 0.157423, -52.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter44" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 56.041, 0.157423, -52.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter45" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 53.041, 0.157423, -53.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter46" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 54.041, 0.157423, -53.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter47" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 55.041, 0.157423, -53.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter48" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 56.041, 0.157423, -53.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter49" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 49.041, 0.157423, -50.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter50" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 50.041, 0.157423, -50.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter51" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 51.041, 0.157423, -50.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter52" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 52.041, 0.157423, -50.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter53" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 49.041, 0.157423, -51.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter54" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 50.041, 0.157423, -51.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter55" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 51.041, 0.157423, -51.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter56" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 52.041, 0.157423, -51.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter57" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 49.041, 0.157423, -52.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter58" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 50.041, 0.157423, -52.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter59" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 51.041, 0.157423, -52.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter60" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 52.041, 0.157423, -52.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter61" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 49.041, 0.157423, -53.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter62" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 50.041, 0.157423, -53.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter63" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 51.041, 0.157423, -53.1698)
-destination_node = NodePath("../Player/Head")
-
-[node name="AdvancedCharacter64" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_6577w")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 52.041, 0.157423, -53.1698)
+transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 7.30124, 19.4224, -41.4899)
 destination_node = NodePath("../Player/Head")
 
 [node name="Player" parent="Saveables" instance=ExtResource("11_pxqo5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 53.7605, 1.87632, -36.1302)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.3495, 3.70238, 2.99159)
 
 [node name="ShitPistol" parent="Saveables" instance=ExtResource("4_dgel4")]
-transform = Transform3D(0.999096, 0, 0, 0, 0.999096, 0, 0, 0, 0.999096, 53.9546, -1.06965, -28.5497)
+transform = Transform3D(0.999096, 0, 0, 0, 0.999096, 0, 0, 0, 0.999096, 12.8875, 0.113719, 0.735843)
 display_name = ""
 
 [node name="ShitRifle" parent="Saveables" instance=ExtResource("5_ymo8n")]
-transform = Transform3D(0.999096, 0, 0, 0, 0.999096, 0, 0, 0, 0.999096, 53.4951, 0.279908, -28.4684)
+transform = Transform3D(0.999096, 0, 0, 0, 0.999096, 0, 0, 0, 0.999096, 12.428, 1.46328, 0.817143)
 display_name = ""
 
 [node name="ScrapMetal" parent="Saveables" instance=ExtResource("6_r1q15")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52.9825, -0.152426, -28.446)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.9154, 1.03094, 0.839543)
 display_name = ""
 
 [node name="DamageObject" parent="Saveables" instance=ExtResource("7_0n4p4")]
@@ -411,34 +237,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 56.7884, 2.07525, -17.5927)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 57.7884, 2.07525, -17.5927)
 
 [node name="NonPlayerCharacter" parent="Saveables" instance=ExtResource("17_ryxa0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52.2134, -0.569198, -17.7862)
-
-[node name="BasicEnemy" parent="Saveables" instance=ExtResource("18_ab8f5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.5573, 0.566324, -72.887)
-
-[node name="BasicEnemy2" parent="Saveables" instance=ExtResource("18_ab8f5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.5573, 0.566324, -70.887)
-
-[node name="BasicEnemy3" parent="Saveables" instance=ExtResource("18_ab8f5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.5573, 0.566324, -72.887)
-
-[node name="BasicEnemy4" parent="Saveables" instance=ExtResource("18_ab8f5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.5573, 0.566324, -70.887)
-
-[node name="BasicEnemy5" parent="Saveables" instance=ExtResource("18_ab8f5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.5573, 0.566324, -72.887)
-
-[node name="BasicEnemy6" parent="Saveables" instance=ExtResource("18_ab8f5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.5573, 0.566324, -70.887)
-
-[node name="BasicEnemy7" parent="Saveables" instance=ExtResource("18_ab8f5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45.5573, 0.566324, -72.887)
-
-[node name="BasicEnemy8" parent="Saveables" instance=ExtResource("18_ab8f5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45.5573, 0.566324, -70.887)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.222, 4.70238, -25.7805)
 
 [node name="Merchant" parent="Saveables" instance=ExtResource("17_r1q15")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 57.1325, -1.4549, -26.2625)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 11.2619, 3.81668, -26.1517)
 
 [node name="Processor" type="Node3D" parent="."]
 script = ExtResource("19_6577w")

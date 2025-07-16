@@ -6,8 +6,10 @@
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_rkr6o"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v10nj"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yn46p"]
 albedo_color = Color(1, 0, 0, 1)
+metallic = 1.0
+roughness = 0.03
 
 [node name="BasicEnemy" type="CharacterBody3D"]
 script = ExtResource("1_yn46p")
@@ -19,4 +21,4 @@ shape = SubResource("CapsuleShape3D_yn46p")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_rkr6o")
 skeleton = NodePath("../CollisionShape3D")
-surface_material_override/0 = SubResource("StandardMaterial3D_v10nj")
+surface_material_override/0 = SubResource("StandardMaterial3D_yn46p")

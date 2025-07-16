@@ -91,7 +91,7 @@ func _physics_process(delta):
 		var item = inventory_data.get_current_item()
 		if item and destination_node:  # destination_node is assumed to be the player
 			var distance_to_target = global_position.distance_to(destination_node.global_position)
-			if distance_to_target <= item.range:
+			if distance_to_target <= item.range/3: #TODO: this is bc they suck at aiming in lore ig
 				move_mode = MoveMode.CROUCH
 				perform_primary_fire()
 			else:
@@ -214,6 +214,7 @@ func perform_primary_fire() -> void:
 	if not can_shoot or not is_aiming:
 		return
 	
+	
 	if inventory_data.items.is_empty():
 		is_aiming = false
 	else:
@@ -225,11 +226,15 @@ func perform_primary_fire() -> void:
 	if inventory_data.current_index < 0 or inventory_data.current_index >= inventory_data.get_size():
 		print("No item equipped")
 		return
-	
+	if not check_for_raycast_collision():
+		return
+	#pass all checks
 	can_shoot = false  # block further shots
 	await fire_weapon_with_delay()
 	
 func create_local_timer(wait_time: float) -> void:
+	if wait_time < 0.05:
+		wait_time = 0.05
 	var timer := Timer.new()
 	timer.wait_time = wait_time
 	timer.one_shot = true
@@ -279,8 +284,18 @@ func fire_weapon_with_delay() -> void:
 	await create_local_timer(item.between_shooting_delay)
 
 	can_shoot = true
-
-
+	
+	
+func check_for_raycast_collision() -> bool:
+	var item = inventory_data.get_current_item()
+	raycast.target_position = Vector3.FORWARD * item.range
+	raycast.force_raycast_update()
+	if raycast.is_colliding():
+			var target = raycast.get_collider()
+			if target and target.has_method("change_health"):
+				return true
+	return false
+	
 # This updates the item that the player has equipped
 func update_equipped_item():
 	if inventory_data.item_mode == InventoryData.ItemMode.ACTIVE and inventory_data.current_index >= 0 and inventory_data.current_index < inventory_data.get_size():

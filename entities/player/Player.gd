@@ -55,11 +55,8 @@ var camera_mode := CameraMode.FIRST_PERSON
 #@onready var timer := $ShootTimer
 # Ready ##########################################################
 func _ready() -> void:
+	super()
 	equipped_item = $Skin/MaxSkin/Max_Shooter/max/Skeleton3D/HandBone/EquippedItem
-	
-	
-	
-	
 	raycast = $Head/SpringParent/SpringArm3D/MarginThing/Camera3D/RayCast3D
 	character_data = CharacterFactory.create_player_character_data()
 	inventory_data = InventoryFactory.create_player_inventory_data()
