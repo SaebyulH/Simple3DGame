@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dqpxp3fxhclky"]
+
+[ext_resource type="PackedScene" uid="uid://dc1ufk4bpxxlv" path="res://entities/saveables/saveable_interactables/pickup_objects/shit_grenade_launcher/grenade.glb" id="1_sqyyt"]
+[ext_resource type="PackedScene" uid="uid://coltga2w1iprh" path="res://entities/saveables/saveable_interactables/pickup_objects/shit_rifle/ak.glb" id="2_qhwuh"]
+
+[node name="ShitGrenadeLauncherModel" type="Node3D"]
+
+[node name="grenade" parent="." instance=ExtResource("1_sqyyt")]
+transform = Transform3D(-6.50076e-08, 0, 1.4872, 0, 1.4872, 0, -1.4872, 0, -6.50076e-08, -0.430851, -0.00202292, 2.03264)
+
+[node name="ak" parent="." instance=ExtResource("2_qhwuh")]
+transform = Transform3D(11.6913, 0, 0, 0, 11.6913, 0, 0, 0, 11.6913, 0, -1.63876, 0.595793)
+visible = false
+
+[node name="MuzzleOrigin" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.09219, 5.39985)

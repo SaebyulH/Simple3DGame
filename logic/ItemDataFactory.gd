@@ -10,6 +10,8 @@ func create_default_item() -> ItemData:
 	item_data.ammo_type = AmmoFactory.create_default_ammo()
 	item_data.mag_size = 0
 	item_data.shooting_mode = ItemData.ShootingMode.SAFETY
+	item_data.shooting_type = ItemData.ShootingType.HITSCAN
+	
 	item_data.initial_shooting_delay = 0.0
 	item_data.between_shooting_delay = 1.0
 	item_data.range = 0
@@ -30,6 +32,8 @@ func create_scrap_metal() -> ItemData:
 	item_data.ammo_type = AmmoFactory.create_default_ammo()
 	item_data.mag_size = 0
 	item_data.shooting_mode = ItemData.ShootingMode.SAFETY
+	item_data.shooting_type = ItemData.ShootingType.HITSCAN
+	
 	item_data.initial_shooting_delay = 0.18
 	item_data.between_shooting_delay = 0.5
 	item_data.range = 2
@@ -50,10 +54,12 @@ func create_shit_pistol() -> ItemData:
 	item_data.ammo_type = AmmoFactory.create_revolver_ammo()
 	item_data.mag_size = 8
 	item_data.shooting_mode = ItemData.ShootingMode.SEMI_AUTO
+	item_data.shooting_type = ItemData.ShootingType.HITSCAN
+	
 	item_data.initial_shooting_delay = 0.6
-	item_data.between_shooting_delay = 0.4
+	item_data.between_shooting_delay = 0.6
 	item_data.range = 10
-	item_data.damage = 65
+	item_data.damage = 75
 	item_data.scene_path = "res://entities/saveables/saveable_interactables/pickup_objects/shit_pistol/shit_pistol.tscn"
 	item_data.view_model = load("res://entities/player/viewmodels/shit_pistol_model.tscn")
 	item_data.sound_path = "res://assets/gun-shot-359196.mp3"
@@ -70,12 +76,34 @@ func create_shit_rifle() -> ItemData:
 	item_data.ammo_type = AmmoFactory.create_rifle_ammo()
 	item_data.mag_size = 30
 	item_data.shooting_mode = ItemData.ShootingMode.AUTO
+	item_data.shooting_type = ItemData.ShootingType.HITSCAN
 	item_data.initial_shooting_delay = 0.0
-	item_data.between_shooting_delay = 0.3
-	item_data.range = 35
-	item_data.damage = 25
+	item_data.between_shooting_delay = 0.4
+	item_data.range = 100
+	item_data.damage = 50
 	item_data.scene_path = "res://entities/saveables/saveable_interactables/pickup_objects/shit_rifle/shit_rifle.tscn"
 	item_data.view_model = load("res://entities/player/viewmodels/shit_rifle_model.tscn")
 	item_data.sound_path = "res://assets/submachine-gun-79846.mp3"
 	
+	return item_data
+
+func create_shit_grenade_launcher() -> ItemData:
+	var item_data = ItemData.new()
+	item_data.item_type = ItemData.ItemType.RIFLE
+	item_data.display_name = "Shit Grenade Launcher"
+	item_data.mass = 125.0
+	item_data.value = 74.99
+	item_data.uses_ammo = true
+	item_data.ammo_type = AmmoFactory.create_grenade_ammo()
+	item_data.mag_size = 30
+	item_data.shooting_mode = ItemData.ShootingMode.AUTO
+	item_data.shooting_type = ItemData.ShootingType.PROJECTILE
+	item_data.initial_shooting_delay = 0.0
+	item_data.between_shooting_delay = 1
+	item_data.range = 35
+	item_data.damage = 50
+	item_data.scene_path = "res://entities/saveables/saveable_interactables/pickup_objects/shit_grenade_launcher/shit_grenade_launcher.tscn"
+	item_data.view_model = load("res://entities/player/viewmodels/shit_grenade_launcher_model.tscn")
+	item_data.sound_path = "res://assets/pop.mp3"
+	item_data.projectile_path = "res://entities/saveables/projectiles/grenade.tscn"
 	return item_data

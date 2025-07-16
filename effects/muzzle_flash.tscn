@@ -13,22 +13,22 @@ vertex_color_use_as_albedo = true
 vertex_color_is_srgb = true
 albedo_texture = ExtResource("1_vctsq")
 
-[sub_resource type="CurveTexture" id="CurveTexture_vctsq"]
+[sub_resource type="CurveTexture" id="CurveTexture_iylrs"]
 
 [sub_resource type="Curve" id="Curve_vctsq"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 2.25476, 0, 0]
 point_count = 2
 
-[sub_resource type="CurveTexture" id="CurveTexture_iylrs"]
+[sub_resource type="CurveTexture" id="CurveTexture_y806x"]
 curve = SubResource("Curve_vctsq")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_y806x"]
 angle_min = 1.07288e-05
 angle_max = 510.5
 gravity = Vector3(0, 0, 0)
-scale_curve = SubResource("CurveTexture_iylrs")
+scale_curve = SubResource("CurveTexture_y806x")
 color = Color(19.106, 1.626, 1, 1)
-alpha_curve = SubResource("CurveTexture_vctsq")
+alpha_curve = SubResource("CurveTexture_iylrs")
 
 [node name="MuzzleFlash" type="Node3D"]
 script = ExtResource("1_iylrs")

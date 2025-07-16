@@ -1,29 +1,10 @@
 extends AdvancedCharacter
 class_name Player
 
-# Universal
-#enum MoveMode {WALK, SPRINT, CROUCH}
-#const DEFAULT_SKIN_ROTATION := Vector3(0, PI, 0)
-#const SNAP_FIRST_PERSON_DISTANCE := 1
-#const SPRING_EXTENDED_LENGTH := 1.8
-#const GRAVITY := 9.8
-#const SPRINT_FACTOR := 1.33
-#const CROUCH_FACTOR := 0.66
-#const INTERACT_DISTANCE := 2.0 # Interact Distance for interactable props
 
 # Player Specific
 enum CameraMode { FIRST_PERSON, THIRD_PERSON }
 const ENEMY_STATS_DISTANCE := 15.0 # Distance to see enemy stats
-
-# Universal
-#var y_velocity := 0.0
-#var is_aiming := false
-#var can_shoot: bool = true
-#var inventory_data: InventoryData = InventoryData.new()
-#var character_data : CharacterData = CharacterData.new()
-#var move_mode := MoveMode.WALK
-#var interact_target: Node = null
-
 
 # Player Specific
 var elapsed_time := 0.0 
@@ -32,15 +13,6 @@ var target_spring_length : float = 0.0
 var spring_interp_speed: float = 5.0  # Adjust speed as needed
 var mouse_sensitivity := 0.003
 var camera_mode := CameraMode.FIRST_PERSON
-
-######################################################
-# Universal
-#@onready var processor := get_parent().get_node("Processor")
-#@onready var skin := $Skin/MaxSkin
-#@onready var animation_node := $Skin/MaxSkin/Animation
-#@onready var raycast := $Head/SpringParent/SpringArm3D/MarginThing/Camera3D/RayCast3D
-#@onready var equipped_item = $Skin/MaxSkin/Max_Shooter/max/Skeleton3D/HandBone/EquippedItem  # Update path as needed
-#@onready var muzzle_flash := $Skin/MaxSkin/Max_Shooter/max/Skeleton3D/HandBone/MuzzleFlash
 
 # Player specific
 @onready var face := $Skin/MaxSkin/Max_Shooter/max/Skeleton3D/Head
@@ -56,15 +28,13 @@ var camera_mode := CameraMode.FIRST_PERSON
 # Ready ##########################################################
 func _ready() -> void:
 	super()
-	equipped_item = $Skin/MaxSkin/Max_Shooter/max/Skeleton3D/HandBone/EquippedItem
-	raycast = $Head/SpringParent/SpringArm3D/MarginThing/Camera3D/RayCast3D
+	#toggle_camera_mode()
+	interact_raycast = $Head/SpringParent/SpringArm3D/MarginThing/Camera3D/InteractRayCast3D
+	attack_raycast = $Head/SpringParent/SpringArm3D/MarginThing/Camera3D/AttackRayCast3D2
+	
 	character_data = CharacterFactory.create_player_character_data()
 	inventory_data = InventoryFactory.create_player_inventory_data()
-	unimmobilize()
-	update_equipped_item()
-	skin.rotation = DEFAULT_SKIN_ROTATION
 	
-
 # Process functions ############################################################
 func _process(delta):
 	elapsed_time += delta
@@ -75,6 +45,8 @@ func _process(delta):
 		hud.update_wealth(character_data.wealth)
 		hud.update_display_name(character_data.display_name)
 		hud.update_inventory_data(inventory_data)
+		hud.update_ammo_label(inventory_data)
+		
 		
 	# Interactions
 	check_for_interactable()
@@ -184,7 +156,7 @@ func _unhandled_input(event):
 				print(str(blend))
 				animation_node.switch(blend)
 				update_equipped_item()
-				hud.update_ammo_label(inventory_data)
+				
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN and event.pressed:
 			if inventory_data.change_current_index(1): 
 				inventory_data.item_mode = InventoryData.ItemMode.ACTIVE
@@ -192,7 +164,7 @@ func _unhandled_input(event):
 				var blend = -1 if inventory_data.get_current_item().item_type == ItemData.ItemType.PISTOL else 1
 				animation_node.switch(blend)
 				update_equipped_item()
-				hud.update_ammo_label(inventory_data)
+				
 		
 		
 	if event.is_action_pressed("interact") and interact_target:
@@ -249,42 +221,40 @@ func update_spring_length(delta):
 
 # Checks for interactible inside of a range 
 func check_for_interactable():
-	# This is so that in 3rd person we have more reach
-	raycast.target_position = Vector3.FORWARD * (INTERACT_DISTANCE + SPRING_EXTENDED_LENGTH)
-	raycast.force_raycast_update()
-
-	if raycast.is_colliding():
-		var target = raycast.get_collider()
-		if target and target.has_method("interact"):
-			interact_target = target
-			var target_name = ""
-			var verb = "Interact"
-			if target.has_method("get_display_name"):
-				target_name = target.get_display_name()
-			elif "display_name" in target:
-				target_name = target.display_name
-			else:
-				target_name = target.name
-			
-			if target.has_method("get_interact_verb"):
-				verb = target.get_interact_verb()
-			hud.show_interactable_name(target_name, verb)
-			if target and target.has_method("trade") and target.tradeable:
-				interact_target = target
-				hud.show_tradeable_prompt()
-			return
+	
+	var target = _get_interact_target()
+	if target and target.has_method("interact"):
+		interact_target = target
 		
-	# If nothing valid hit
-	interact_target = null
-	hud.hide_interactable_ui()
-	hud.hide_tradeable_ui()
+		var target_name = ""
+		var verb = "Interact"
+		
+		if target.has_method("get_display_name"):
+			target_name = target.get_display_name()
+		elif "display_name" in target:
+			target_name = target.display_name
+		else:
+			target_name = target.name
+		if target.has_method("get_interact_verb"):
+			verb = target.get_interact_verb()
+			hud.show_interactable_name(target_name, verb)
+	else:
+		interact_target = null
+		hud.hide_interactable_ui()
+	if target and target.has_method("trade"):
+		trade_target = target
+		hud.show_tradeable_prompt()
+		
+	else:
+		trade_target = null
+		hud.hide_tradeable_ui()
 	
 func check_for_enemy():
-	raycast.target_position = Vector3.FORWARD * (ENEMY_STATS_DISTANCE + SPRING_EXTENDED_LENGTH)
-	raycast.force_raycast_update()
+	interact_raycast.target_position = Vector3.FORWARD * (ENEMY_STATS_DISTANCE + SPRING_EXTENDED_LENGTH)
+	interact_raycast.force_raycast_update()
 
-	if raycast.is_colliding():
-		var target = raycast.get_collider()
+	if interact_raycast.is_colliding():
+		var target = interact_raycast.get_collider()
 		#TODO
 		if target and target is SaveableCharacterBody3D:
 			hud.show_enemy_stats(target)
@@ -296,17 +266,7 @@ func check_for_enemy():
 # Save functions ###################################################################################
 func get_save_data() -> Dictionary:
 	var data = super()
-	# Universal
-	#data["position"] = global_transform.origin
-	#data["velocity"] = velocity
-	#data["rotation"] = global_rotation
-	#data["scene_path"] = "res://entities/player/Player.tscn"
-	#data["move_mode"] = move_mode
-	#data["inventory_data"] = inventory_data
-	#data["character_data"] = character_data
-	
 	# Player Specific
-	data["head_rotation_x"] = $Head.rotation.x
 	data["mouse_sensitivity"] = mouse_sensitivity
 	data["camera_mode"] = camera_mode
 	data["time_elapsed"] = elapsed_time
@@ -315,16 +275,7 @@ func get_save_data() -> Dictionary:
 #TODO: Fix to use composition
 func apply_save_data(data: Dictionary):
 	super(data)
-	#if data.has("move_mode"):
-		#move_mode = data["move_mode"]
-	#if data.has("inventory_data"):
-		#inventory_data = data["inventory_data"]
-	#if data.has("character_data"):
-		#character_data = data["character_data"]
-		
-		#Player Specific
-	if data.has("head_rotation_x"):
-		$Head.rotation.x = data["head_rotation_x"]
+	# Player Specific
 	if data.has("mouse_sensitivity"):
 		mouse_sensitivity = data["mouse_sensitivity"]
 	if data.has("camera_mode"):
@@ -335,7 +286,7 @@ func apply_save_data(data: Dictionary):
 	# Set up rest based on the data
 	set_face_visibility(camera_mode == CameraMode.THIRD_PERSON)
 	update_equipped_item()
-	hud.update_ammo_label(inventory_data)
+	
 	if camera_mode == CameraMode.THIRD_PERSON: 
 		target_spring_length = SPRING_EXTENDED_LENGTH
 
@@ -349,91 +300,12 @@ func die():
 	get_tree().change_scene_to_file("res://interface/death_screen/death_screen.tscn")
 
 func change_wealth(amount: int):
-	if character_data.wealth + amount < 0:
-		print("wealth unchanged, player would be broke")
-	else:
-		character_data.wealth += amount
-		var status = "enriched" if (amount >= 0) else "impoverished"
-		print("Player " + status + " by " + str(abs(amount)) + " dollars.")
-		if character_data.wealth + amount < 0:
-			print("player is broke")
-
-	#var hud = get_parent().get_node("PlayerHUD") as PlayerHUD
+	super(amount)
 	if hud:
 		hud.update_wealth(character_data.wealth)
 
-func perform_secondary_fire():
-	if inventory_data.items.is_empty():
-		is_aiming = false
-	else:
-		if not inventory_data.item_mode == InventoryData.ItemMode.ACTIVE:
-			inventory_data.item_mode = InventoryData.ItemMode.ACTIVE
-			update_equipped_item()
-			hud.update_ammo_label(inventory_data)
-
-
- #Checks for object in range of current item, then shoots if in range
-func perform_primary_fire() -> void:
-	if not can_shoot or not is_aiming:
-		return
-	
-	if inventory_data.items.is_empty():
-		is_aiming = false
-	else:
-		if not inventory_data.item_mode == InventoryData.ItemMode.ACTIVE:
-			is_aiming = true
-			inventory_data.item_mode = InventoryData.ItemMode.ACTIVE
-			update_equipped_item()
-			hud.update_ammo_label(inventory_data)
-
-	if inventory_data.current_index < 0 or inventory_data.current_index >= inventory_data.get_size():
-		print("No item equipped")
-		return
-	
-	can_shoot = false  # block further shots
-	await fire_weapon_with_delay()
-
-#
-### The coroutine for firing after initial delay
-func fire_weapon_with_delay() -> void:
-	var item = inventory_data.get_current_item()
-	
-	# Wait initial shooting delay BEFORE firing
-	await get_tree().create_timer(item.initial_shooting_delay).timeout
-
-	# Do raycast
-	raycast.target_position = Vector3.FORWARD * item.range
-	raycast.force_raycast_update()
-
-	var result: bool = inventory_data.shoot_current_weapon()
-
-	if result:
-		hud.update_ammo_label(inventory_data)
-		
-		$Skin/MaxSkin/Max_Shooter/max/Skeleton3D/HandBone/GunSound.stream = load(item.sound_path)
-		$Skin/MaxSkin/Max_Shooter/max/Skeleton3D/HandBone/GunSound.play()
-		animation_node.shoot()
-
-		if item.uses_ammo:
-			var weapon = equipped_item.get_child(0) if equipped_item.get_child_count() > 0 else null
-
-			if weapon and weapon.has_node("MuzzleOrigin"):
-				var muzzle = weapon.get_node("MuzzleOrigin")
-				muzzle_flash.global_position = muzzle.global_position
-				muzzle_flash.global_rotation = muzzle.global_rotation
-				muzzle_flash.fire_weapon()
-
-		if raycast.is_colliding():
-			var target = raycast.get_collider()
-			if target and target.has_method("change_health"):
-				target.change_health(-item.damage)
-				print("Attacked ", target, " for ", item.damage, " damage")
-
-	# Wait between shots (non-blocking)
-	await get_tree().create_timer(item.between_shooting_delay).timeout
-	can_shoot = true
-
-
+func check_for_raycast_collision() -> bool:
+	return true
 # This updates the item that the player has equipped
 func update_equipped_item():
 	if inventory_data.item_mode == InventoryData.ItemMode.ACTIVE and inventory_data.current_index >= 0 and inventory_data.current_index < inventory_data.get_size():
@@ -448,27 +320,12 @@ func set_inventory_selection(index: int):
 	inventory_data.set_current_index(index)
 	inventory_data.item_mode = InventoryData.ItemMode.ACTIVE
 	update_equipped_item()
-	hud.update_ammo_label(inventory_data)
+	
 
 func drop_current_item():
 	if inventory_data.current_index >= 0:
 		processor.spawn_pickup_near_character(inventory_data.remove_current_item(), self)
 		update_equipped_item()
-		hud.update_ammo_label(inventory_data)
+		
 
-func holster():
-	if(inventory_data.item_mode == InventoryData.ItemMode.ACTIVE):
-		inventory_data.item_mode = InventoryData.ItemMode.HOLSTER
-		is_aiming = false
-		print("item holstered but still active")
-	elif(inventory_data.item_mode == InventoryData.ItemMode.HOLSTER):
-		equipped_item.equip_item(null)
-		inventory_data.item_mode = InventoryData.ItemMode.INACTIVE
-		print("unequipped any item")
-
-func immobilize():
-	character_data.can_move = false
-
-func unimmobilize():
-	character_data.can_move = true
 ####################################################################################################

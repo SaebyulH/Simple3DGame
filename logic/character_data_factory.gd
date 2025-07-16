@@ -16,8 +16,8 @@ func create_player_character_data() -> CharacterData:
 	character_data.speed = 5.0
 	character_data.can_move = true
 	character_data.jump_force = 5.0
-	character_data.health = 2500000
-	character_data.max_health = 2500000
+	character_data.health = 9000
+	character_data.max_health = 9000
 	character_data.display_name = "Main Character"
 	character_data.wealth = 0
 	return character_data
@@ -46,7 +46,7 @@ func create_basic_enemy_character_data() -> CharacterData:
 
 func create_advanced_npc_character_data() -> CharacterData:
 	var character_data = CharacterData.new()
-	character_data.speed = 2.0
+	character_data.speed = 3.5
 	character_data.can_move = true
 	character_data.jump_force = 5.0
 	character_data.health = 200

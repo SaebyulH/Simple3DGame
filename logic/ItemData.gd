@@ -5,6 +5,7 @@ class_name ItemData
 enum ItemType {RIFLE, PISTOL, MISC}
 #enum AmmoType {REVOLVER_AMMO, SNIPER_AMMO}
 enum ShootingMode {AUTO, SEMI_AUTO, SAFETY}
+enum ShootingType {HITSCAN, PROJECTILE}
 # Data stats
 @export var item_type: ItemType 
 @export var display_name: String
@@ -18,6 +19,8 @@ enum ShootingMode {AUTO, SEMI_AUTO, SAFETY}
 @export var mag_size: int
 
 @export var shooting_mode : ShootingMode
+@export var shooting_type : ShootingType
+
 @export var initial_shooting_delay : float # How long to shoot each bullet BEFORE pressing button
 @export var between_shooting_delay: float  # how long added AFTER each bullet
 
@@ -28,4 +31,5 @@ enum ShootingMode {AUTO, SEMI_AUTO, SAFETY}
 # Visual stats
 @export var scene_path: String
 @export var view_model: PackedScene  # New field to store the item's 3D mesh
+@export var projectile_path: String
 @export var sound_path: String
