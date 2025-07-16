@@ -1,8 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://ccexf8pwesf6c"]
+[gd_scene load_steps=10 format=3 uid="uid://cp72lt5mk27d5"]
 
-[ext_resource type="Script" uid="uid://cass8ms31dqmv" path="res://entities/player/Player.gd" id="1_4mpe4"]
-[ext_resource type="PackedScene" uid="uid://dm20wnkb5xoss" path="res://entities/player/temp_max_skin_blender/max_skin.tscn" id="3_eaotn"]
-[ext_resource type="PackedScene" uid="uid://ck2bw42yn1a2a" path="res://effects/muzzle_flash.tscn" id="3_l3c03"]
+[ext_resource type="Script" uid="uid://dssn0o2oqllir" path="res://entities/player/advanced_character.gd" id="1_kyjm3"]
+[ext_resource type="PackedScene" uid="uid://dm20wnkb5xoss" path="res://entities/player/temp_max_skin_blender/max_skin.tscn" id="2_e4gex"]
+[ext_resource type="PackedScene" uid="uid://ck2bw42yn1a2a" path="res://effects/muzzle_flash.tscn" id="3_r1mhy"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_kyjm3"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bu0v1"]
 
@@ -10,35 +12,29 @@
 
 [sub_resource type="BoxMesh" id="BoxMesh_cvunv"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kyjm3"]
+albedo_color = Color(1, 0, 0, 1)
+metallic = 1.0
+roughness = 0.03
+
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_453mm"]
 random_pitch = 2.0
 
-[node name="Player" type="CharacterBody3D"]
+[node name="AdvancedCharacter" type="CharacterBody3D"]
 transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, 0, 0, 0)
-script = ExtResource("1_4mpe4")
+script = ExtResource("1_kyjm3")
 
 [node name="Head" type="Node3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(1, -7.64274e-15, -1.74846e-07, 7.64274e-15, 1, 0, 1.74846e-07, 0, 1, 0, 1.4157, 0)
 
-[node name="SpringParent" type="Node3D" parent="Head"]
-transform = Transform3D(0.707106, 0, 0.707106, 0, 1, 0, -0.707106, 0, 0.707106, 0, 0, 0)
-
-[node name="SpringArm3D" type="SpringArm3D" parent="Head/SpringParent"]
-spring_length = 0.0
-margin = 0.05
-
-[node name="MarginThing" type="Node3D" parent="Head/SpringParent/SpringArm3D"]
-
-[node name="Camera3D" type="Camera3D" parent="Head/SpringParent/SpringArm3D/MarginThing"]
-transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0, 0, 0)
-fov = 90.0
-
-[node name="RayCast3D" type="RayCast3D" parent="Head/SpringParent/SpringArm3D/MarginThing/Camera3D"]
+[node name="RayCast3D" type="RayCast3D" parent="Head"]
+transform = Transform3D(0.999041, -1.69407e-21, -3.79296e-09, 1.69407e-21, 0.999041, -1.33502e-21, 3.79296e-09, 5.09223e-29, 0.999041, 0, 0, 0)
 target_position = Vector3(0, 0, -100)
 
-[node name="Node3D" type="Node3D" parent="Head/SpringParent/SpringArm3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Head"]
+visible = false
+mesh = SubResource("BoxMesh_kyjm3")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -56,16 +52,37 @@ mesh = SubResource("BoxMesh_cvunv")
 [node name="Skin" type="Node3D" parent="."]
 transform = Transform3D(0.998004, 0, 0, 0, 0.998004, 0, 0, 0, 0.998004, 0, 0, 0)
 
-[node name="MaxSkin" parent="Skin" instance=ExtResource("3_eaotn")]
+[node name="MaxSkin" parent="Skin" instance=ExtResource("2_e4gex")]
 
 [node name="Skeleton3D" parent="Skin/MaxSkin/Max_Shooter/max" index="0"]
 bones/43/rotation = Quaternion(0.241954, 6.2143e-06, -9.84742e-07, 0.970288)
 bones/44/rotation = Quaternion(-0.206342, -2.32619e-07, -4.97865e-10, 0.97848)
 
+[node name="Body" parent="Skin/MaxSkin/Max_Shooter/max/Skeleton3D" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_kyjm3")
+
+[node name="earphones" parent="Skin/MaxSkin/Max_Shooter/max/Skeleton3D" index="1"]
+visible = false
+
+[node name="eyelashes" parent="Skin/MaxSkin/Max_Shooter/max/Skeleton3D" index="2"]
+visible = false
+
+[node name="eyes_001" parent="Skin/MaxSkin/Max_Shooter/max/Skeleton3D" index="3"]
+visible = false
+
+[node name="hair" parent="Skin/MaxSkin/Max_Shooter/max/Skeleton3D" index="4"]
+surface_material_override/0 = SubResource("StandardMaterial3D_kyjm3")
+
+[node name="Head" parent="Skin/MaxSkin/Max_Shooter/max/Skeleton3D" index="5"]
+surface_material_override/0 = SubResource("StandardMaterial3D_kyjm3")
+
+[node name="Head_001" parent="Skin/MaxSkin/Max_Shooter/max/Skeleton3D" index="6"]
+surface_material_override/0 = SubResource("StandardMaterial3D_kyjm3")
+
 [node name="GunSound" type="AudioStreamPlayer3D" parent="Skin/MaxSkin/Max_Shooter/max/Skeleton3D/HandBone" index="1"]
 stream = SubResource("AudioStreamRandomizer_453mm")
 
-[node name="MuzzleFlash" parent="Skin/MaxSkin/Max_Shooter/max/Skeleton3D/HandBone" index="2" instance=ExtResource("3_l3c03")]
+[node name="MuzzleFlash" parent="Skin/MaxSkin/Max_Shooter/max/Skeleton3D/HandBone" index="2" instance=ExtResource("3_r1mhy")]
 transform = Transform3D(-0.0429914, 0.0512349, -0.0139284, 0.00199821, 0.0194705, 0.0654537, 0.0530567, 0.0407819, -0.0137512, 0.00524312, 0.0706743, 0.0418078)
 
 [node name="HeadBone" parent="Skin/MaxSkin/Max_Shooter/max/Skeleton3D" index="9"]
@@ -90,11 +107,11 @@ parameters/straight_neck/blend_amount = 0
 parameters/switch_weapon_blend/blend_position = 0
 parameters/walk/blend_position = 0.0125
 
-[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
-
 [node name="InitialShotTimer" type="Timer" parent="."]
 
 [node name="BetweenShotTimer" type="Timer" parent="."]
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 
 [editable path="Skin/MaxSkin"]
 [editable path="Skin/MaxSkin/Max_Shooter"]

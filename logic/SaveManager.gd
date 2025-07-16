@@ -2,21 +2,29 @@ extends Node
 
 var should_load_game := false
 
-func save_game(player, main_node):
+func save_game(main_node):
 	var state = GameState.new()
-	state.player_data = player.get_save_data()
+	#state.player_data = player.get_save_data()
 	state.world_data = get_world_save_data(main_node)
 	ResourceSaver.save(state, "user://save_data.tres")
 	print("💾 Game saved.")
 
-func load_game(main_node: Node) -> GameState:
+func load_game(main_node: Node) -> GameState: 
 	if ResourceLoader.exists("user://save_data.tres"):
 		var state = ResourceLoader.load("user://save_data.tres") as GameState
-		apply_world_save_data(state.world_data, main_node)
+		var saveables_node = main_node.get_node("Saveables")
+
+		for child in saveables_node.get_children():
+			child.queue_free()
+
+		await get_tree().process_frame  # Explicit wait
+
+		_apply_world_save_data(state.world_data, main_node)
 		return state
 	else:
 		print("⚠️ Save file does not exist.")
 		return null
+
 
 #func get_world_save_data() -> WorldData:
 	#var world_data = WorldData.new()
@@ -55,14 +63,17 @@ func get_world_save_data(main_node: Node) -> WorldData:
 		#else:
 			#print("⚠️ No saved data for saveable with ID: %s" % id)
 
-func apply_world_save_data(world_data: WorldData, main_node: Node) -> void:
+func _queue_free_saveables(main_node: Node) -> void:
 	var saveables_node = main_node.get_node("Saveables")
 	var saveables = saveables_node.get_children()
 	# clear children
 	for child in saveables:
 		child.queue_free()
-	
-	# add data
+
+
+func _apply_world_save_data(world_data: WorldData, main_node: Node) -> void:
+	var saveables_node = main_node.get_node("Saveables")
+	var saveables = saveables_node.get_children()
 	
 	for saveable_data in world_data.saveables_data:
 		var scene_path = saveable_data["scene_path"]
@@ -71,5 +82,3 @@ func apply_world_save_data(world_data: WorldData, main_node: Node) -> void:
 		var instance = scene_resource.instantiate()
 		saveables_node.add_child(instance)
 		instance.apply_save_data(saveable_data)
-
-		

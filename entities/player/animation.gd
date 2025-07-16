@@ -1,6 +1,6 @@
 extends Node3D
 
-@export var player: Player
+@export var player: AdvancedCharacter
 @onready var animation_tree: AnimationTree = $"../AnimationTree"
 @onready var target := $"../Target"
 #enum player.MoveMode { WALK, SPRINT, CROUCH }
@@ -38,18 +38,34 @@ const SWITCH_WEAPON = "parameters/switch_weapon/request"
 const SWITCH_WEAPON_BLEND = "parameters/switch_weapon_blend/blend_position"
 
 const SHOOT = "parameters/shoot/request"
-var smoothed_camera_direction: Vector3
+var smoothed_target_reference_direction: Vector3
+var target_reference : Node3D
 
 var is_using_pistol: bool
 
+
+
 func _ready() -> void:
 	animation_tree.active = true
+	
+	player.inventory_data.change_current_index(1)
+	player.inventory_data.item_mode = InventoryData.ItemMode.ACTIVE
+
+	target_reference = player.get_node_or_null("Head")
+	if not target_reference:
+		target_reference = player.get_node("Head/SpringParent/SpringArm3D/MarginThing/Camera3D")
+		if not target_reference:
+			print("SOMETHING REALLY SHITTY HAPPNED WITH THE TARGET REF CAMERA THING IN ANINMATOBN")
 	$"../Max_Shooter/max/Skeleton3D/SpineIK".start()
 
 
 
 
 func _physics_process(delta: float) -> void:
+	#print(is_using_pistol)
+	var pist = player.inventory_data.get_current_item()
+	if pist:
+		is_using_pistol = pist.item_type == ItemData.ItemType.PISTOL
 	if player == null:
 		return
 
@@ -125,11 +141,15 @@ func _physics_process(delta: float) -> void:
 	animation_tree.set(AIM_TRANSITION_REQUEST, "aiming" if is_aiming else "not_aiming")
 
 	# === Camera control ===
-	var camera = player.get_node("Head/SpringParent/SpringArm3D/MarginThing/Camera3D")
-	var target_camera_direction = target.global_transform.origin + camera.global_transform.basis.z * 1000
-	smoothed_camera_direction = lerp(smoothed_camera_direction, target_camera_direction, blend_lerp_speed * delta)
-	smoothed_camera_direction.x = target_camera_direction.x
-	target.look_at(smoothed_camera_direction, Vector3.UP)
+	
+
+	var target_target_reference_direction = target.global_transform.origin + target_reference.global_transform.basis.z * 1000
+	smoothed_target_reference_direction = lerp(smoothed_target_reference_direction, target_target_reference_direction, blend_lerp_speed * delta)
+	smoothed_target_reference_direction.x = target_target_reference_direction.x
+	target.look_at(smoothed_target_reference_direction, Vector3.UP)
+	
+	
+
 	
 func reload():
 	animation_tree.set(RELOAD, AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)

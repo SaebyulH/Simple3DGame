@@ -4,13 +4,9 @@ class_name NonPlayerCharacter
 var talkable : bool
 var tradeable : bool
 
-
-
-
-
 var inventory_data: InventoryData = InventoryData.new()
 var character_data: CharacterData = CharacterData.new()
-@onready var player: Node = get_tree().get_root().get_node("Main/Player")
+@onready var player: Node = get_tree().get_root().get_node("Main/Saveables/Player")
 @onready var processor: Node = get_tree().get_root().get_node("Main/Processor")  # Adjust this path as needed
 
 func _ready() -> void:

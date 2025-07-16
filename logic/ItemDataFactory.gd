@@ -52,7 +52,7 @@ func create_shit_pistol() -> ItemData:
 	item_data.shooting_mode = ItemData.ShootingMode.SEMI_AUTO
 	item_data.initial_shooting_delay = 0.6
 	item_data.between_shooting_delay = 0.4
-	item_data.range = 20
+	item_data.range = 10
 	item_data.damage = 45
 	item_data.scene_path = "res://entities/saveables/saveable_interactables/pickup_objects/shit_pistol/shit_pistol.tscn"
 	item_data.view_model = load("res://entities/player/viewmodels/shit_pistol_model.tscn")

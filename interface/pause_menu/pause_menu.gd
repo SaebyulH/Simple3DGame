@@ -2,7 +2,7 @@ extends CanvasLayer
 
 #@export var pausable := true
 @export var can_save := true
-@onready var player := get_tree().get_root().get_node("Main/Player")
+#@onready var player := get_tree().get_root().get_node("Main/Saveables/Player")
 @onready var processor := get_tree().get_root().get_node("Main/Processor")
 @onready var main_node := get_tree().get_root().get_node("Main")
 @onready var save_button := $Control/VBoxContainer/SaveGame
@@ -21,8 +21,6 @@ func enable_saves():
 	save_button.disabled = false
 	save_button.text = "Save Game"
 	
-
-
 func _on_quit_to_menu_pressed() -> void:
 	Dialogic.end_timeline()
 	get_tree().paused = false
@@ -32,8 +30,5 @@ func _on_return_to_game_pressed() -> void:
 	processor.unpause_game()
 
 func _on_save_game_pressed() -> void:
-	if player:
-		SaveManagerSingleton.save_game(player, main_node)
-		Dialogic.Save.save()
-	else:
-		print("Player not found. Cannot save.")
+	SaveManagerSingleton.save_game(main_node)
+	Dialogic.Save.save()

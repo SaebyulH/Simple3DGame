@@ -15,7 +15,7 @@ class_name PlayerHUD
 @onready var enemy_health_label := $MarginContainer2/VBoxContainer/EnemyHealth
 @onready var ammo_label := $MarginContainer3/VBoxContainer/AmmoLabel
 
-@onready var player := get_tree().root.get_node("Main/Player")
+@onready var player := get_tree().root.get_node("Main/Saveables/Player")
 
 func update_ammo_label(inventory_data: InventoryData):
 	if inventory_data.get_current_item() and inventory_data.get_current_item().uses_ammo:

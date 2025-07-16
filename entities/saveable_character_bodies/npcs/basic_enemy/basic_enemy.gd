@@ -12,7 +12,7 @@ func _ready() -> void:
 	scene_path = "res://entities/saveable_character_bodies/npcs/basic_enemy/basic_enemy.tscn"
 
 func _physics_process(delta):
-	
+	#print("SHIT")
 	if not player:
 		return
 	

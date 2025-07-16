@@ -1,7 +1,7 @@
 extends SaveableInteractable
 class_name DialogueObject
 
-@onready var player: Node = get_tree().get_root().get_node("Main/Player")  # Adjust this path as needed
+@onready var player: Node = get_tree().get_root().get_node("Main/Saveables/Player")  # Adjust this path as needed
 @onready var processor: Node = get_tree().get_root().get_node("Main/Processor")  # Adjust this path as needed
 
 func _ready() -> void:

@@ -19,17 +19,18 @@ func _ready() -> void:
 func _load_dialogic() -> void:
 	Dialogic.Save.load()
 
-func _maybe_load_save():
+func _maybe_load_save() -> void:
 	if SaveManagerSingleton.should_load_game:
-		var data = SaveManagerSingleton.load_game(main_node)
+		var data = await SaveManagerSingleton.load_game(main_node)
 		if data:
-			player.apply_save_data(data.player_data)
+			# player.apply_save_data(data.player_data)
 			Dialogic.Save.load()
 		else:
 			print("⚠️ Could not load save data.")
 		SaveManagerSingleton.should_load_game = false
 	else:
 		print("🆕 Starting new game (no load)")
+
 
 func _input(event):
 	
@@ -109,6 +110,13 @@ func show_trade():
 	trade_menu.update()
 	get_tree().paused = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+func spawn_scene_at_position(scene_path: String, position: Vector3):
+	pass
+
+
+
+
 
 func spawn_pickup_near_character(saveable_data: ItemData, character: Node3D):
 	var scene_path = saveable_data.scene_path

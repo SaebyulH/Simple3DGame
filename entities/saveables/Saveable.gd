@@ -11,6 +11,7 @@ func _ready():
 
 func get_save_data() -> Dictionary:
 	return {
+		"name": name,
 		"scene_path": scene_path,
 		"position": global_position,
 		"rotation": global_rotation,
@@ -21,6 +22,9 @@ func get_save_data() -> Dictionary:
 func apply_save_data(data: Dictionary) -> void:
 	#if data.has("scene_path"):
 		#scene_path = data["scene_path"]
+	if data.has("name"):
+		name = data["name"]
+		print(name)
 	if data.has("position"):
 		global_position = data["position"]
 	if data.has("rotation"):
