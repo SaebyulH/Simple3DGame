@@ -60,6 +60,8 @@ func _process(delta):
 	
 	# Camera
 func _physics_process(delta):
+	if not global_position or not destination_node:
+		return
 	var distance_to_target = global_position.distance_to(destination_node.global_position)
 	if distance_to_target >= 30:
 		pass
@@ -145,10 +147,11 @@ func _get_interact_target() -> Node3D:
 # Save functions ###################################################################################
 func get_save_data() -> Dictionary:
 	var data = super()
-	data["scene_path"] = "res://entities/player/Player.tscn"
+	data["scene_path"] = "res://entities/player/AdvancedCharacter.tscn"
 	data["move_mode"] = move_mode
 	data["inventory_data"] = inventory_data
 	data["character_data"] = character_data
+	data["destination_node"] = destination_node
 	
 	data["head_rotation_x"] = $Head.rotation.x
 	return data
@@ -162,7 +165,8 @@ func apply_save_data(data: Dictionary):
 		inventory_data = data["inventory_data"]
 	if data.has("character_data"):
 		character_data = data["character_data"]
-		
+	if data.has("destination_node"):
+		destination_node = data["destination_node"]
 	if data.has("head_rotation_x"):
 		$Head.rotation.x = data["head_rotation_x"]
 	

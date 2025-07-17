@@ -2,7 +2,7 @@ extends Saveable
 
 var detonation_time_left := 3.5
 @export var damage_radius := 5
-@export var damage_amount := 20.0
+@export var damage_amount := 50.0
 @export var early_detonation_radius := 1.0  # Use a smaller radius for early detection
 @onready var explosion := $Explosion
 

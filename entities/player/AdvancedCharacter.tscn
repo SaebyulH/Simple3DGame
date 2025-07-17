@@ -176,8 +176,8 @@ body_offset = Transform3D(1.00104, -1.46031e-06, -5.13494e-05, -5.13792e-05, -1.
 
 [node name="Physical Bone lowerarm_r" parent="Skin/MaxSkin/Max_Shooter/max/Skeleton3D/PhysicalBoneSimulator3D" index="11"]
 transform = Transform3D(-0.619335, 0.786306, -0.015037, 0.589645, 0.4516, -0.67116, -0.520406, -0.424099, -0.742561, -0.296631, 1.2067, 0.191569)
-joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.28508e-06, -1.03486e-05, 0.104164)
-body_offset = Transform3D(1.00104, 9.53674e-07, 1.97887e-05, 1.98185e-05, 5.03659e-06, -1.00104, -9.08971e-07, 1.00104, 5.03659e-06, -7.7486e-07, 0.104273, 9.83477e-06)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.27887e-06, -1.03455e-05, 0.104164)
+body_offset = Transform3D(1.00104, 9.53674e-07, 1.97291e-05, 1.98185e-05, 5.03659e-06, -1.00104, -9.08971e-07, 1.00104, 5.00679e-06, -7.7486e-07, 0.104273, 9.83477e-06)
 
 [node name="Physical Bone hand_r" parent="Skin/MaxSkin/Max_Shooter/max/Skeleton3D/PhysicalBoneSimulator3D" index="12"]
 transform = Transform3D(0.771192, -0.63515, -0.0626627, -0.462832, -0.488874, -0.740856, 0.439464, 0.599721, -0.670288, -0.292066, 1.31215, 0.301081)
@@ -191,8 +191,8 @@ body_offset = Transform3D(1.00104, 3.53903e-08, 1.30385e-08, -1.11759e-08, 1.704
 
 [node name="Physical Bone thigh_l" parent="Skin/MaxSkin/Max_Shooter/max/Skeleton3D/PhysicalBoneSimulator3D" index="14"]
 transform = Transform3D(0.799955, -0.600816, -0.0342241, -0.0299185, -0.0965654, 0.995921, -0.601046, -0.794842, -0.0951247, 0.101939, 0.577592, 0.0365275)
-joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.58294e-06, 1.87313e-05, 0.204676)
-body_offset = Transform3D(1.00104, -1.19209e-06, -6.15045e-06, -5.96046e-06, 2.79397e-06, -1.00104, 1.07288e-06, 1.00104, 2.74181e-06, 1.08518e-05, 0.204889, -1.93119e-05)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.58447e-06, 1.87298e-05, 0.204676)
+body_offset = Transform3D(1.00104, -1.19209e-06, -6.143e-06, -5.96046e-06, 2.79397e-06, -1.00104, 1.07288e-06, 1.00104, 2.74926e-06, 1.08518e-05, 0.204889, -1.93119e-05)
 
 [node name="Physical Bone calf_l" parent="Skin/MaxSkin/Max_Shooter/max/Skeleton3D/PhysicalBoneSimulator3D" index="15"]
 transform = Transform3D(0.979483, -0.203789, -0.0341007, 0.130025, 0.479528, 0.869037, -0.160581, -0.854753, 0.495672, 0.114365, 0.235081, -0.0230807)

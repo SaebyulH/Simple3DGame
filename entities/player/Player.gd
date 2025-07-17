@@ -267,6 +267,7 @@ func check_for_enemy():
 func get_save_data() -> Dictionary:
 	var data = super()
 	# Player Specific
+	data["scene_path"] = "res://entities/player/Player.tscn"
 	data["mouse_sensitivity"] = mouse_sensitivity
 	data["camera_mode"] = camera_mode
 	data["time_elapsed"] = elapsed_time
