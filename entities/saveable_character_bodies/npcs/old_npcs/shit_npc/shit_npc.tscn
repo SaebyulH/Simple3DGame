@@ -1,0 +1,80 @@
+[gd_scene load_steps=15 format=3 uid="uid://6upwjpfcvyex"]
+
+[ext_resource type="Script" uid="uid://sw4xo5hgr7mi" path="res://entities/saveable_character_bodies/npcs/old_npcs/shit_npc/shit_npc.gd" id="1_sqqyq"]
+[ext_resource type="PackedScene" uid="uid://d4gc7x3oc3oqi" path="res://entities/saveable_character_bodies/npcs/old_npcs/shit_npc/shit_character.glb" id="2_v1ewn"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_v1ewn"]
+animation = &"Action"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_840ns"]
+animation = &"Action_001"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fy1i6"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ldy3h"]
+advance_mode = 2
+advance_condition = &"TakeDamage"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_in3am"]
+advance_mode = 2
+advance_condition = &"Idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_lexwv"]
+advance_mode = 2
+advance_condition = &"Run"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ufh34"]
+advance_mode = 2
+advance_condition = &"Idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_w1nsn"]
+advance_mode = 2
+advance_condition = &"TakeDamage"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_snk6f"]
+advance_mode = 2
+advance_condition = &"Run"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_i6gig"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_v1ewn"]
+states/Action/node = SubResource("AnimationNodeAnimation_v1ewn")
+states/Action/position = Vector2(414, 56)
+states/Action_001/node = SubResource("AnimationNodeAnimation_840ns")
+states/Action_001/position = Vector2(536, 212)
+states/Idle/node = SubResource("AnimationNodeAnimation_fy1i6")
+states/Idle/position = Vector2(304, 203.333)
+states/Start/position = Vector2(97.3333, 121.333)
+transitions = ["Idle", "Action_001", SubResource("AnimationNodeStateMachineTransition_ldy3h"), "Action_001", "Idle", SubResource("AnimationNodeStateMachineTransition_in3am"), "Idle", "Action", SubResource("AnimationNodeStateMachineTransition_lexwv"), "Action", "Idle", SubResource("AnimationNodeStateMachineTransition_ufh34"), "Action", "Action_001", SubResource("AnimationNodeStateMachineTransition_w1nsn"), "Action_001", "Action", SubResource("AnimationNodeStateMachineTransition_snk6f"), "Start", "Idle", SubResource("AnimationNodeStateMachineTransition_i6gig")]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_v1ewn"]
+radius = 0.238904
+
+[node name="ShitNPCSkin" type="CharacterBody3D"]
+script = ExtResource("1_sqqyq")
+
+[node name="shit_character" parent="." instance=ExtResource("2_v1ewn")]
+transform = Transform3D(0.434393, 0, 0, 0, 0.434393, 0, 0, 0, 0.434393, 0, 0, 0)
+
+[node name="Skeleton3D" parent="shit_character/Armature" index="0"]
+bones/5/rotation = Quaternion(1.43914e-07, 9.15878e-08, -0.625944, 0.779868)
+bones/8/rotation = Quaternion(5.35283e-08, 3.47636e-09, 0.608423, 0.793613)
+bones/11/rotation = Quaternion(-0.707107, 2.66925e-08, -2.66925e-08, 0.707107)
+bones/15/rotation = Quaternion(-0.707107, -2.66925e-08, 2.66925e-08, 0.707107)
+bones/16/rotation = Quaternion(3.49588e-09, 8.46918e-11, 0.0463564, 0.998925)
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+root_node = NodePath("../shit_character")
+tree_root = SubResource("AnimationNodeStateMachine_v1ewn")
+anim_player = NodePath("../shit_character/AnimationPlayer")
+parameters/conditions/Idle = false
+parameters/conditions/Run = false
+parameters/conditions/TakeDamage = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_v1ewn")
+
+[editable path="shit_character"]

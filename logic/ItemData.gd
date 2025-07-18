@@ -25,7 +25,7 @@ enum ShootingType {HITSCAN, PROJECTILE}
 @export var between_shooting_delay: float  # how long added AFTER each bullet
 
 
-@export var range: float
+@export var hitscan_range: float
 @export var damage: int
 
 # Visual stats

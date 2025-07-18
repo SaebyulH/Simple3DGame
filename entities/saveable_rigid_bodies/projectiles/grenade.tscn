@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://dvf3me1hlvthy"]
+
+[ext_resource type="Script" uid="uid://b33tmqrbiobma" path="res://entities/saveable_rigid_bodies/projectiles/grenade.gd" id="1_03oey"]
+[ext_resource type="PackedScene" uid="uid://dmo2fwgg5xkfg" path="res://effects/explosion.tscn" id="2_uqwix"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_kevts"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_03oey"]
+albedo_color = Color(0.429788, 0.432404, 0.413995, 1)
+metallic = 1.0
+roughness = 0.35
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uqwix"]
+
+[node name="Grenade" type="RigidBody3D"]
+script = ExtResource("1_03oey")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.200285, 0, 0, 0, 0.200285, 0, 0, 0, 0.200285, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_kevts")
+surface_material_override/0 = SubResource("StandardMaterial3D_03oey")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.38688, 0, 0, 0, 0.38688, 0, 0, 0, 0.38688, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_uqwix")
+
+[node name="Explosion" parent="." instance=ExtResource("2_uqwix")]
+visible = false

@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://b4d8rq8pdhy1b"]
-
-[ext_resource type="Script" uid="uid://e3m12npyypgp" path="res://entities/saveable_character_bodies/SaveableCharacterBody3D.gd" id="1_bqndv"]
-
-[node name="SaveableChracterBody3d" type="CharacterBody3D"]
-script = ExtResource("1_bqndv")
-metadata/_custom_type_script = "uid://e3m12npyypgp"

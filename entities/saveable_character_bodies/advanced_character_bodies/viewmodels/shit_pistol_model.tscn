@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://bce3jryf8skms"]
+
+[ext_resource type="PackedScene" uid="uid://cewkecxdbg40c" path="res://entities/saveable_rigid_bodies/saveable_interactable_rigid_bodies/pickup_objects/shit_pistol/model/revolver.glb" id="2_2l7ra"]
+
+[node name="ShitPistolModel" type="Node3D"]
+transform = Transform3D(1.00193, 0, 0, 0, 1.00193, 0, 0, 0, 1.00193, 0, 0, 0)
+
+[node name="revolver2" parent="." instance=ExtResource("2_2l7ra")]
+transform = Transform3D(10.4522, 0, 0, 0, 10.4522, 0, 0, 0, 10.4522, 0, -1.17155, -0.621635)
+
+[node name="MuzzleOrigin" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.67753, 3.05317)

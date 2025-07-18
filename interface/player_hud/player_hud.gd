@@ -86,8 +86,8 @@ func update_wealth(wealth: int):
 func update_time(time_elapsed: float):
 	time_label.text = "Time: %.1f s" % time_elapsed
 
-func show_interactable_name(name: String, verb: String):
-	object_name_label.text = name
+func show_interactable_name(display_name: String, verb: String):
+	object_name_label.text = display_name
 	object_name_label.visible = true
 	interact_prompt_label.text = verb + ": [E]"
 	interact_prompt_label.visible = true

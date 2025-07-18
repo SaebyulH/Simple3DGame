@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://clcqffx2pmsng"]
+
+[ext_resource type="Script" uid="uid://ba0dsqkjie6f5" path="res://entities/saveable_rigid_bodies/saveable_interactable_rigid_bodies/test_objects/heal_object/heal_object.gd" id="1_gl44k"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_dq2i0"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gl44k"]
+albedo_color = Color(0.147441, 0.934675, 0.342411, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vgxjg"]
+
+[node name="HealObject" type="RigidBody3D"]
+script = ExtResource("1_gl44k")
+display_name = "Heal Object"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_dq2i0")
+surface_material_override/0 = SubResource("StandardMaterial3D_gl44k")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_vgxjg")

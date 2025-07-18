@@ -73,12 +73,13 @@ func _queue_free_saveables(main_node: Node) -> void:
 
 func _apply_world_save_data(world_data: WorldData, main_node: Node) -> void:
 	var saveables_node = main_node.get_node("Saveables")
-	var saveables = saveables_node.get_children()
 	
 	for saveable_data in world_data.saveables_data:
 		var scene_path = saveable_data["scene_path"]
 		var scene_resource = load(scene_path) # Load the PackedScene
 		
+		if not scene_path:
+			print(scene_path + "is not valid")
 		var instance = scene_resource.instantiate()
 		saveables_node.add_child(instance)
 		instance.apply_save_data(saveable_data)

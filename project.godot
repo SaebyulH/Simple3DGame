@@ -19,10 +19,10 @@ config/icon="res://assets/icon.svg"
 
 SaveManagerSingleton="*res://logic/SaveManager.gd"
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
-ItemFactory="*res://logic/ItemDataFactory.gd"
-CharacterFactory="*res://logic/character_data_factory.gd"
-InventoryFactory="*res://logic/inventory_data_factory.gd"
-AmmoFactory="*res://logic/AmmoDataFactory.gd"
+ItemFactory="res://logic/ItemDataFactory.gd"
+CharacterFactory="res://logic/CharacterDataFactory.gd"
+InventoryFactory="res://logic/InventoryDataFactory.gd"
+AmmoFactory="res://logic/AmmoDataFactory.gd"
 
 [dialogic]
 
@@ -78,6 +78,23 @@ project/assembly_name="Simple3DGame"
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/Asset_Drawer/plugin.cfg", "res://addons/dialogic/plugin.cfg")
+
+[file_customization]
+
+folder_colors={
+"res://addons/": "gray",
+"res://assets/": "gray",
+"res://common/": "gray",
+"res://dialogic/": "gray",
+"res://effects/": "gray",
+"res://entities/": "red",
+"res://entities/saveable_character_bodies/": "yellow",
+"res://entities/saveable_rigid_bodies/": "green",
+"res://entities/saveables/": "orange",
+"res://interface/": "blue",
+"res://logic/": "teal",
+"res://places/": "pink"
+}
 
 [global_group]
 

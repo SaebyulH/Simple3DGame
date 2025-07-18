@@ -7,7 +7,7 @@ extends Node
 @onready var trade_menu = get_parent().get_node("TradeMenu")
 @onready var inventory_screen = get_parent().get_node("InventoryScreen")
 
-@onready var player = get_parent().get_node("Player")
+@onready var player = get_parent().get_node("Saveables/Player")
 
 @export var in_dialogue := false
 
@@ -111,8 +111,8 @@ func show_trade():
 	get_tree().paused = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
-func spawn_scene_at_position(scene_path: String, position: Vector3):
-	pass
+#func spawn_scene_at_position(scene_path: String, position: Vector3):
+	#pass
 
 
 func spawn_projectile(scene_path: String, character: Node3D):

@@ -7,8 +7,8 @@ func _ready() -> void:
 	talkable = true
 	tradeable = true
 	
-	character_data = CharacterFactory.create_merchant_character_data()
-	inventory_data = InventoryFactory.create_merchant_inventory_data()
+	character_data = CharacterDataFactory.create_merchant_character_data()
+	inventory_data = InventoryDataFactory.create_merchant_inventory_data()
 
 func interact(player: Player):
 	start_dialogue("default_merchant_timeline")

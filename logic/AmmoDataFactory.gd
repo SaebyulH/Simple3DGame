@@ -1,5 +1,5 @@
-
 extends Node
+class_name AmmoDataFactory
 
 static func create_default_ammo(count := 6) -> AmmoData:
 	var ammo = AmmoData.new()

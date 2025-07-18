@@ -6,13 +6,16 @@ class_name SaveableInteractable
 
 func _ready() -> void:
 	super()
-	var scene_path := "res://entities/saveables/Saveable.tscn"
+	scene_path = "res://entities/saveables/Saveable.tscn"
 
 func get_interact_verb() -> String:
 	return "Interact"
 
 func get_display_name() -> String:
 	return display_name
+
+
+
 
 func get_save_data() -> Dictionary:
 	var save_data = super()

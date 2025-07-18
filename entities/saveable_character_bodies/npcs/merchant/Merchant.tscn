@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dixt8o2033i0g"]
 
-[ext_resource type="Script" uid="uid://d1gnsp0i27aev" path="res://entities/saveable_character_bodies/npcs/merchant/Merchant.gd" id="1_mkhri"]
+[ext_resource type="Script" uid="uid://d1gnsp0i27aev" path="res://entities/saveable_character_bodies/npcs/merchant/merchant.gd" id="1_mkhri"]
 [ext_resource type="PackedScene" uid="uid://ca5chunr44pgq" path="res://entities/saveable_character_bodies/npcs/merchant/merchant_weaponsglb.glb" id="2_f0e7m"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_mma1f"]

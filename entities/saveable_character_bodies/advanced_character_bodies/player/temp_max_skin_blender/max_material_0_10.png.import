@@ -1,0 +1,38 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://cukdy1qth2biq"
+path.s3tc="res://.godot/imported/max_material_0_10.png-4ac98be19f6cca3ce004b4ea846fb4d4.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "f35c6062a49ab301b209bbfce9d5328e"
+}
+
+[deps]
+
+source_file="res://entities/saveable_character_bodies/advanced_character_bodies/player/temp_max_skin_blender/max_material_0_10.png"
+dest_files=["res://.godot/imported/max_material_0_10.png-4ac98be19f6cca3ce004b4ea846fb4d4.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0
