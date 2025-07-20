@@ -15,6 +15,7 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	call_deferred("_maybe_load_save")
+	CameraManager.reset_cam()
 
 func _load_dialogic() -> void:
 	Dialogic.Save.load()

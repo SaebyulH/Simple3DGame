@@ -1,0 +1,37 @@
+do CameraManager.change_ots_cam("Player")
+advanced_character: Why do you look exactly like me?
+do CameraManager.change_ots_cam("AdvancedCharacter")
+main_character: Why do YOU look exactly like me?
+do CameraManager.change_selfie_cam("AdvancedCharacter")
+advanced_character: You looked exactly like me first! It's up to you to explain!
+do CameraManager.change_selfie_cam("Player")
+main_character: That doesn't even make any sense
+do CameraManager.change_selfie_cam("AdvancedCharacter")
+advanced_character: Well, I can't have an imposter going around
+do CameraManager.change_ots_cam("AdvancedCharacter")
+- I agree!
+	main_character: You know what....
+	I agree! DIE IMPOSTER!
+	do CameraManager.change_selfie_cam("AdvancedCharacter")
+	advanced_character: NO, YOU DIE!
+	[signal arg="hostile"]
+- Let's talk about this!
+	Let's talk about this!
+	main_character: Can't we just be friends?
+	do CameraManager.change_selfie_cam("AdvancedCharacter")
+	advanced_character: No! What if you pretend to be me and go around ruining my reputation?
+	do CameraManager.change_selfie_cam("Player")
+	- Wouldn't I be ruining my own reputation too?
+		main_character: Wouldn't I be ruining my own reputation too?
+		do CameraManager.change_selfie_cam("AdvancedCharacter")
+		advanced_character: You know what...
+		advanced_character: That actually makes sense...
+		do CameraManager.change_selfie_cam("Player")
+		main_character: Truce?
+		do CameraManager.change_selfie_cam("AdvancedCharacter")
+		advanced_character: Fine. Truce.
+	- I think I could only improve it
+		main_character: I think I could only improve it
+		do CameraManager.change_selfie_cam("AdvancedCharacter")
+		advanced_character: WHAT DID YOU SAY???
+		[signal arg="hostile"]

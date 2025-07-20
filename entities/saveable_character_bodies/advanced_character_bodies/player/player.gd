@@ -34,6 +34,7 @@ func _ready() -> void:
 	
 	character_data = CharacterDataFactory.create_player_character_data()
 	inventory_data = InventoryDataFactory.create_player_inventory_data()
+	perform_secondary_fire()
 	
 # Process functions ############################################################
 func _process(delta):
@@ -62,7 +63,7 @@ func _process(delta):
 		snap_to_first()
 	if camera_mode == CameraMode.FIRST_PERSON:
 		camera.global_position = head_bone.global_position
-	set_face_visibility(camera_mode == CameraMode.THIRD_PERSON)
+	set_face_visibility(camera_mode == CameraMode.THIRD_PERSON or processor.in_dialogue)
 
 func _physics_process(delta):
 	if not is_on_floor():

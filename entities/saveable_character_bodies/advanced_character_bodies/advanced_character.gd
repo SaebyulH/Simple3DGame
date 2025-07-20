@@ -4,7 +4,7 @@ class_name AdvancedCharacter
 
 # Universal
 enum MoveMode {WALK, SPRINT, CROUCH}
-const DEFAULT_SKIN_ROTATION := Vector3(0, PI, 0)
+const DEFAULT_SKIN_ROTATION := Vector3(0, 0, 0)
 const SNAP_FIRST_PERSON_DISTANCE := 1
 const SPRING_EXTENDED_LENGTH := 1.8
 const GRAVITY := 9.8
@@ -23,9 +23,11 @@ var move_mode := MoveMode.WALK
 var interact_target: Node = null
 var trade_target: Node = null
 
+var hostile := false
+
 ######################################################
 # Universal
-@onready var processor: Node
+@onready var processor: Node = get_parent().get_parent().get_node("Processor")
 @onready var skin:= $Skin/MaxSkin
 @onready var animation_node := $Skin/MaxSkin/Animation
 
@@ -36,7 +38,8 @@ var trade_target: Node = null
 @onready var muzzle_flash := $Skin/MaxSkin/Max_Shooter/max/Skeleton3D/HandBone/MuzzleFlash
 @onready var navigation_agent : NavigationAgent3D = $NavigationAgent3D
 @onready var head := $Head
-@export var destination_node : Node3D
+
+@export var destination_node : AdvancedCharacter
 
 @onready var initial_timer := $InitialShotTimer
 @onready var between_timer := $BetweenShotTimer
@@ -44,11 +47,12 @@ var trade_target: Node = null
 @onready var gun_sound := $Skin/MaxSkin/Max_Shooter/max/Skeleton3D/HandBone/GunSound
 @onready var hit_sound := $Skin/MaxSkin/Max_Shooter/max/Skeleton3D/HeadBone/HitSound
 
+@onready var selfie_cam := $SelfieCamera
+@onready var ots_cam := $OTSCamera
 # Ready empty for now ##########################################################
 func _ready() -> void:
+	add_to_group("characters")
 	super()
-	destination_node = get_parent().get_node("Player")
-	processor = get_parent().get_parent().get_node("Processor")
 	character_data = CharacterDataFactory.create_advanced_npc_character_data()
 	inventory_data = InventoryDataFactory.create_advanced_npc_inventory_data()
 	interact_raycast = get_node_or_null("Head/InteractRayCast3D")
@@ -60,41 +64,100 @@ func _ready() -> void:
 	unimmobilize()
 	update_equipped_item()
 	skin.rotation = DEFAULT_SKIN_ROTATION
-	
+	Dialogic.signal_event.connect(DialogicSignal)
+	Dialogic.timeline_started.connect(func(): 
+		character_data.can_move = false
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		processor.in_dialogue = true
+		)
+	Dialogic.timeline_ended.connect(func(): 
+		character_data.can_move = true
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		processor.in_dialogue = false
+		CameraManager.reset_cam()
+		)
+	Dialogic.Text.speaker_updated.connect(
+		func(speaker: DialogicCharacter):
+			if speaker and speaker.nicknames[0]:
+				CameraManager.auto_camera(speaker.nicknames[0])
+	)
+
+func interact(player: AdvancedCharacter):
+	interact_target = player
+	var to_target = interact_target.global_transform.origin - global_transform.origin
+	to_target.y = 0  # Ignore vertical difference to only rotate on Y axis
+
+	if to_target.length_squared() > 0.001:  # Avoid NaNs when vectors are too small
+		look_at(global_transform.origin + to_target.normalized(), Vector3.UP)
+	print("Dialogie started lol")
+	interact_target = player
+	Dialogic.start("advanced_npc_autocam_timeline")
+
+
+func get_interact_verb() -> String:
+	return "Talk"
+
+func set_selfie_cam():
+	selfie_cam.set_current(true)
+
+func set_ots_cam():
+	var to = interact_target.head if interact_target.head else interact_target
+	ots_cam.look_at(to.global_position + Vector3(0, -0.3, 0))
+	ots_cam.set_current(true)
+
+
+func DialogicSignal(arg: String):
+	if arg == "hostile":
+		hostile = true
+		print("NOW HOSTILE")
+	#if arg == "exit":
+		#print("dialogue exited")
+		#Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		#interact_target.unimmobilize()
+		#processor.in_dialogue = false
 
 # Process functions ############################################################
 #func _process(delta):
 	#pass
 
-
-	# Camera
+# Camera
 func _physics_process(delta):
 	if not global_position or not destination_node:
 		return
-	var distance_to_target = global_position.distance_to(destination_node.global_position)
-	if distance_to_target >= 30:
-		pass
 	if not is_on_floor():
 		y_velocity -= GRAVITY * delta
 	else:
 		y_velocity = 0
-
 	is_aiming = inventory_data.item_mode == InventoryData.ItemMode.ACTIVE and not inventory_data.items.is_empty()
+	if hostile:
+		hunt_target(delta)
+	else:
+		pass
 
+
+func hunt_target(delta):
+	print("HUNTING")
+	var aim_node = destination_node
+	if destination_node.head:
+		aim_node = destination_node.head
+	
+	var distance_to_target = global_position.distance_to(destination_node.global_position)
+	if distance_to_target >= 30:
+		pass
 	if character_data.can_move:
 		var direction = Vector3()
 		navigation_agent.target_position = destination_node.global_position
 		direction = navigation_agent.get_next_path_position() - global_position
 
 		# Rotate body (Y axis only)
-		var look_dir = destination_node.global_position - global_position
+		var look_dir = aim_node.global_position - global_position
 		look_dir.y = 0
 		if look_dir.length_squared() > 0.01:
 			look_at(global_position + look_dir.normalized(), Vector3.UP)
 
 		# ✅ Rotate head on X axis (pitch) toward destination
 		var head_pos = head.global_position
-		var to_target = destination_node.global_position - head_pos
+		var to_target = aim_node.global_position - head_pos
 		var flat_distance = Vector2(to_target.x, to_target.z).length()
 		var pitch_angle = atan2(to_target.y, flat_distance)  # ✅ Corrected: positive looks down
 
@@ -120,9 +183,7 @@ func _physics_process(delta):
 		velocity.y = y_velocity
 		move_and_slide()
 
-#func get_hit_sound():
-	#return hit_sound
-	
+
 func get_effective_speed() -> float:
 	var factor: float
 	if move_mode == MoveMode.SPRINT:
@@ -166,7 +227,7 @@ func get_save_data() -> Dictionary:
 	data["move_mode"] = move_mode
 	data["inventory_data"] = inventory_data
 	data["character_data"] = character_data
-	data["destination_node"] = destination_node
+	#data["destination_node"] = destination_node
 	
 	data["head_rotation_x"] = $Head.rotation.x
 	return data
@@ -180,8 +241,8 @@ func apply_save_data(data: Dictionary):
 		inventory_data = data["inventory_data"]
 	if data.has("character_data"):
 		character_data = data["character_data"]
-	if data.has("destination_node"):
-		destination_node = data["destination_node"]
+	#if data.has("destination_node"):
+		#destination_node = data["destination_node"]
 	if data.has("head_rotation_x"):
 		$Head.rotation.x = data["head_rotation_x"]
 	
@@ -190,6 +251,7 @@ func apply_save_data(data: Dictionary):
 
 # Gameplay Functions ###############################################################################
 func change_health(amount: int):
+	hostile = true
 	character_data.change_health(amount)
 	if character_data.health <= 0:
 		die()
@@ -288,6 +350,7 @@ func fire_weapon_with_delay() -> void:
 					var crit = false
 					if target.is_in_group("crit_hurtbox"):
 						crit = true
+						print("CRITIAL HIT")
 					else:
 						crit = false
 					
@@ -296,8 +359,9 @@ func fire_weapon_with_delay() -> void:
 					if enemy:
 						enemy.change_health(-(item.damage * multiplier))
 						if crit:
-							enemy.hit_sound.stream = load("res://assets/crit.mp3")
-							enemy.hit_sound.play()
+							if "hit_sound" in enemy:
+								enemy.hit_sound.stream = load("res://assets/crit.mp3")
+								enemy.hit_sound.play()
 					print("Hitscan Attacked ", target, " for ", item.damage, " damage")
 		elif item.shooting_type == ItemData.ShootingType.PROJECTILE:
 			processor.spawn_projectile(item.projectile_path, head)

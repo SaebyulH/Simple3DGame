@@ -23,15 +23,20 @@ ItemFactory="res://logic/ItemDataFactory.gd"
 CharacterFactory="res://logic/CharacterDataFactory.gd"
 InventoryFactory="res://logic/InventoryDataFactory.gd"
 AmmoFactory="res://logic/AmmoDataFactory.gd"
+CameraManager="*res://logic/CameraManager.gd"
 
 [dialogic]
 
 directories/dch_directory={
+"advanced_character": "res://dialogic/characters/advanced_character.dch",
 "arms_dealer": "res://dialogic/characters/arms_dealer.dch",
+"main_character": "res://dialogic/characters/main_character.dch",
 "mysterious_box": "res://dialogic/characters/mysterious_box.dch",
 "wise_crab": "res://dialogic/characters/wise_crab.dch"
 }
 directories/dtl_directory={
+"advanced_npc_autocam_timeline": "res://dialogic/timelines/advanced_npc_autocam_timeline.dtl",
+"advanced_npc_timeline": "res://dialogic/timelines/advanced_npc_timeline.dtl",
 "crab_conversation": "res://dialogic/timelines/crab_conversation.dtl",
 "crab_conversation_2": "res://dialogic/timelines/crab_conversation_2.dtl",
 "default_merchant_timeline": "res://dialogic/timelines/default_merchant_timeline.dtl",
@@ -87,18 +92,19 @@ folder_colors={
 "res://common/": "gray",
 "res://dialogic/": "gray",
 "res://effects/": "gray",
-"res://entities/": "red",
+"res://entities/": "gray",
 "res://entities/saveable_character_bodies/": "yellow",
 "res://entities/saveable_rigid_bodies/": "green",
 "res://entities/saveables/": "orange",
-"res://interface/": "blue",
-"res://logic/": "teal",
-"res://places/": "pink"
+"res://interface/": "gray",
+"res://logic/": "gray",
+"res://places/": "gray"
 }
 
 [global_group]
 
 crit_hurtbox=""
+default_camera=""
 
 [input]
 

@@ -86,7 +86,7 @@ func _format_item_details(item: ItemData) -> String:
 		item.value,
 		item.uses_ammo,
 		item.ammo_type.resource_name if item.uses_ammo and item.ammo_type else "N/A",
-		item.range,
+		item.hitscan_range,
 		item.damage
 	]
 
