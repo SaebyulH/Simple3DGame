@@ -91,7 +91,9 @@ func interact(player: AdvancedCharacter):
 		look_at(global_transform.origin + to_target.normalized(), Vector3.UP)
 	print("Dialogie started lol")
 	interact_target = player
-	Dialogic.start("advanced_npc_autocam_timeline")
+	#Dialogic.start("advanced_npc_autocam_timeline")
+	Dialogic.start("test_lipsync_timeline")
+	
 
 
 func get_interact_verb() -> String:
@@ -110,11 +112,41 @@ func DialogicSignal(arg: String):
 	if arg == "hostile":
 		hostile = true
 		print("NOW HOSTILE")
+		
+	if arg == "test_lipsync":
+		$AudioStreamPlayerLipsync3D.play_lipsync(preload("res://assets/test_wav_voicelines/Harvard list 01.wav-lipsync.tres"))
 	#if arg == "exit":
 		#print("dialogue exited")
 		#Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		#interact_target.unimmobilize()
 		#processor.in_dialogue = false
+
+func _on_audio_stream_player_lipsync_mouth_shape_changed(mouth_shape: int) -> void:
+	var lip_shape :String = "X"
+	
+	match mouth_shape:
+		0: # Rest position
+			pass
+		1: # Very closed
+			lip_shape = "A"
+		2: # Slightly open (e.g. EE sound)
+			lip_shape = "B"
+		3: # Open (e.g. AE sound)
+			lip_shape = "C"
+		4: # Wide open
+			lip_shape = "D"
+		5: # Slightly rounded (e.g. the i in bird)
+			lip_shape = "E"
+		6: # Puckered lips
+			lip_shape = "F"
+		7: # Biting lower lip (F sound)
+			lip_shape = "G"
+		8: # Tongue on top of mouth (L sound)
+			lip_shape = "H"
+	
+	$Skin/MaxSkin/Animation.set_lip_shape(lip_shape)
+
+
 
 # Process functions ############################################################
 #func _process(delta):

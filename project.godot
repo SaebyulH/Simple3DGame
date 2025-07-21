@@ -41,7 +41,8 @@ directories/dtl_directory={
 "crab_conversation_2": "res://dialogic/timelines/crab_conversation_2.dtl",
 "default_merchant_timeline": "res://dialogic/timelines/default_merchant_timeline.dtl",
 "default_npc_timeline": "res://dialogic/timelines/default_npc_timeline.dtl",
-"shit_timeline": "res://dialogic/timelines/shit_timeline.dtl"
+"shit_timeline": "res://dialogic/timelines/shit_timeline.dtl",
+"test_lipsync_timeline": "res://dialogic/timelines/test_lipsync_timeline.dtl"
 }
 extensions_folder="res://addons/dialogic_additions"
 text/letter_speed=0.01

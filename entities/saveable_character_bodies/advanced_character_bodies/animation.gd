@@ -44,12 +44,16 @@ var target_reference : Node3D
 var is_using_pistol: bool
 
 
+const LIPSYNC_LETTER :String = "parameters/lipsync_blend_tree/lip_letter/transition_request"
+
+
+
 
 func _ready() -> void:
 	animation_tree.active = true
-	
-	player.inventory_data.change_current_index(1)
-	player.inventory_data.item_mode = InventoryData.ItemMode.ACTIVE
+	#
+	#player.inventory_data.change_current_index(1)
+	#player.inventory_data.item_mode = InventoryData.ItemMode.ACTIVE
 
 	target_reference = player.get_node_or_null("Head")
 	if not target_reference:
@@ -59,7 +63,9 @@ func _ready() -> void:
 	$"../Max_Shooter/max/Skeleton3D/SpineIK".start()
 
 
-
+func set_lip_shape(arg: String):
+	animation_tree.set(LIPSYNC_LETTER, arg)
+	
 
 func _physics_process(delta: float) -> void:
 	#print(is_using_pistol)

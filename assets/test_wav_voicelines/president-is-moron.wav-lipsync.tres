@@ -1,0 +1,59 @@
+[gd_resource type="Resource" script_class="AudioStreamLipsync" load_steps=5 format=3 uid="uid://ds6jsm6h0rx06"]
+
+[ext_resource type="AudioStream" uid="uid://barmubf7jcbqb" path="res://assets/test_wav_voicelines/president-is-moron.wav" id="1_keuwo"]
+[ext_resource type="Script" uid="uid://b1qn7plupafix" path="res://addons/baked_lipsync/resources/audio_stream_lipsync.gd" id="2_u41lg"]
+
+[sub_resource type="Animation" id="Animation_s71uv"]
+length = 2.77
+tracks/0/type = "audio"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("1_keuwo")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/0/use_blend = true
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:mouth_shape_set")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.03, 0.11, 0.29, 0.35, 0.41, 0.55, 0.69, 1.11, 1.32, 1.39, 1.67, 1.82, 1.94, 2.16, 2.23, 2.3, 2.37, 2.76),
+"transitions": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+"update": 1,
+"values": [0, 2, 1, 2, 3, 2, 3, 2, 5, 2, 6, 2, 1, 5, 2, 4, 3, 0, 0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:expression_set")
+tracks/2/interp = 0
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 1,
+"values": []
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_uudyv"]
+_data = {
+&"play": SubResource("Animation_s71uv")
+}
+
+[resource]
+script = ExtResource("2_u41lg")
+audio_stream = ExtResource("1_keuwo")
+animation_library = SubResource("AnimationLibrary_uudyv")
+animation = SubResource("Animation_s71uv")
+lipsync_data = [[0.0, "X"], [0.03, "B"], [0.11, "A"], [0.29, "B"], [0.35, "C"], [0.41, "B"], [0.55, "C"], [0.69, "B"], [1.11, "E"], [1.32, "B"], [1.39, "F"], [1.67, "B"], [1.82, "A"], [1.94, "E"], [2.16, "B"], [2.23, "D"], [2.3, "C"], [2.37, "X"], [2.76, "X"]]
+expression_data = []
