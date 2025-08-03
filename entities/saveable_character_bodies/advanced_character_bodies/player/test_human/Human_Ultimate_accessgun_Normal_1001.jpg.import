@@ -1,0 +1,38 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://bb7l80ainylfk"
+path.s3tc="res://.godot/imported/Human_Ultimate_accessgun_Normal_1001.jpg-d68f1f0089706c933f0c7eb7bb3ac504.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "ea9eeee3391ec38050704089962fdf0d"
+}
+
+[deps]
+
+source_file="res://entities/saveable_character_bodies/advanced_character_bodies/player/test_human/Human_Ultimate_accessgun_Normal_1001.jpg"
+dest_files=["res://.godot/imported/Human_Ultimate_accessgun_Normal_1001.jpg-d68f1f0089706c933f0c7eb7bb3ac504.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=1
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=1
+roughness/src_normal="res://entities/saveable_character_bodies/advanced_character_bodies/player/test_human/Human_Ultimate_accessgun_Normal_1001.jpg"
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0

@@ -10,6 +10,7 @@ roughness = 0.0
 [node name="ScrapMetalModel" type="Node3D"]
 
 [node name="scrapmetal" parent="." instance=ExtResource("1_d7jm3")]
+transform = Transform3D(0.0481983, 0, 0, 0, 0.0481983, 0, 0, 0, 0.0481983, 0, 0, 0)
 
 [node name="Cube_001" parent="scrapmetal" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_lsao4")

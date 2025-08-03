@@ -65,6 +65,7 @@ static func create_shit_pistol() -> ItemData:
 	item_data.view_model = load("res://entities/saveable_character_bodies/advanced_character_bodies/viewmodels/shit_pistol_model.tscn")
 	item_data.sound_path = "res://assets/gun-shot-359196.mp3"
 	
+	
 	return item_data
 
 static func create_shit_rifle() -> ItemData:
@@ -107,4 +108,79 @@ static func create_shit_grenade_launcher() -> ItemData:
 	item_data.view_model = load("res://entities/saveable_character_bodies/advanced_character_bodies/viewmodels/shit_grenade_launcher_model.tscn")
 	item_data.sound_path = "res://assets/pop.mp3"
 	item_data.projectile_path = "res://entities/saveable_rigid_bodies/projectiles/grenade.tscn"
+	
+	
+	return item_data
+
+
+# ACTUAL ITEMS
+
+static func create_glock() -> ItemData:
+	var item_data = ItemData.new()
+	item_data.item_type = ItemData.ItemType.PISTOL
+	item_data.display_name = "Glock"
+	item_data.mass = 0.85
+	item_data.value = 599.99
+	item_data.uses_ammo = true
+	item_data.ammo_type = AmmoDataFactory.create_revolver_ammo()
+	item_data.mag_size = 8
+	item_data.shooting_mode = ItemData.ShootingMode.SEMI_AUTO
+	item_data.shooting_type = ItemData.ShootingType.HITSCAN
+	
+	item_data.initial_shooting_delay = 0.0
+	item_data.between_shooting_delay = 0.2
+	item_data.hitscan_range = 30
+	item_data.damage = 55
+	item_data.scene_path = "res://entities/saveable_rigid_bodies/saveable_interactable_rigid_bodies/pickup_objects/glock/glock.tscn"
+	item_data.view_model = load("res://entities/saveable_character_bodies/advanced_character_bodies/viewmodels/glock_model.tscn")
+	item_data.sound_path = "res://assets/gun-shot-359196.mp3"
+	
+	item_data.animation_name = "glock"
+	return item_data
+
+static func create_ak() -> ItemData:
+	var item_data = ItemData.new()
+	item_data.item_type = ItemData.ItemType.RIFLE
+	item_data.display_name = "AK-47"
+	item_data.mass = 0.85
+	item_data.value = 699.99
+	item_data.uses_ammo = true
+	item_data.ammo_type = AmmoDataFactory.create_revolver_ammo()
+	item_data.mag_size = 8
+	item_data.shooting_mode = ItemData.ShootingMode.SEMI_AUTO
+	item_data.shooting_type = ItemData.ShootingType.HITSCAN
+	
+	item_data.initial_shooting_delay = 0.0
+	item_data.between_shooting_delay = 0.2
+	item_data.hitscan_range = 30
+	item_data.damage = 55
+	item_data.scene_path = "res://entities/saveable_rigid_bodies/saveable_interactable_rigid_bodies/pickup_objects/ak/ak.tscn"
+	item_data.view_model = load("res://entities/saveable_character_bodies/advanced_character_bodies/viewmodels/ak_model.tscn")
+	item_data.sound_path = "res://assets/submachine-gun-79846.mp3"
+	
+	item_data.animation_name = "ak"
+	return item_data
+
+
+static func create_crowbar() -> ItemData:
+	var item_data = ItemData.new()
+	item_data.item_type = ItemData.ItemType.MISC
+	item_data.display_name = "Crowbar"
+	item_data.mass = 1.2
+	item_data.value = 34.99
+	item_data.uses_ammo = false
+	item_data.ammo_type = AmmoDataFactory.create_default_ammo()
+	item_data.mag_size = 8
+	item_data.shooting_mode = ItemData.ShootingMode.SEMI_AUTO
+	item_data.shooting_type = ItemData.ShootingType.HITSCAN
+	
+	item_data.initial_shooting_delay = 0.3
+	item_data.between_shooting_delay = 0.2
+	item_data.hitscan_range = 1.5
+	item_data.damage = 55
+	item_data.scene_path = "res://entities/saveable_rigid_bodies/saveable_interactable_rigid_bodies/pickup_objects/crowbar/crowbar.tscn"
+	item_data.view_model = load("res://entities/saveable_character_bodies/advanced_character_bodies/viewmodels/crowbar_model.tscn")
+	item_data.sound_path = "res://assets/sword-slash.mp3"
+	
+	item_data.animation_name = "crowbar"
 	return item_data

@@ -18,19 +18,19 @@ func get_interact_verb() -> String:
 func interact(player):
 	if player.inventory_data:
 		if player.inventory_data.add_item(item_data):
-			player.inventory_data.current_index = player.inventory_data.items.size() -1
-			player.inventory_data.item_mode = InventoryData.ItemMode.ACTIVE
-			player.update_equipped_item()
+			print(name, ": ", item_data.display_name, " added to player inventory")
 			player.hud.update_ammo_label(player.inventory_data)
-			player.animation_node.switch(-1 if item_data.display_name == "Shit Pistol" else 0)
-			print("Picked up: %s" % item_data.display_name)
-			#visible = false
-			#$CollisionShape3D.disabled = true  # Optional: disable collisions
+			
+			print(name, ": ammo label updated")
+			player.inventory_data.current_index = player.inventory_data.items.size() -1
+			player.update_equipped_item()
+			
+			print(name, ": deleting self")
 			queue_free()
 		else:
-			print("not hidden, pickup too massive")
+			print(name, ": pickup cannot be added to inventory, and remains in scene")
 	else:
-		print("⚠️ Player has no inventory_data!")
+		print(name, ": ERROR: Player has no inventory_data!")
 
 
 func get_save_data() -> Dictionary:

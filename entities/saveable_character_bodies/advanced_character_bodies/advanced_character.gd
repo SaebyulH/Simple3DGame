@@ -1,12 +1,12 @@
 extends SaveableCharacterBody3D
 class_name AdvancedCharacter
 
-
 # Universal
 enum MoveMode {WALK, SPRINT, CROUCH}
+enum HoldMode {HOLSTER, HOLD, AIM, SCOPE}
 const DEFAULT_SKIN_ROTATION := Vector3(0, 0, 0)
 const SNAP_FIRST_PERSON_DISTANCE := 1
-const SPRING_EXTENDED_LENGTH := 1.8
+const SPRING_EXTENDED_LENGTH := 2.7 #1.8
 const GRAVITY := 9.8
 const SPRINT_FACTOR := 1.33
 const CROUCH_FACTOR := 0.66
@@ -15,11 +15,11 @@ const INTERACT_DISTANCE := 2.0 # Interact Distance for interactable props
 
 # Universal
 var y_velocity := 0.0
-var is_aiming := false
 var can_shoot: bool = true
 var inventory_data: InventoryData = InventoryData.new()
 var character_data : CharacterData = CharacterData.new()
 var move_mode := MoveMode.WALK
+var hold_mode := HoldMode.AIM
 var interact_target: Node = null
 var trade_target: Node = null
 
@@ -29,41 +29,44 @@ var hostile := false
 # Universal
 @onready var processor: Node = get_parent().get_parent().get_node("Processor")
 @onready var skin:= $Skin/MaxSkin
-@onready var animation_node := $Skin/MaxSkin/Animation
+@onready var animation_node := $Skin/MaxSkin/NewAnimation
 
 @onready var interact_raycast : RayCast3D #= $Head/InteractRayCast3D
 @onready var attack_raycast : RayCast3D #= $Head/AttackRayCast3D2
 
-@onready var equipped_item := $Skin/MaxSkin/Max_Shooter/max/Skeleton3D/HandBone/EquippedItem  # Update path as needed
-@onready var muzzle_flash := $Skin/MaxSkin/Max_Shooter/max/Skeleton3D/HandBone/MuzzleFlash
+#@onready var equipped_item := $Skin/MaxSkin/Human_Ultimate_Current/rig/Skeleton3D/HandBone/EquippedItem  # Update path as needed
+@onready var muzzle_flash := $Skin/MaxSkin/Human_Ultimate_Current/rig/Skeleton3D/HandBone/MuzzleFlash
 @onready var navigation_agent : NavigationAgent3D = $NavigationAgent3D
 @onready var head := $Head
 
+
+# This is what will be attacked. TODO make this more universal
 @export var destination_node : AdvancedCharacter
 
 @onready var initial_timer := $InitialShotTimer
 @onready var between_timer := $BetweenShotTimer
 
-@onready var gun_sound := $Skin/MaxSkin/Max_Shooter/max/Skeleton3D/HandBone/GunSound
-@onready var hit_sound := $Skin/MaxSkin/Max_Shooter/max/Skeleton3D/HeadBone/HitSound
+@onready var gun_sound := $Skin/MaxSkin/Human_Ultimate_Current/rig/Skeleton3D/HandBone/GunSound
+@onready var hit_sound := $Skin/MaxSkin/Human_Ultimate_Current/rig/Skeleton3D/HeadBone/HitSound
 
 @onready var selfie_cam := $SelfieCamera
 @onready var ots_cam := $OTSCamera
 # Ready empty for now ##########################################################
 func _ready() -> void:
-	add_to_group("characters")
 	super()
+	add_to_group("characters")
 	character_data = CharacterDataFactory.create_advanced_npc_character_data()
 	inventory_data = InventoryDataFactory.create_advanced_npc_inventory_data()
+	
 	interact_raycast = get_node_or_null("Head/InteractRayCast3D")
 	attack_raycast = get_node_or_null("Head/AttackRayCast3D")
 	
-	
-	
+	skin.rotation = DEFAULT_SKIN_ROTATION
 	
 	unimmobilize()
 	update_equipped_item()
-	skin.rotation = DEFAULT_SKIN_ROTATION
+	
+	# Dialogic Signals
 	Dialogic.signal_event.connect(DialogicSignal)
 	Dialogic.timeline_started.connect(func(): 
 		character_data.can_move = false
@@ -81,7 +84,12 @@ func _ready() -> void:
 			if speaker and speaker.nicknames[0]:
 				CameraManager.auto_camera(speaker.nicknames[0])
 	)
+	Dialogic.Text.animation_textbox_new_text.connect(	func():
+		animation_node.set_random_expression()
+	)
 
+
+# Talking to the character
 func interact(player: AdvancedCharacter):
 	interact_target = player
 	var to_target = interact_target.global_transform.origin - global_transform.origin
@@ -89,12 +97,13 @@ func interact(player: AdvancedCharacter):
 
 	if to_target.length_squared() > 0.001:  # Avoid NaNs when vectors are too small
 		look_at(global_transform.origin + to_target.normalized(), Vector3.UP)
-	print("Dialogie started lol")
+	
+	
+
 	interact_target = player
 	#Dialogic.start("advanced_npc_autocam_timeline")
 	Dialogic.start("test_lipsync_timeline")
-	
-
+	print(name, ": Started Dialogic")
 
 func get_interact_verb() -> String:
 	return "Talk"
@@ -107,52 +116,42 @@ func set_ots_cam():
 	ots_cam.look_at(to.global_position + Vector3(0, -0.3, 0))
 	ots_cam.set_current(true)
 
-
 func DialogicSignal(arg: String):
 	if arg == "hostile":
 		hostile = true
-		print("NOW HOSTILE")
+		print(name, ": NOW HOSTILE")
 		
 	if arg == "test_lipsync":
 		$AudioStreamPlayerLipsync3D.play_lipsync(preload("res://assets/test_wav_voicelines/Harvard list 01.wav-lipsync.tres"))
-	#if arg == "exit":
-		#print("dialogue exited")
-		#Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-		#interact_target.unimmobilize()
-		#processor.in_dialogue = false
 
 func _on_audio_stream_player_lipsync_mouth_shape_changed(mouth_shape: int) -> void:
 	var lip_shape :String = "X"
-	
 	match mouth_shape:
 		0: # Rest position
-			pass
+			lip_shape = "x"
 		1: # Very closed
-			lip_shape = "A"
+			lip_shape = "a"
 		2: # Slightly open (e.g. EE sound)
-			lip_shape = "B"
+			lip_shape = "b"
 		3: # Open (e.g. AE sound)
-			lip_shape = "C"
+			lip_shape = "c"
 		4: # Wide open
-			lip_shape = "D"
+			lip_shape = "d"
 		5: # Slightly rounded (e.g. the i in bird)
-			lip_shape = "E"
+			lip_shape = "e"
 		6: # Puckered lips
-			lip_shape = "F"
+			lip_shape = "f"
 		7: # Biting lower lip (F sound)
-			lip_shape = "G"
+			lip_shape = "g"
 		8: # Tongue on top of mouth (L sound)
-			lip_shape = "H"
-	
-	$Skin/MaxSkin/Animation.set_lip_shape(lip_shape)
-
-
+			lip_shape = "h"
+	animation_node.set_lip_shape(lip_shape)
 
 # Process functions ############################################################
 #func _process(delta):
 	#pass
 
-# Camera
+# Basic Script to be hostile when attacked or just stand there and talk if not
 func _physics_process(delta):
 	if not global_position or not destination_node:
 		return
@@ -160,15 +159,14 @@ func _physics_process(delta):
 		y_velocity -= GRAVITY * delta
 	else:
 		y_velocity = 0
-	is_aiming = inventory_data.item_mode == InventoryData.ItemMode.ACTIVE and not inventory_data.items.is_empty()
+		
 	if hostile:
 		hunt_target(delta)
 	else:
 		pass
 
-
 func hunt_target(delta):
-	print("HUNTING")
+	print(name, ": HUNTING TARGET")
 	var aim_node = destination_node
 	if destination_node.head:
 		aim_node = destination_node.head
@@ -196,7 +194,6 @@ func hunt_target(delta):
 		# Smoothly rotate head (optional)
 		head.rotation.x = lerp_angle(head.rotation.x, pitch_angle, delta * 5.0)
 		
-		
 		# Check if player is within weapon hitscan_range, then fire
 		var item = inventory_data.get_current_item()
 		if item and destination_node:  # destination_node is assumed to be the player
@@ -215,7 +212,7 @@ func hunt_target(delta):
 		velocity.y = y_velocity
 		move_and_slide()
 
-
+# Get the effective speed, taking into account move mode
 func get_effective_speed() -> float:
 	var factor: float
 	if move_mode == MoveMode.SPRINT:
@@ -228,7 +225,7 @@ func get_effective_speed() -> float:
 
 # Controls #####################################################################
 
-# Checks for interactible inside of a hitscan_range 
+# Checks for interactable inside of a hitscan_range 
 func check_for_interactable():
 	var target = _get_interact_target()
 	
@@ -241,8 +238,7 @@ func check_for_interactable():
 		trade_target = target
 	else:
 		trade_target = null
-		
-		
+
 func _get_interact_target() -> Node3D:
 	# This is so that in 3rd person we have more reach
 	interact_raycast.target_position = Vector3.FORWARD * (INTERACT_DISTANCE + SPRING_EXTENDED_LENGTH)
@@ -295,38 +291,53 @@ func die():
 
 func change_wealth(amount: int):
 	if character_data.wealth + amount < 0:
-		print("wealth unchanged, player would be broke")
+		print(name, ": wealth unchanged, player would be broke")
 	else:
 		character_data.wealth += amount
 		var status = "enriched" if (amount >= 0) else "impoverished"
-		print("Player " + status + " by " + str(abs(amount)) + " dollars.")
+		print(name, ": Player " + status + " by " + str(abs(amount)) + " dollars.")
 		if character_data.wealth + amount < 0:
-			print("player is broke")
-
+			print(name, ": player is broke")
 
 func perform_secondary_fire():
-	if inventory_data.items.is_empty():
-		is_aiming = false
-	else:
-		if not inventory_data.item_mode == InventoryData.ItemMode.ACTIVE:
-			inventory_data.item_mode = InventoryData.ItemMode.ACTIVE
-			update_equipped_item()
+	if inventory_data.get_current_item():
+		toggle_scope()
 
+func toggle_scope():
+	if hold_mode == HoldMode.SCOPE:
+		hold_mode = HoldMode.AIM
+	elif hold_mode == HoldMode.AIM:
+		hold_mode = HoldMode.SCOPE
+	else:
+		hold_mode = HoldMode.AIM
+
+func perform_reload():
+	inventory_data.change_ammo_of_current_weapon(10)
+	animation_node.reload()
+
+func perform_inspect():
+	animation_node.inspect()
+
+func perform_pullout():
+	animation_node.pullout()
 
 # Checks for object in hitscan_range of current item, then shoots if in hitscan_range
 func perform_primary_fire() -> void:
-	if not can_shoot or not is_aiming:
+	if not can_shoot:
 		return
+
+	elif hold_mode == HoldMode.HOLD:
+		# Start aiming and do nto shoot
+		hold_mode = HoldMode.AIM
+		animation_node.equip_item(inventory_data.get_current_item())
+		return
+	
+	
 	if inventory_data.items.is_empty():
-		is_aiming = false
-	else:
-		if not inventory_data.item_mode == InventoryData.ItemMode.ACTIVE:
-			is_aiming = true
-			inventory_data.item_mode = InventoryData.ItemMode.ACTIVE
-			update_equipped_item()
+		return
 
 	if inventory_data.current_index < 0 or inventory_data.current_index >= inventory_data.get_size():
-		print("No item equipped")
+		print(name, ": No item equipped")
 		return
 	if not check_for_raycast_collision():
 		return
@@ -362,7 +373,7 @@ func fire_weapon_with_delay() -> void:
 		animation_node.shoot()
 
 		if item.uses_ammo:
-			var weapon = equipped_item.get_child(0) if equipped_item.get_child_count() > 0 else null
+			var weapon = animation_node.get_equipped_item_child()
 
 			if weapon and weapon.has_node("MuzzleOrigin"):
 				var muzzle = weapon.get_node("MuzzleOrigin")
@@ -382,7 +393,7 @@ func fire_weapon_with_delay() -> void:
 					var crit = false
 					if target.is_in_group("crit_hurtbox"):
 						crit = true
-						print("CRITIAL HIT")
+						print(name, ": CRITIAL HIT")
 					else:
 						crit = false
 					
@@ -394,7 +405,7 @@ func fire_weapon_with_delay() -> void:
 							if "hit_sound" in enemy:
 								enemy.hit_sound.stream = load("res://assets/crit.mp3")
 								enemy.hit_sound.play()
-					print("Hitscan Attacked ", target, " for ", item.damage, " damage")
+					print(name, ": Hitscan Attacked ", target, " for ", item.damage, " damage")
 		elif item.shooting_type == ItemData.ShootingType.PROJECTILE:
 			processor.spawn_projectile(item.projectile_path, head)
 			
@@ -403,23 +414,15 @@ func fire_weapon_with_delay() -> void:
 
 	can_shoot = true
 
-
-
-
-
-
-
-
-
-func find_enemy_root(node):
+func find_enemy_root(node)-> Node:
 	while node != null:
 		#if node.is_in_group("damageable_character"):
 		if node.has_method("change_health"):
-			print("FOUND LOL")
+			print(name, ": enemy found with change health function")
 			
 			return node
 		node = node.get_parent()
-	print("NOT FOUND LOL")
+	print(name, ": enemy NOT found with change health function")
 	return null
 
 #Uses interact one bc it is meant to be not accurate
@@ -435,18 +438,36 @@ func check_for_raycast_collision() -> bool:
 	
 # This updates the item that the player has equipped
 func update_equipped_item():
-	if inventory_data.item_mode == InventoryData.ItemMode.ACTIVE and inventory_data.current_index >= 0 and inventory_data.current_index < inventory_data.get_size():
+	if inventory_data.get_current_item():
+		
 		var item = inventory_data.get_current_item()
-		equipped_item.equip_item(item)
-		print("visually equipped" + item.display_name)
+		animation_node.equip_item(item)
+		print(name, ": equipped ", item.display_name)
+		await create_local_timer(0.0001)
+		perform_pullout()
+		hold_mode = HoldMode.AIM
+		
+		print("FUCK YOU")
+		
 	else:
-		equipped_item.equip_item(null)
-		print("visually unequipped any item")
+		#await animation_node.switch()
+		animation_node.equip_item(null)
+		hold_mode = HoldMode.HOLSTER
+		print(name, ": visually unequipped any item")
 
-func set_inventory_selection(index: int):
-	inventory_data.set_current_index(index)
-	inventory_data.item_mode = InventoryData.ItemMode.ACTIVE
-	update_equipped_item()
+
+
+
+# SWITCHING WEAPONS
+#func set_inventory_selection(index: int):
+	#inventory_data.set_current_index(index)
+	##inventory_data.item_mode = InventoryData.ItemMode.ACTIVE
+	#update_equipped_item()
+
+
+
+
+
 
 func drop_current_item():
 	if inventory_data.current_index >= 0:
@@ -454,14 +475,15 @@ func drop_current_item():
 		update_equipped_item()
 
 func holster():
-	if(inventory_data.item_mode == InventoryData.ItemMode.ACTIVE):
-		inventory_data.item_mode = InventoryData.ItemMode.HOLSTER
-		is_aiming = false
-		print("item holstered but still active")
-	elif(inventory_data.item_mode == InventoryData.ItemMode.HOLSTER):
-		equipped_item.equip_item(null)
-		inventory_data.item_mode = InventoryData.ItemMode.INACTIVE
-		print("unequipped any item")
+	if(hold_mode == HoldMode.AIM or hold_mode == HoldMode.SCOPE):
+		hold_mode = HoldMode.HOLD
+		#is_aiming = false
+		print(name, ": item holstered but still active")
+	elif hold_mode == HoldMode.HOLD:
+		animation_node.equip_item(null)
+		hold_mode = HoldMode.HOLSTER
+		inventory_data.set_current_index(-1)
+		print(name, ": unequipped any item")
 
 func immobilize():
 	character_data.can_move = false

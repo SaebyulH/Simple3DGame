@@ -33,3 +33,4 @@ enum ShootingType {HITSCAN, PROJECTILE}
 @export var view_model: PackedScene  # New field to store the item's 3D mesh
 @export var projectile_path: String
 @export var sound_path: String
+@export var animation_name: String

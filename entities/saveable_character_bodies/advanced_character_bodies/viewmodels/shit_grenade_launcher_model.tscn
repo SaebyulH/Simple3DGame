@@ -1,12 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://dqpxp3fxhclky"]
+[gd_scene load_steps=4 format=3 uid="uid://dqpxp3fxhclky"]
 
+[ext_resource type="Script" uid="uid://cgfenxvxbv1e2" path="res://entities/saveable_character_bodies/advanced_character_bodies/viewmodels/glock_model.gd" id="1_0q4vn"]
 [ext_resource type="PackedScene" uid="uid://dc1ufk4bpxxlv" path="res://entities/saveable_rigid_bodies/saveable_interactable_rigid_bodies/pickup_objects/shit_grenade_launcher/grenade.glb" id="1_sqyyt"]
 [ext_resource type="PackedScene" uid="uid://coltga2w1iprh" path="res://entities/saveable_rigid_bodies/saveable_interactable_rigid_bodies/pickup_objects/shit_rifle/ak.glb" id="2_qhwuh"]
 
 [node name="ShitGrenadeLauncherModel" type="Node3D"]
+script = ExtResource("1_0q4vn")
 
 [node name="grenade" parent="." instance=ExtResource("1_sqyyt")]
-transform = Transform3D(-6.50076e-08, 0, 1.4872, 0, 1.4872, 0, -1.4872, 0, -6.50076e-08, -0.430851, -0.00202292, 2.03264)
+transform = Transform3D(-5.70786e-09, 0, 0.130581, 0, 0.130581, 0, -0.130581, 0, -5.70786e-09, -0.430851, 0.0286569, 0.213651)
 
 [node name="ak" parent="." instance=ExtResource("2_qhwuh")]
 transform = Transform3D(11.6913, 0, 0, 0, 11.6913, 0, 0, 0, 11.6913, 0, -1.63876, 0.595793)

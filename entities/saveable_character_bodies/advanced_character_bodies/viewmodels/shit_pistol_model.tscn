@@ -6,7 +6,7 @@
 transform = Transform3D(1.00193, 0, 0, 0, 1.00193, 0, 0, 0, 1.00193, 0, 0, 0)
 
 [node name="revolver2" parent="." instance=ExtResource("2_2l7ra")]
-transform = Transform3D(10.4522, 0, 0, 0, 10.4522, 0, 0, 0, 10.4522, 0, -1.17155, -0.621635)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0743183, -0.0412876)
 
 [node name="MuzzleOrigin" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.67753, 3.05317)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://by88g1j3kvcfw"]
+[gd_scene load_steps=24 format=3 uid="uid://by88g1j3kvcfw"]
 
 [ext_resource type="Script" uid="uid://7dex21wiy8ay" path="res://places/saveables.gd" id="2_ab8f5"]
 [ext_resource type="PackedScene" uid="uid://b3aaxgaxo0ncy" path="res://entities/saveable_rigid_bodies/saveable_interactable_rigid_bodies/pickup_objects/shit_pistol/shit_pistol.tscn" id="4_dgel4"]
@@ -7,9 +7,12 @@
 [ext_resource type="Texture2D" uid="uid://hq02cd5sbarp" path="res://places/hdri/citrus_orchard_puresky_4k.exr" id="7_ryxa0"]
 [ext_resource type="PackedScene" uid="uid://ccexf8pwesf6c" path="res://entities/saveable_character_bodies/advanced_character_bodies/player/player.tscn" id="11_pxqo5"]
 [ext_resource type="PackedScene" uid="uid://cnhe0gojod7vi" path="res://interface/player_hud/player_hud.tscn" id="13_rbe76"]
+[ext_resource type="PackedScene" uid="uid://d4kq88mvd4v85" path="res://entities/saveable_rigid_bodies/saveable_interactable_rigid_bodies/pickup_objects/ak/ak.tscn" id="13_ryxa0"]
 [ext_resource type="PackedScene" uid="uid://ck8akymllm7pi" path="res://interface/pause_menu/pause_menu.tscn" id="14_7b1b0"]
+[ext_resource type="PackedScene" uid="uid://0ovoy371ecwt" path="res://entities/saveable_rigid_bodies/saveable_interactable_rigid_bodies/pickup_objects/crowbar/crowbar.tscn" id="14_ab8f5"]
 [ext_resource type="PackedScene" uid="uid://cp72lt5mk27d5" path="res://entities/saveable_character_bodies/advanced_character_bodies/advanced_character.tscn" id="15_lvsl2"]
 [ext_resource type="PackedScene" uid="uid://bq24p5aun631u" path="res://assets/Church.blend" id="16_qredp"]
+[ext_resource type="PackedScene" uid="uid://owhx7gmagal6" path="res://entities/saveable_rigid_bodies/saveable_interactable_rigid_bodies/pickup_objects/glock/glock.tscn" id="17_ab8f5"]
 [ext_resource type="PackedScene" uid="uid://dixt8o2033i0g" path="res://entities/saveable_character_bodies/npcs/merchant/merchant.tscn" id="17_r1q15"]
 [ext_resource type="PackedScene" uid="uid://brr0hw3elr8q3" path="res://entities/saveable_character_bodies/npcs/non_player_character.tscn" id="17_ryxa0"]
 [ext_resource type="PackedScene" uid="uid://bq7cq48x7nast" path="res://interface/trade_menu/trade_menu.tscn" id="18_ryxa0"]
@@ -68,6 +71,14 @@ collision_mask = 3
 [node name="CSGBox3D" type="CSGBox3D" parent="Map Geometry/NavigationRegion3D/CSGCombiner3D"]
 transform = Transform3D(14.406, 0, 0, 0, 1.2, 0, 0, 0, 14.406, 0, 0, 0)
 
+[node name="CSGBox3D2" type="CSGBox3D" parent="Map Geometry/NavigationRegion3D/CSGCombiner3D"]
+transform = Transform3D(0.538226, 0, 0, 0, 0.0448335, 0, 0, 0, 0.538226, 0.294704, 0.647436, -1.33709)
+size = Vector3(1, 2.43604, 0.269653)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Map Geometry/NavigationRegion3D/CSGCombiner3D"]
+transform = Transform3D(0.538226, 0, 0, 0, 0.0448335, 0, 0, 0, 0.538226, -1.21833, 0.647436, -1.33709)
+size = Vector3(1, 2.43604, 0.269653)
+
 [node name="Church" parent="Map Geometry/NavigationRegion3D" instance=ExtResource("16_qredp")]
 transform = Transform3D(0.168114, 0, 0, 0, 0.168114, 0, 0, 0, 0.168114, 2.15565, 0.608317, 4.92229)
 
@@ -78,18 +89,18 @@ transform = Transform3D(14, 0, 0, 0, 14, 0, 0, 0, 14, -22.8194, 13.9896, 0)
 script = ExtResource("2_ab8f5")
 
 [node name="ShitGrenadeLauncher" parent="Saveables" instance=ExtResource("20_6577w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.18801, 3.59654, -5.93314)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.0121, 4.52553, -8.0308)
 
 [node name="ShitPistol" parent="Saveables" instance=ExtResource("4_dgel4")]
-transform = Transform3D(0.999096, 0, 0, 0, 0.999096, 0, 0, 0, 0.999096, -6.38624, 3.5585, -6.34273)
+transform = Transform3D(0.999096, 0, 0, 0, 0.999096, 0, 0, 0, 0.999096, -6.47213, 4.48749, -8.24823)
 display_name = ""
 
 [node name="ShitRifle" parent="Saveables" instance=ExtResource("5_ymo8n")]
-transform = Transform3D(0.999096, 0, 0, 0, 0.999096, 0, 0, 0, 0.999096, -2.40636, 3.46704, -6.14093)
+transform = Transform3D(0.999096, 0, 0, 0, 0.999096, 0, 0, 0, 0.999096, -7.33126, 4.39603, -8.08137)
 display_name = ""
 
 [node name="ScrapMetal" parent="Saveables" instance=ExtResource("6_r1q15")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.06066, 3.43844, -6.82212)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.23863, 4.36743, -7.98517)
 display_name = ""
 
 [node name="NonPlayerCharacter" parent="Saveables" instance=ExtResource("17_ryxa0")]
@@ -105,6 +116,25 @@ destination_node = NodePath("../AdvancedCharacter")
 [node name="AdvancedCharacter" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_lvsl2")]
 transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, 1.96728, 3.30561, -3.12829)
 destination_node = NodePath("../Player")
+
+[node name="Glock" parent="Saveables" instance=ExtResource("17_ab8f5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.40064, 4.1698, -7.69946)
+
+[node name="Glock2" parent="Saveables" instance=ExtResource("17_ab8f5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.68909, 4.1698, -7.67698)
+
+[node name="Glock3" parent="Saveables" instance=ExtResource("17_ab8f5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.80522, 4.1698, -7.66574)
+
+[node name="Glock4" parent="Saveables" instance=ExtResource("17_ab8f5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.01126, 4.1698, -7.662)
+
+[node name="Ak" parent="Saveables" instance=ExtResource("13_ryxa0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.84127, 4.14035, -7.9375)
+display_name = ""
+
+[node name="Crowbar" parent="Saveables" instance=ExtResource("14_ab8f5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.608936, 4.05137, -7.9237)
 
 [node name="Processor" type="Node3D" parent="."]
 script = ExtResource("19_6577w")

@@ -12,4 +12,4 @@ visible = false
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.850113, 6.78648)
 
 [node name="ak" parent="." instance=ExtResource("2_ealou")]
-transform = Transform3D(11.6913, 0, 0, 0, 11.6913, 0, 0, 0, 11.6913, 0, -1.63876, 0.595793)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.150263, 0.0599339)

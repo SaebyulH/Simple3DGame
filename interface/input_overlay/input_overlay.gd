@@ -3,40 +3,17 @@ extends Control
 const UNPRESSED_COLOR := Color("ffffff")
 const PRESSED_COLOR := Color("a32929")
 
+const TRACKED_KEYS := [
+	"W", "A", "S", "D", "Q", "E", "Space", "Ctrl", "Shift"
+]
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey:
-		print(event.as_text())
+		var text := event.as_text()
 		
-		
-		
-		#if (event.as_text() == "Shift+Ctrl"):
-			#get_node("Ctrl").color = PRESSED_COLOR
-			#get_node("Shift").color = PRESSED_COLOR
-		#else:
-			#get_node("Ctrl").color = UNPRESSED_COLOR
-			#get_node("Shift").color = UNPRESSED_COLOR
-		
-		if (
-			event.as_text() == "W" 
-			or event.as_text() == "A" 
-			or event.as_text() == "S" 
-			or event.as_text() == "D"
-			
-			or event.as_text() == "Q"
-			
-			or event.as_text() == "E"
-			
-			
-			or event.as_text() == "Space"
-			
-			or event.as_text() == "Ctrl"
-			
-			or event.as_text() == "Shift"
-			
-		):
-			if event.pressed:
-				get_node(event.as_text()).color = PRESSED_COLOR
-			else:
-				get_node(event.as_text()).color = UNPRESSED_COLOR
-		
+		for key in TRACKED_KEYS:
+			if key == text or (key in text and "+" in text):
+				print("Overlay: ", key, " key pressed")
+				var node := get_node_or_null(key)
+				if node:
+					node.color = PRESSED_COLOR if event.pressed else UNPRESSED_COLOR

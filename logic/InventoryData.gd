@@ -10,8 +10,8 @@ class_name InventoryData
 @export var ammo_boxes: Array[AmmoData] = []
 
 
-enum ItemMode {ACTIVE, HOLSTER, INACTIVE}
-var item_mode : ItemMode = ItemMode.INACTIVE
+#enum ItemMode {ACTIVE, HOLSTER, INACTIVE}
+#var item_mode : ItemMode = ItemMode.INACTIVE
 
 func get_current_weapon_ammo_count():
 	var current_item = get_current_item()
@@ -19,6 +19,32 @@ func get_current_weapon_ammo_count():
 		if ammo.display_name == current_item.ammo_type.display_name:
 			return ammo.count
 	return -1
+
+func change_ammo_of_current_weapon(amount: int) -> bool:
+	#if amount <= 0:
+		#return false
+
+		
+	var current_item = get_current_item()		
+	if current_item == null:
+		return false
+
+	if not current_item.uses_ammo:
+		print("Current weapon does not use ammo, no ammo to add")
+		return true
+
+	for ammo in ammo_boxes:
+		if ammo.display_name == current_item.ammo_type.display_name:
+			if ammo.count + amount < 0:
+				return false
+			ammo.count += amount
+			return true
+
+	print("No matching ammo found for: ", current_item.display_name, ". Cannot change ammo count")
+	return false
+
+
+
 
 
 func shoot_current_weapon() -> bool:
@@ -52,7 +78,7 @@ func get_size():
 func set_current_index(index: int) -> bool:
 	if index == -1:
 		current_index = -1 # Uneqippped
-		item_mode = ItemMode.INACTIVE
+		#item_mode = ItemMode.INACTIVE
 		pass
 	if index >= 0 and index < items.size():
 		current_index = index
@@ -101,7 +127,7 @@ func remove_current_item() -> ItemData:
 				current_index = items.size() -1
 			else:
 				current_index = -1
-				item_mode = ItemMode.INACTIVE
+				#item_mode = ItemMode.INACTIVE
 		return item
 	return null
 	

@@ -37,7 +37,7 @@ func update_header():
 	item_count_label.text = "Item Count: " + str(player.inventory_data.items.size())
 
 func _on_item_list_item_selected(index: int) -> void:
-	player.set_inventory_selection(index)
+	player.inventory_data.set_current_index(index)
 	update_details()
 	
 	

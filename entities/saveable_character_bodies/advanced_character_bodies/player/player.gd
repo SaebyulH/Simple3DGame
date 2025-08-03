@@ -15,26 +15,49 @@ var mouse_sensitivity := 0.003
 var camera_mode := CameraMode.FIRST_PERSON
 
 # Player specific
-@onready var face := $Skin/MaxSkin/Max_Shooter/max/Skeleton3D/Head
-@onready var eyelashes := $Skin/MaxSkin/Max_Shooter/max/Skeleton3D/eyelashes
-@onready var eyes := $Skin/MaxSkin/Max_Shooter/max/Skeleton3D/eyes_001
-@onready var hair := $Skin/MaxSkin/Max_Shooter/max/Skeleton3D/hair
+#@onready var face := $Skin/MaxSkin/Max_Shooter/max/Skeleton3D/Head
+#@onready var eyelashes := $Skin/MaxSkin/Max_Shooter/max/Skeleton3D/eyelashes
+#@onready var eyes := $Skin/MaxSkin/Max_Shooter/max/Skeleton3D/eyes_001
+#@onready var hair := $Skin/MaxSkin/Max_Shooter/max/Skeleton3D/hair
 @onready var spring := $Head/SpringParent/SpringArm3D
 @onready var camera := $Head/SpringParent/SpringArm3D/MarginThing/Camera3D
 
-@onready var head_bone := $Skin/MaxSkin/Max_Shooter/max/Skeleton3D/HeadBone/AdjustedHead
+@onready var head_bone := $Skin/MaxSkin/Human_Ultimate_Current/rig/Skeleton3D/HeadBone/AdjustedHead
 @onready var hud := get_parent().get_parent().get_node("PlayerHUD") as PlayerHUD
 #@onready var timer := $ShootTimer
 # Ready ##########################################################
 func _ready() -> void:
-	super()
+	#super()
 	#toggle_camera_mode()
 	interact_raycast = $Head/SpringParent/SpringArm3D/MarginThing/Camera3D/InteractRayCast3D
 	attack_raycast = $Head/SpringParent/SpringArm3D/MarginThing/Camera3D/AttackRayCast3D
 	
 	character_data = CharacterDataFactory.create_player_character_data()
 	inventory_data = InventoryDataFactory.create_player_inventory_data()
-	perform_secondary_fire()
+	skin.rotation = DEFAULT_SKIN_ROTATION
+	update_equipped_item()
+	
+	# Dialogic Signals
+	Dialogic.signal_event.connect(DialogicSignal)
+	Dialogic.timeline_started.connect(func(): 
+		character_data.can_move = false
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		processor.in_dialogue = true
+		)
+	Dialogic.timeline_ended.connect(func(): 
+		character_data.can_move = true
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		processor.in_dialogue = false
+		CameraManager.reset_cam()
+		)
+	Dialogic.Text.speaker_updated.connect(
+		func(speaker: DialogicCharacter):
+			if speaker and speaker.nicknames[0]:
+				CameraManager.auto_camera(speaker.nicknames[0])
+	)
+	Dialogic.Text.animation_textbox_new_text.connect(	func():
+		animation_node.set_random_expression()
+	)
 	
 # Process functions ############################################################
 func _process(delta):
@@ -86,12 +109,12 @@ func _physics_process(delta):
 			move_mode = MoveMode.CROUCH
 		elif Input.is_action_pressed("sprint"):
 			move_mode = MoveMode.SPRINT
-			is_aiming = false # OVERRIDES!!
+			#is_aiming = false # OVERRIDES!!
 		else:
 			move_mode = MoveMode.WALK
 
-		if inventory_data.item_mode == InventoryData.ItemMode.ACTIVE and not inventory_data.items.is_empty():
-			is_aiming = true
+		#if inventory_data.item_mode == InventoryData.ItemMode.ACTIVE and not inventory_data.items.is_empty():
+			#is_aiming = true
 		
 		input_dir = input_dir.normalized()
 		var direction = (transform.basis * input_dir).normalized()
@@ -100,7 +123,10 @@ func _physics_process(delta):
 		velocity.y = y_velocity
 		move_and_slide()
 		
-		if camera_mode == CameraMode.THIRD_PERSON and not is_aiming:
+		
+		
+		# FACE DIRECTION IF PLAYER IS NOT AIMING BASICALLY
+		if camera_mode == CameraMode.THIRD_PERSON and (hold_mode == HoldMode.HOLD or hold_mode == HoldMode.HOLSTER):
 			if velocity.length() > 0.1:
 				var flat_velocity = velocity
 				flat_velocity.y = 0
@@ -149,19 +175,16 @@ func _unhandled_input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP and event.pressed:
 			if inventory_data.change_current_index(-1): 
-				inventory_data.item_mode = InventoryData.ItemMode.ACTIVE
-				is_aiming = true
-				var blend = -1 if inventory_data.get_current_item().item_type == ItemData.ItemType.PISTOL else 1
-				print(str(blend))
-				animation_node.switch(blend)
+				#inventory_data.item_mode = InventoryData.ItemMode.ACTIVE
+				#is_aiming = true
+				hold_mode = HoldMode.AIM
 				update_equipped_item()
 				
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN and event.pressed:
 			if inventory_data.change_current_index(1): 
-				inventory_data.item_mode = InventoryData.ItemMode.ACTIVE
-				is_aiming = true
-				var blend = -1 if inventory_data.get_current_item().item_type == ItemData.ItemType.PISTOL else 1
-				animation_node.switch(blend)
+				#inventory_data.item_mode = InventoryData.ItemMode.ACTIVE
+				#is_aiming = true
+				hold_mode = HoldMode.AIM
 				update_equipped_item()
 				
 		
@@ -181,6 +204,12 @@ func _unhandled_input(event):
 		perform_primary_fire()
 	if event.is_action_pressed("secondary_fire"):
 		perform_secondary_fire()
+	if event.is_action_pressed("reload"):
+		perform_reload()
+	if event.is_action_pressed("inspect"):
+		perform_inspect()
+	#else:
+		#hold_mode = HoldMode.AIM
 	if event.is_action_pressed("toggle_camera"):
 		toggle_camera_mode()
 	if event.is_action_pressed("holster"):
@@ -196,10 +225,11 @@ func _unhandled_input(event):
 				#
 
 func set_face_visibility(visibility : bool):
-	face.visible = visibility
-	eyelashes.visible = visibility
-	eyes.visible = visibility
-	hair.visible = visibility
+	pass
+	#face.visible = visibility
+	#eyelashes.visible = visibility
+	#eyes.visible = visibility
+	#hair.visible = visibility
 
 func toggle_camera_mode():
 	camera_mode = CameraMode.THIRD_PERSON if camera_mode == CameraMode.FIRST_PERSON else CameraMode.FIRST_PERSON
@@ -306,21 +336,6 @@ func change_wealth(amount: int):
 
 func check_for_raycast_collision() -> bool:
 	return true
-# This updates the item that the player has equipped
-func update_equipped_item():
-	if inventory_data.item_mode == InventoryData.ItemMode.ACTIVE and inventory_data.current_index >= 0 and inventory_data.current_index < inventory_data.get_size():
-		var item = inventory_data.get_current_item()
-		equipped_item.equip_item(item)
-		print("visually equipped" + item.display_name)
-	else:
-		equipped_item.equip_item(null)
-		print("visually unequipped any item")
-
-func set_inventory_selection(index: int):
-	inventory_data.set_current_index(index)
-	inventory_data.item_mode = InventoryData.ItemMode.ACTIVE
-	update_equipped_item()
-	
 
 func drop_current_item():
 	if inventory_data.current_index >= 0:

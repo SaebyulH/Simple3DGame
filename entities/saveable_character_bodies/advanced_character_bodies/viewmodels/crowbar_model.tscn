@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://ijkrjbl1jnmh"]
+
+[ext_resource type="Script" uid="uid://dbyxakbnmw6fp" path="res://entities/saveable_character_bodies/advanced_character_bodies/viewmodels/ViewModel.gd" id="1_ywq8j"]
+[ext_resource type="PackedScene" uid="uid://bvtkqjnf07f7g" path="res://assets/models/crowbar/crowbar.glb" id="2_p4h71"]
+
+[node name="CrowbarModel" type="Node3D"]
+script = ExtResource("1_ywq8j")
+metadata/_custom_type_script = "uid://dbyxakbnmw6fp"
+
+[node name="crowbar2" parent="." instance=ExtResource("2_p4h71")]
+
+[editable path="crowbar2"]

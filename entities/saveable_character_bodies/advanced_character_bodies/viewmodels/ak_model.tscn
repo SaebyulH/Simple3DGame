@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://d0n5ooltt56ia"]
+
+[ext_resource type="Script" uid="uid://cxmmfnxsanmgm" path="res://entities/saveable_character_bodies/advanced_character_bodies/viewmodels/ak_model.gd" id="1_3rxve"]
+[ext_resource type="PackedScene" uid="uid://cpclgmj0y22k1" path="res://assets/models/ak/ak.glb" id="1_w0tfg"]
+
+[node name="AkModel" type="Node3D"]
+script = ExtResource("1_3rxve")
+
+[node name="ak2" parent="." instance=ExtResource("1_w0tfg")]
+
+[node name="Skeleton3D" parent="ak2/ak" index="0"]
+bones/0/position = Vector3(-0.00667147, 0.0754366, 0.00912352)
+bones/0/rotation = Quaternion(0.612477, 0.0145857, 0.128428, -0.779849)
+bones/2/rotation = Quaternion(-0.707107, 5.53607e-08, -5.79949e-08, 0.707107)
+bones/3/position = Vector3(0.0115354, 0.119468, 0.0307888)
+bones/4/position = Vector3(-1.72992e-08, 0.148015, -0.103329)
+bones/4/rotation = Quaternion(0.707107, 2.1689e-08, 2.95915e-08, 0.707107)
+bones/5/position = Vector3(1.58321e-08, 0.149993, 0.0325996)
+bones/5/rotation = Quaternion(3.72529e-09, -5.58793e-09, 1.61989e-07, 1)
+
+[editable path="ak2"]
