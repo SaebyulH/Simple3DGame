@@ -9,6 +9,7 @@ points = PackedVector3Array(0.0211391, 0.160803, 0.1747, -0.0062811, -0.00063010
 
 [node name="ShitPistol" type="RigidBody3D"]
 transform = Transform3D(0.999096, 0, 0, 0, 0.999096, 0, 0, 0, 0.999096, 0, 0, 0)
+collision_layer = 3
 center_of_mass_mode = 1
 script = ExtResource("1_rum3i")
 display_name = "Shit Pistol"

@@ -78,5 +78,5 @@ layout_mode = 2
 text = "Drop Item"
 
 [connection signal="item_selected" from="VBoxContainer/MainContent/ItemListPanel/ItemList" to="." method="_on_item_list_item_selected"]
-[connection signal="pressed" from="VBoxContainer/MainContent/InfoPanel/DropButton" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/MainContent/InfoPanel/DropButton" to="." method="_on_drop_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainContent/InfoPanel/DropButton" to="." method="_on_button_pressed"]

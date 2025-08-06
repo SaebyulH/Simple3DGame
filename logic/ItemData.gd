@@ -34,3 +34,30 @@ enum ShootingType {HITSCAN, PROJECTILE}
 @export var projectile_path: String
 @export var sound_path: String
 @export var animation_name: String
+
+func _to_string() -> String:
+	var text := "Item: %s\n" % display_name
+	text += "  Type: %s\n" % ItemType.keys()[item_type]
+	text += "  Mass: %.1f\n" % mass
+	text += "  Value: %.1f\n" % value
+
+	text += "Combat:\n"
+	text += "  Uses Ammo: %s\n" % ("Yes" if uses_ammo else "No")
+	if uses_ammo:
+		text += "  Ammo Type: %s\n" % (ammo_type.display_name if ammo_type else "None")
+		text += "  Magazine Size: %d\n" % mag_size
+	text += "  Shooting Mode: %s\n" % ShootingMode.keys()[shooting_mode]
+	text += "  Shooting Type: %s\n" % ShootingType.keys()[shooting_type]
+	text += "  Initial Delay: %.2f s\n" % initial_shooting_delay
+	text += "  Between Shots Delay: %.2f s\n" % between_shooting_delay
+	text += "  Range: %.1f\n" % hitscan_range
+	text += "  Damage: %d\n" % damage
+
+	text += "Visuals:\n"
+	text += "  Scene Path: %s\n" % scene_path
+	text += "  View Model: %s\n" % (view_model.resource_path if view_model else "None")
+	text += "  Projectile Path: %s\n" % projectile_path
+	text += "  Sound Path: %s\n" % sound_path
+	text += "  Animation: %s\n" % animation_name
+
+	return text

@@ -40,10 +40,11 @@ func _process(delta):
 	elapsed_time += delta
 	# HUD
 	if hud:
-		hud.update_time(elapsed_time)
-		hud.update_health(character_data.health, character_data.max_health)
-		hud.update_wealth(character_data.wealth)
-		hud.update_display_name(character_data.display_name)
+		#hud.update_time(elapsed_time)
+		#hud.update_health(character_data.health, character_data.max_health)
+		#hud.update_wealth(character_data.wealth)
+		#hud.update_display_name(character_data.display_name)
+		hud.update_player_stats(character_data.display_name)
 		hud.update_inventory_data(inventory_data)
 		hud.update_ammo_label(inventory_data)
 		

@@ -1,10 +1,22 @@
-[gd_scene load_steps=3 format=3 uid="uid://cnhe0gojod7vi"]
+[gd_scene load_steps=4 format=3 uid="uid://cnhe0gojod7vi"]
 
 [ext_resource type="Script" uid="uid://dmrvc6cr7esfr" path="res://interface/player_hud/player_hud.gd" id="1_mlvnn"]
 [ext_resource type="PackedScene" uid="uid://ddohxg6ua5vix" path="res://interface/input_overlay/input_overlay.tscn" id="2_qjxdm"]
+[ext_resource type="Texture2D" uid="uid://ch7mr7jchkknj" path="res://assets/blood_border_transparent.png" id="3_tgnlt"]
 
 [node name="PlayerHUD" type="CanvasLayer"]
 script = ExtResource("1_mlvnn")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("3_tgnlt")
+expand_mode = 3
 
 [node name="MarginContainer2" type="MarginContainer" parent="."]
 anchors_preset = 5
@@ -54,21 +66,9 @@ size_flags_horizontal = 4
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 
-[node name="DisplayNameLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="PlayerStatsLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Display Name: TEMP"
-
-[node name="TimeLabel" type="Label" parent="MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Time: TEMP"
-
-[node name="HealthLabel" type="Label" parent="MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Health: TEMP"
-
-[node name="WealthLabel" type="Label" parent="MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Wealth: TEMP"
+text = "PLAYER STATS: TEMP"
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchors_preset = 15
@@ -123,13 +123,26 @@ layout_mode = 2
 text = "TEMP LABEL FOR INVENTORY"
 
 [node name="InputOverlay" parent="." instance=ExtResource("2_qjxdm")]
-anchors_preset = -1
-anchor_right = 0.999234
-anchor_bottom = 1.01699
-offset_left = -718.0
-offset_top = 4.0
-offset_right = -716.529
-offset_bottom = -14.3456
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 0
 scale = Vector2(0.5003, 0.509188)
 size_flags_horizontal = 4
-size_flags_vertical = 4
+size_flags_vertical = 8
+
+[node name="HealthBarContainer" type="MarginContainer" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 40.0
+grow_vertical = 0
+
+[node name="HealthBar" type="ProgressBar" parent="HealthBarContainer"]
+modulate = Color(0, 1, 0.00784314, 1)
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2

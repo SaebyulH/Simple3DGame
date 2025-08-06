@@ -25,7 +25,7 @@ var hold_mode := HoldMode.AIM
 var interact_target: Node = null
 var trade_target: Node = null
 
-var hostile := false
+@export var hostile := false
 
 @export var dialogic_name := "THIS MUST MATCH THE DISPLAY NAME OF AN EXISTING DIALOGIC CHARACTER"
 ######################################################
@@ -456,6 +456,25 @@ func fire_weapon_with_delay() -> void:
 			if attack_raycast.is_colliding():
 				var target = attack_raycast.get_collider()
 				if target:
+					
+					
+					
+					
+					
+					
+					#Add bullet hole
+					var bullet_hole = preload("res://effects/bullet_decal.tscn").instantiate()
+					target.add_child(bullet_hole)
+					bullet_hole.global_transform.origin = attack_raycast.get_collision_point()
+					bullet_hole.look_at(attack_raycast.get_collision_point() + attack_raycast.get_collision_normal(), Vector3.UP)
+					
+					# Apply physics force if it's a RigidBody3D
+					if target is RigidBody3D:
+						var force_direction = -attack_raycast.get_collision_normal()
+						var force_magnitude = item.damage * 15.0  # Tweak this value as needed
+						target.apply_impulse(attack_raycast.get_collision_point() - target.global_position, force_direction * force_magnitude)
+
+
 					var crit = false
 					if target.is_in_group("crit_hurtbox"):
 						crit = true

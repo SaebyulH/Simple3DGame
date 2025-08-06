@@ -17,8 +17,8 @@ static func create_player_character_data() -> CharacterData:
 	character_data.speed = 5.0
 	character_data.can_move = true
 	character_data.jump_force = 5.0
-	character_data.health = 9000
-	character_data.max_health = 9000
+	character_data.health = 1000
+	character_data.max_health = 1000
 	character_data.display_name = "Main Character"
 	character_data.wealth = 0
 	return character_data

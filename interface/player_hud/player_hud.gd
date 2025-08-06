@@ -1,10 +1,7 @@
 extends CanvasLayer
 class_name PlayerHUD
 
-@onready var display_name_label := $MarginContainer/VBoxContainer/DisplayNameLabel
-@onready var time_label := $MarginContainer/VBoxContainer/TimeLabel
-@onready var health_label := $MarginContainer/VBoxContainer/HealthLabel
-@onready var wealth_label := $MarginContainer/VBoxContainer/WealthLabel
+@onready var player_stats_label := $MarginContainer/VBoxContainer/PlayerStatsLabel
 @onready var object_name_label := $CenterContainer/VBoxContainer/ObjectNameLabel
 @onready var interact_prompt_label := $CenterContainer/VBoxContainer/InteractPromptLabel
 @onready var inventory_list := $RightInventoryContainer/InventoryList
@@ -14,6 +11,9 @@ class_name PlayerHUD
 @onready var enemy_name_label := $MarginContainer2/VBoxContainer/EnemyName
 @onready var enemy_health_label := $MarginContainer2/VBoxContainer/EnemyHealth
 @onready var ammo_label := $MarginContainer3/VBoxContainer/AmmoLabel
+
+@onready var blood_border: TextureRect = $TextureRect
+@onready var health_bar := $HealthBarContainer/HealthBar
 
 @onready var player := get_tree().root.get_node("Main/Saveables/Player")
 
@@ -33,7 +33,7 @@ func update_inventory_data(inventory_data: InventoryData):
 	for i in inventory_data.items.size():
 		var item = inventory_data.items[i]
 		var label = Label.new()
-		label.text = format_item(item)
+		label.text = item.display_name
 		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 
 		# Highlight current item in red
@@ -57,34 +57,34 @@ func hide_enemy_stats():
 	enemy_name_label.hide()
 	enemy_health_label.hide()
 
-func format_item(item: ItemData) -> String:
-	var text = "%s\n" % item.display_name
-	#text += "  Mass: %.1f\n" % item.mass
-	#text += "  Value: %.1f\n" % item.value
-	#if item.uses_ammo:
-		#text += "  Ammo Type: %s\n" % (item.ammo_type.display_name if item.ammo_type else "None")
-	#text += "  Range: %.1f\n" % item.range
-	#text += "  Damage: %d\n" % item.damage
-	#text += "  Health: %d\n" % item.health
-	return text
+
 
 func _ready() -> void:
 	hide_interactable_ui()
 	hide_tradeable_ui()
 	update_ammo_label(player.inventory_data)
 
-func update_display_name(display_name: String):
-	display_name_label.text = "Display Name: " + display_name
+func update_player_stats(display_name: String):
+	player_stats_label.text = player.character_data.to_string()
 
-func update_health(health: int, max_health: int):
-	health_label.text = "Health: %d / %d" % [health, max_health]
+	var health :int= player.character_data.health
+	var max_health :int= player.character_data.max_health
+	var health_ratio := float(health) / max_health
+
+	# Update blood border
+	var opacity := 0.0
+	if health_ratio <= 0.65:
+		opacity = clamp((0.65 - health_ratio) / 0.4, 0.0, 1.0)
+	var color := blood_border.self_modulate
+	color.a = opacity
+	blood_border.self_modulate = color
+
+	# Update health bar
+	health_bar.value = health
+	health_bar.max_value = max_health
 
 
-func update_wealth(wealth: int):
-	wealth_label.text = "Wealth: " + str(wealth)
 
-func update_time(time_elapsed: float):
-	time_label.text = "Time: %.1f s" % time_elapsed
 
 func show_interactable_name(display_name: String, verb: String):
 	object_name_label.text = display_name

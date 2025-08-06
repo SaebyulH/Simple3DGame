@@ -9,6 +9,8 @@ extends CanvasLayer
 @onready var item_details: Label = $VBoxContainer/MainContent/InfoPanel/ItemDetails
 @onready var preview: Node3D = $VBoxContainer/MainContent/InfoPanel/SubViewportContainer/SubViewport/ItemPreviewRoot
 @onready var drop_button : Button = $VBoxContainer/MainContent/InfoPanel/DropButton
+
+
 #var _last_item_count: int = -1
 var rotation_speed := 1.0 # Radians per second
 
@@ -45,7 +47,7 @@ func update_details():
 	var current_index = player.inventory_data.current_index
 	print(str(current_index))
 	if current_index >= 0:
-		item_details.text = _format_item_details(player.inventory_data.items[current_index])
+		item_details.text = player.inventory_data.items[current_index].to_string()
 		update_preview()
 		drop_button.show()
 	else:
@@ -73,22 +75,6 @@ func update_preview():
 		preview.add_child(item_instance)
 		item_instance.owner = preview # Needed for proper scene ownership
 
-func _format_item_details(item: ItemData) -> String:
-	return """Name: %s
-		Mass: %.1f
-		Value: $%.2f
-		Uses Ammo: %s
-		Ammo Type: %s
-		Range: %.1f
-		Damage: %d""" % [
-		item.display_name,
-		item.mass,
-		item.value,
-		item.uses_ammo,
-		item.ammo_type.resource_name if item.uses_ammo and item.ammo_type else "N/A",
-		item.hitscan_range,
-		item.damage
-	]
 
 func _on_drop_button_pressed() -> void:
 	player.drop_current_item() # Replace with function body.

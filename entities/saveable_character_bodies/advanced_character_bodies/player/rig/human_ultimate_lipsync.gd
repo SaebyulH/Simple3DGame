@@ -10,7 +10,7 @@ func _ready() -> void:
 	disable_ragdoll()
 
 func interact(player: AdvancedCharacter):
-	player.change_health(100)
+	player.change_health(300)
 	player.play_sound("res://assets/tf2-heavy-om-nom-nom-sound-effect.mp3")
 	queue_free()
 
@@ -26,7 +26,7 @@ func get_equipped_item_rotation():
 
 
 func get_interact_verb() -> String:
-	return "Eat (Heal 100 HP)"
+	return "Eat (Heal 300 HP)"
 
 func get_display_name() -> String:
 	return display_name
