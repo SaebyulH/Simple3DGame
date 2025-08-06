@@ -11,9 +11,7 @@ func _ready() -> void:
 
 func interact(player: AdvancedCharacter):
 	player.change_health(100)
-	if "hit sound" in player:
-		player.hit_sound.stream = load("res://assets/tf2-heavy-om-nom-nom-sound-effect.mp3")
-		player.hit_sound.play()
+	player.play_sound("res://assets/tf2-heavy-om-nom-nom-sound-effect.mp3")
 	queue_free()
 
 func delete_equipped_item():

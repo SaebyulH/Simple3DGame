@@ -469,10 +469,9 @@ func fire_weapon_with_delay() -> void:
 						enemy.change_health(-(item.damage * multiplier))
 						if "hit_sound" in enemy and enemy is not Player:
 							if crit:
-								enemy.hit_sound.stream = load("res://assets/critical-hit-sounds-effect.mp3")
+								enemy.play_sound("res://assets/critical-hit-sounds-effect.mp3")
 							else:
-								enemy.hit_sound.stream = load("res://assets/tf2_hitsound.mp3")
-							enemy.hit_sound.play()
+								enemy.play_sound("res://assets/tf2_hitsound.mp3")
 						
 							
 						
@@ -484,6 +483,11 @@ func fire_weapon_with_delay() -> void:
 	await create_local_timer(item.between_shooting_delay)
 
 	can_shoot = true
+
+func play_sound(sound_path: String):
+	hit_sound.stream = load(sound_path)
+	hit_sound.play()
+	
 
 func find_enemy_root(node)-> Node:
 	while node != null:
