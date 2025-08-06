@@ -1,6 +1,6 @@
 extends Saveable
 class_name SaveableInteractable
-@export var display_name : String
+@export var display_name : String 
 # Literally the same, just has a name so it can be refered to in the interact function
 # The reason this might need to be saved is because it could move around since it is a RigidBody
 

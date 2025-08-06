@@ -45,21 +45,23 @@ func update():
 	
 
 func update_lists():
-	item_list_1.clear()
-	item_list_2.clear()
-	
-	for i in player.inventory_data.items:
-		item_list_1.add_item(i.display_name)
-	for i in npc.inventory_data.items:
-		item_list_2.add_item(i.display_name)
+	if npc and player:
+		item_list_1.clear()
+		item_list_2.clear()
+		
+		for i in player.inventory_data.items:
+			item_list_1.add_item(i.display_name)
+		for i in npc.inventory_data.items:
+			item_list_2.add_item(i.display_name)
 
 
 
 func update_headers():
-	max_mass_label_1.text = "Mass: " + str(player.inventory_data.total_mass()) + "/" +str(player.inventory_data.max_mass) + " Max"
-	item_count_label_1.text = "Item Count: " + str(player.inventory_data.items.size())
-	max_mass_label_2.text = "Mass: " + str(npc.inventory_data.total_mass()) + "/" +str(npc.inventory_data.max_mass) + " Max"
-	item_count_label_2.text = "Item Count: " + str(npc.inventory_data.items.size())
+	if npc and player:
+		max_mass_label_1.text = "Mass: " + str(player.inventory_data.total_mass()) + "/" +str(player.inventory_data.max_mass) + " Max"
+		item_count_label_1.text = "Item Count: " + str(player.inventory_data.items.size())
+		max_mass_label_2.text = "Mass: " + str(npc.inventory_data.total_mass()) + "/" +str(npc.inventory_data.max_mass) + " Max"
+		item_count_label_2.text = "Item Count: " + str(npc.inventory_data.items.size())
 	
 
 	

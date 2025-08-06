@@ -1,7 +1,7 @@
 extends AdvancedCharacter
 class_name Player
 
-
+var bullet_time := false
 # Player Specific
 enum CameraMode { FIRST_PERSON, THIRD_PERSON }
 const ENEMY_STATS_DISTANCE := 15.0 # Distance to see enemy stats
@@ -14,50 +14,26 @@ var spring_interp_speed: float = 5.0  # Adjust speed as needed
 var mouse_sensitivity := 0.003
 var camera_mode := CameraMode.FIRST_PERSON
 
-# Player specific
-#@onready var face := $Skin/MaxSkin/Max_Shooter/max/Skeleton3D/Head
-#@onready var eyelashes := $Skin/MaxSkin/Max_Shooter/max/Skeleton3D/eyelashes
-#@onready var eyes := $Skin/MaxSkin/Max_Shooter/max/Skeleton3D/eyes_001
-#@onready var hair := $Skin/MaxSkin/Max_Shooter/max/Skeleton3D/hair
+
 @onready var spring := $Head/SpringParent/SpringArm3D
 @onready var camera := $Head/SpringParent/SpringArm3D/MarginThing/Camera3D
 
-@onready var head_bone := $Skin/MaxSkin/Human_Ultimate_Current/rig/Skeleton3D/HeadBone/AdjustedHead
+@onready var head_bone := $Skin/MaxSkin/Human_Ultimate_Lipsync/rig/Skeleton3D/HeadBone/AdjustedHead
 @onready var hud := get_parent().get_parent().get_node("PlayerHUD") as PlayerHUD
 #@onready var timer := $ShootTimer
 # Ready ##########################################################
 func _ready() -> void:
-	#super()
-	#toggle_camera_mode()
+	super()
+
+#OVERRIDE
+func setup_uninitialized_variables():
+	character_data = CharacterDataFactory.create_player_character_data()
+	inventory_data = InventoryDataFactory.create_player_inventory_data()	
 	interact_raycast = $Head/SpringParent/SpringArm3D/MarginThing/Camera3D/InteractRayCast3D
 	attack_raycast = $Head/SpringParent/SpringArm3D/MarginThing/Camera3D/AttackRayCast3D
-	
-	character_data = CharacterDataFactory.create_player_character_data()
-	inventory_data = InventoryDataFactory.create_player_inventory_data()
-	skin.rotation = DEFAULT_SKIN_ROTATION
-	update_equipped_item()
-	
-	# Dialogic Signals
-	Dialogic.signal_event.connect(DialogicSignal)
-	Dialogic.timeline_started.connect(func(): 
-		character_data.can_move = false
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		processor.in_dialogue = true
-		)
-	Dialogic.timeline_ended.connect(func(): 
-		character_data.can_move = true
-		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-		processor.in_dialogue = false
-		CameraManager.reset_cam()
-		)
-	Dialogic.Text.speaker_updated.connect(
-		func(speaker: DialogicCharacter):
-			if speaker and speaker.nicknames[0]:
-				CameraManager.auto_camera(speaker.nicknames[0])
-	)
-	Dialogic.Text.animation_textbox_new_text.connect(	func():
-		animation_node.set_random_expression()
-	)
+	dialogic_name = "You"
+	display_name = dialogic_name
+
 	
 # Process functions ############################################################
 func _process(delta):
@@ -121,6 +97,17 @@ func _physics_process(delta):
 		
 		velocity = direction * get_effective_speed()
 		velocity.y = y_velocity
+		
+		if bullet_time:
+			if velocity == Vector3.ZERO:
+				Engine.time_scale = 0.01
+			else:
+				Engine.time_scale = 1.0
+		else:
+			Engine.time_scale = 1.0
+			
+		
+		
 		move_and_slide()
 		
 		
@@ -212,6 +199,8 @@ func _unhandled_input(event):
 		#hold_mode = HoldMode.AIM
 	if event.is_action_pressed("toggle_camera"):
 		toggle_camera_mode()
+	if event.is_action_pressed("bullet_time"):
+		toggle_bullet_time()
 	if event.is_action_pressed("holster"):
 		holster()
 	if event.is_action_pressed("drop"):
@@ -230,6 +219,9 @@ func set_face_visibility(visibility : bool):
 	#eyelashes.visible = visibility
 	#eyes.visible = visibility
 	#hair.visible = visibility
+
+func toggle_bullet_time():
+	bullet_time = !bullet_time 
 
 func toggle_camera_mode():
 	camera_mode = CameraMode.THIRD_PERSON if camera_mode == CameraMode.FIRST_PERSON else CameraMode.FIRST_PERSON
@@ -252,6 +244,12 @@ func update_spring_length(delta):
 func check_for_interactable():
 	
 	var target = _get_interact_target()
+	
+	if target is PhysicalBone3D:
+		target = find_interactable_parent(target)
+	
+	
+	
 	if target and target.has_method("interact"):
 		interact_target = target
 		
@@ -266,10 +264,13 @@ func check_for_interactable():
 			target_name = target.name
 		if target.has_method("get_interact_verb"):
 			verb = target.get_interact_verb()
-			hud.show_interactable_name(target_name, verb)
+			hud.show_interactable_name(target_name, verb)		
 	else:
-		interact_target = null
 		hud.hide_interactable_ui()
+		
+		
+		
+		
 	if target and target.has_method("trade"):
 		trade_target = target
 		hud.show_tradeable_prompt()

@@ -138,28 +138,41 @@ func spawn_projectile(scene_path: String, character: Node3D):
 	if instance is RigidBody3D:
 		instance.linear_velocity = launch_direction * speed
 	
+func spawn_ragdoll_near_node(spawn: HumanUltimateLipsync, spawner: Node3D):
+	#saveables_node.add_child(spawn)
+	spawn.reparent(saveables_node, true)
+	spawn.enable_ragdoll()
+	
+	
+	#var upward = spawner.global_transform.basis.y.normalized()
+	#var spawn_position = spawner.global_position + upward * 2.0
+	#spawn.global_position = spawn_position
+	#spawn.global_rotation = spawner.global_rotation + Vector3(0, PI/2, 0)
+	
+
 	
 	
 
-func spawn_pickup_near_character(saveable_data: ItemData, character: Node3D):
+func spawn_pickup_at_location(saveable_data: ItemData, position: Vector3, rotation: Vector3 = Vector3.ZERO, launch_vector: Vector3 = Vector3.ZERO):
 	var scene_path = saveable_data.scene_path
 	var scene_resource = load(scene_path) # Load the PackedScene
 	var instance = scene_resource.instantiate()
 	saveables_node.add_child(instance)
 	instance.apply_save_data_from_item_data(saveable_data)
-
-	var forward = -character.global_transform.basis.z.normalized()
-	var spawn_position = character.global_position + forward * 2.0
-	instance.global_position = spawn_position
-	instance.global_rotation = character.global_rotation + Vector3(0, PI/2, 0)
+	instance.global_position = position
+	instance.global_rotation = rotation
 	
-	# Customizable vertical force factor (can be adjusted)
-	var vertical_force = 4.0  # Controls how much upward force to apply
-	var speed = 4.0  # Horizontal speed factor
-	# Mix forward direction with upward force (add the y component)
-	var launch_direction = forward + Vector3(0, vertical_force, 0)
-	launch_direction = launch_direction.normalized()  # Normalize to prevent excessive speed from the vertical force
-
 	# Apply the velocity (horizontal and vertical components)
 	if instance is RigidBody3D:
-		instance.linear_velocity = launch_direction * speed
+		instance.linear_velocity = launch_vector
+	
+
+
+
+func spawn_pickup_near_character(saveable_data: ItemData, character: Node3D):
+	var forward = -character.global_transform.basis.z.normalized()
+	var spawn_position = character.global_position + forward * 2.0
+
+	var launch_direction = forward + Vector3(0, 4.0, 0)
+	launch_direction = launch_direction.normalized()  # Normalize to prevent excessive speed from the vertical force
+	spawn_pickup_at_location(saveable_data, spawn_position, character.global_rotation + Vector3(0, PI/2, 0), launch_direction)

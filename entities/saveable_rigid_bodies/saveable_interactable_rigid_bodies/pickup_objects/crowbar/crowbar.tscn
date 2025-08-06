@@ -14,7 +14,6 @@ metadata/_custom_type_script = "uid://08ceup4wtg1b"
 [node name="crowbar2" parent="." instance=ExtResource("2_4thg6")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(4.29853, 0, 0, 0, 1.42748, 0, 0, 0, 1.42748, 0, 0, 0)
 shape = SubResource("ConvexPolygonShape3D_x2rcc")
 
 [editable path="crowbar2"]

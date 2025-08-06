@@ -7,3 +7,4 @@
 script = ExtResource("1_52het")
 
 [node name="AkModel" parent="." instance=ExtResource("6_6jpjy")]
+visible = false

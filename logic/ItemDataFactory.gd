@@ -106,7 +106,7 @@ static func create_shit_grenade_launcher() -> ItemData:
 	item_data.damage = 50
 	item_data.scene_path = "res://entities/saveable_rigid_bodies/saveable_interactable_rigid_bodies/pickup_objects/shit_grenade_launcher/shit_grenade_launcher.tscn"
 	item_data.view_model = load("res://entities/saveable_character_bodies/advanced_character_bodies/viewmodels/shit_grenade_launcher_model.tscn")
-	item_data.sound_path = "res://assets/pop.mp3"
+	item_data.sound_path = "res://assets/tf2-grenade-launcher-shoot.mp3"
 	item_data.projectile_path = "res://entities/saveable_rigid_bodies/projectiles/grenade.tscn"
 	
 	
@@ -145,7 +145,7 @@ static func create_ak() -> ItemData:
 	item_data.mass = 0.85
 	item_data.value = 699.99
 	item_data.uses_ammo = true
-	item_data.ammo_type = AmmoDataFactory.create_revolver_ammo()
+	item_data.ammo_type = AmmoDataFactory.create_rifle_ammo()
 	item_data.mag_size = 8
 	item_data.shooting_mode = ItemData.ShootingMode.SEMI_AUTO
 	item_data.shooting_type = ItemData.ShootingType.HITSCAN

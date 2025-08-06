@@ -1,5 +1,4 @@
-[signal arg="test_lipsync"]
-advanced_character: Harvard List Number One\
+harvard_lister: Harvard List Number One\
 The birch canoe slid on the smooth planks.\
 Glue the sheet to the dark blue background.\
 It's easy to tell the depth of a well.\
@@ -10,3 +9,5 @@ The box was thrown beside the parked truck.\
 The hogs were fed chopped corn and garbage.\
 Four hours of steady work faced us.\
 A large size in stockings is hard to sell.
+[signal arg="test_lipsync"]
+main_character: What?

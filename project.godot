@@ -15,6 +15,10 @@ run/main_scene="uid://by88g1j3kvcfw"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://assets/icon.svg"
 
+[audio]
+
+general/text_to_speech=true
+
 [autoload]
 
 SaveManagerSingleton="*res://logic/SaveManager.gd"
@@ -29,7 +33,9 @@ CameraManager="*res://logic/CameraManager.gd"
 
 directories/dch_directory={
 "advanced_character": "res://dialogic/characters/advanced_character.dch",
+"animation_demonstration_character": "res://dialogic/characters/animation_demonstration_character.dch",
 "arms_dealer": "res://dialogic/characters/arms_dealer.dch",
+"harvard_lister": "res://dialogic/characters/harvard_lister.dch",
 "main_character": "res://dialogic/characters/main_character.dch",
 "mysterious_box": "res://dialogic/characters/mysterious_box.dch",
 "wise_crab": "res://dialogic/characters/wise_crab.dch"
@@ -37,6 +43,7 @@ directories/dch_directory={
 directories/dtl_directory={
 "advanced_npc_autocam_timeline": "res://dialogic/timelines/advanced_npc_autocam_timeline.dtl",
 "advanced_npc_timeline": "res://dialogic/timelines/advanced_npc_timeline.dtl",
+"animation_demonstration_timeline": "res://dialogic/timelines/animation_demonstration_timeline.dtl",
 "crab_conversation": "res://dialogic/timelines/crab_conversation.dtl",
 "crab_conversation_2": "res://dialogic/timelines/crab_conversation_2.dtl",
 "default_merchant_timeline": "res://dialogic/timelines/default_merchant_timeline.dtl",
@@ -200,8 +207,18 @@ reload={
 inspect={
 "deadzone": 0.2,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":73,"key_label":0,"unicode":105,"location":0,"echo":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":89,"key_label":0,"unicode":121,"location":0,"echo":false,"script":null)
 ]
 }
+bullet_time={
+"deadzone": 0.2,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":3,"canceled":false,"pressed":false,"double_click":false,"script":null)
+]
+}
+
+[physics]
+
+3d/physics_engine="Jolt Physics"
 
 [rendering]
 

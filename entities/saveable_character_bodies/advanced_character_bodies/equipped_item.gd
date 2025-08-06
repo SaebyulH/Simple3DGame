@@ -10,3 +10,9 @@ func equip_item(item_data: ItemData) -> void:
 	# Equip new item
 	var instance := item_data.view_model.instantiate()
 	add_child(instance)
+
+func has_has_equipped_item() -> bool:
+	if get_child(0):
+		return true
+	else:
+		return false

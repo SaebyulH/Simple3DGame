@@ -12,8 +12,10 @@ const SPRINT_FACTOR := 1.33
 const CROUCH_FACTOR := 0.66
 const INTERACT_DISTANCE := 2.0 # Interact Distance for interactable props
 
+const ACCELERATION := 1.0
 
 # Universal
+var display_name :String
 var y_velocity := 0.0
 var can_shoot: bool = true
 var inventory_data: InventoryData = InventoryData.new()
@@ -25,6 +27,7 @@ var trade_target: Node = null
 
 var hostile := false
 
+@export var dialogic_name := "THIS MUST MATCH THE DISPLAY NAME OF AN EXISTING DIALOGIC CHARACTER"
 ######################################################
 # Universal
 @onready var processor: Node = get_parent().get_parent().get_node("Processor")
@@ -34,8 +37,8 @@ var hostile := false
 @onready var interact_raycast : RayCast3D #= $Head/InteractRayCast3D
 @onready var attack_raycast : RayCast3D #= $Head/AttackRayCast3D2
 
-#@onready var equipped_item := $Skin/MaxSkin/Human_Ultimate_Current/rig/Skeleton3D/HandBone/EquippedItem  # Update path as needed
-@onready var muzzle_flash := $Skin/MaxSkin/Human_Ultimate_Current/rig/Skeleton3D/HandBone/MuzzleFlash
+#@onready var equipped_item := $Skin/MaxSkin/Human_Ultimate_Lipsync/rig/Skeleton3D/HandBone/EquippedItem  # Update path as needed
+@onready var muzzle_flash := $Skin/MaxSkin/Human_Ultimate_Lipsync/rig/Skeleton3D/HandBone/MuzzleFlash
 @onready var navigation_agent : NavigationAgent3D = $NavigationAgent3D
 @onready var head := $Head
 
@@ -46,26 +49,39 @@ var hostile := false
 @onready var initial_timer := $InitialShotTimer
 @onready var between_timer := $BetweenShotTimer
 
-@onready var gun_sound := $Skin/MaxSkin/Human_Ultimate_Current/rig/Skeleton3D/HandBone/GunSound
-@onready var hit_sound := $Skin/MaxSkin/Human_Ultimate_Current/rig/Skeleton3D/HeadBone/HitSound
+@onready var gun_sound := $Skin/MaxSkin/Human_Ultimate_Lipsync/rig/Skeleton3D/HandBone/GunSound
+@onready var hit_sound := $Skin/MaxSkin/Human_Ultimate_Lipsync/rig/Skeleton3D/HeadBone/HitSound
 
 @onready var selfie_cam := $SelfieCamera
 @onready var ots_cam := $OTSCamera
+
+
+var dialogic_current_speaker :String
 # Ready empty for now ##########################################################
 func _ready() -> void:
 	super()
 	add_to_group("characters")
-	character_data = CharacterDataFactory.create_advanced_npc_character_data()
-	inventory_data = InventoryDataFactory.create_advanced_npc_inventory_data()
-	
-	interact_raycast = get_node_or_null("Head/InteractRayCast3D")
-	attack_raycast = get_node_or_null("Head/AttackRayCast3D")
-	
-	skin.rotation = DEFAULT_SKIN_ROTATION
-	
-	unimmobilize()
+	setup_uninitialized_variables()
 	update_equipped_item()
 	
+	
+	setup_dialogic_signals()
+	setup_skin()
+	unimmobilize()
+	
+
+func setup_uninitialized_variables():
+	character_data = CharacterDataFactory.create_advanced_npc_character_data()
+	inventory_data = InventoryDataFactory.create_advanced_npc_inventory_data()
+	display_name = dialogic_name
+	interact_raycast = get_node_or_null("Head/InteractRayCast3D")
+	attack_raycast = get_node_or_null("Head/AttackRayCast3D")
+
+func setup_skin():
+	skin.rotation = DEFAULT_SKIN_ROTATION
+	animation_node.randomize_character()
+
+func setup_dialogic_signals():
 	# Dialogic Signals
 	Dialogic.signal_event.connect(DialogicSignal)
 	Dialogic.timeline_started.connect(func(): 
@@ -81,14 +97,47 @@ func _ready() -> void:
 		)
 	Dialogic.Text.speaker_updated.connect(
 		func(speaker: DialogicCharacter):
-			if speaker and speaker.nicknames[0]:
-				CameraManager.auto_camera(speaker.nicknames[0])
+			#if the speaker exists in dialogic
+			if speaker and speaker.display_name:
+				dialogic_current_speaker = speaker.display_name
+				CameraManager.auto_camera(speaker.display_name)
 	)
-	Dialogic.Text.animation_textbox_new_text.connect(	func():
+	Dialogic.Text.animation_textbox_new_text.connect(func():
 		animation_node.set_random_expression()
 	)
 
 
+
+
+	
+func DialogicSignal(arg: String):
+	if arg == "hostile":
+		if dialogic_current_speaker == dialogic_name:
+			hostile = true
+			print(name, ": NOW HOSTILE")
+		
+	if arg == "test_lipsync":
+		if dialogic_current_speaker == dialogic_name:
+			$AudioStreamPlayerLipsync3D.play_lipsync(preload("res://assets/test_wav_voicelines/Harvard list 01.wav-lipsync.tres"))
+	if arg == "pullout":
+		if dialogic_current_speaker == dialogic_name:
+			perform_pullout()
+	if arg == "reload":
+		if dialogic_current_speaker == dialogic_name:
+			perform_reload()
+	if arg == "inspect":
+		if dialogic_current_speaker == dialogic_name:
+			perform_inspect()
+	if arg == "pullout":
+		if dialogic_current_speaker == dialogic_name:
+			perform_pullout()
+	if arg == "primary_fire":
+		if dialogic_current_speaker == dialogic_name:
+			perform_primary_fire()
+	if arg == "randomize":
+		if dialogic_current_speaker == dialogic_name:
+			animation_node.randomize_character()
+	
 # Talking to the character
 func interact(player: AdvancedCharacter):
 	interact_target = player
@@ -98,11 +147,14 @@ func interact(player: AdvancedCharacter):
 	if to_target.length_squared() > 0.001:  # Avoid NaNs when vectors are too small
 		look_at(global_transform.origin + to_target.normalized(), Vector3.UP)
 	
-	
+	if dialogic_name == "Advanced Character":
+		Dialogic.start("advanced_npc_autocam_timeline")
+	elif dialogic_name == "Harvard Lister":
+		Dialogic.start("test_lipsync_timeline")
+	elif dialogic_name == "Animation Demonstration Character":
+		Dialogic.start("animation_demonstration_timeline")
 
-	interact_target = player
-	#Dialogic.start("advanced_npc_autocam_timeline")
-	Dialogic.start("test_lipsync_timeline")
+	#interact_target = player
 	print(name, ": Started Dialogic")
 
 func get_interact_verb() -> String:
@@ -116,13 +168,7 @@ func set_ots_cam():
 	ots_cam.look_at(to.global_position + Vector3(0, -0.3, 0))
 	ots_cam.set_current(true)
 
-func DialogicSignal(arg: String):
-	if arg == "hostile":
-		hostile = true
-		print(name, ": NOW HOSTILE")
-		
-	if arg == "test_lipsync":
-		$AudioStreamPlayerLipsync3D.play_lipsync(preload("res://assets/test_wav_voicelines/Harvard list 01.wav-lipsync.tres"))
+
 
 func _on_audio_stream_player_lipsync_mouth_shape_changed(mouth_shape: int) -> void:
 	var lip_shape :String = "X"
@@ -153,17 +199,21 @@ func _on_audio_stream_player_lipsync_mouth_shape_changed(mouth_shape: int) -> vo
 
 # Basic Script to be hostile when attacked or just stand there and talk if not
 func _physics_process(delta):
-	if not global_position or not destination_node:
-		return
+
 	if not is_on_floor():
 		y_velocity -= GRAVITY * delta
 	else:
 		y_velocity = 0
 		
+	velocity = Vector3.ZERO
+	velocity.y = y_velocity
+	move_and_slide()
+	
 	if hostile:
+		if not global_position or not destination_node:
+			return
 		hunt_target(delta)
-	else:
-		pass
+		
 
 func hunt_target(delta):
 	print(name, ": HUNTING TARGET")
@@ -228,16 +278,31 @@ func get_effective_speed() -> float:
 # Checks for interactable inside of a hitscan_range 
 func check_for_interactable():
 	var target = _get_interact_target()
-	
+
 	if target and target.has_method("interact"):
 		interact_target = target
 	else:
-		interact_target = null
-		
+		interact_target = find_interactable_parent(target)
+
 	if target and target.has_method("trade"):
 		trade_target = target
 	else:
 		trade_target = null
+
+func find_interactable_parent(node: Node) -> Node:
+	if node == null:
+		return null
+
+	if node.has_method("interact"):
+		return node
+	elif node.get_parent():
+		return find_interactable_parent(node.get_parent())
+	else:
+		return null
+
+
+
+
 
 func _get_interact_target() -> Node3D:
 	# This is so that in 3rd person we have more reach
@@ -287,6 +352,7 @@ func change_health(amount: int):
 func die():
 	for item in inventory_data.items:
 		processor.spawn_pickup_near_character(item, self)
+	processor.spawn_ragdoll_near_node($Skin/MaxSkin/Human_Ultimate_Lipsync, self)
 	queue_free()
 
 func change_wealth(amount: int):
@@ -401,10 +467,15 @@ func fire_weapon_with_delay() -> void:
 					var multiplier = 4.0 if crit else 1.0
 					if enemy:
 						enemy.change_health(-(item.damage * multiplier))
-						if crit:
-							if "hit_sound" in enemy:
-								enemy.hit_sound.stream = load("res://assets/crit.mp3")
-								enemy.hit_sound.play()
+						if "hit_sound" in enemy and enemy is not Player:
+							if crit:
+								enemy.hit_sound.stream = load("res://assets/critical-hit-sounds-effect.mp3")
+							else:
+								enemy.hit_sound.stream = load("res://assets/tf2_hitsound.mp3")
+							enemy.hit_sound.play()
+						
+							
+						
 					print(name, ": Hitscan Attacked ", target, " for ", item.damage, " damage")
 		elif item.shooting_type == ItemData.ShootingType.PROJECTILE:
 			processor.spawn_projectile(item.projectile_path, head)
@@ -435,39 +506,36 @@ func check_for_raycast_collision() -> bool:
 			if target and target is Player:
 				return true
 	return false
-	
+
+
+
+
+
+
+
+
 # This updates the item that the player has equipped
 func update_equipped_item():
 	if inventory_data.get_current_item():
 		
 		var item = inventory_data.get_current_item()
 		animation_node.equip_item(item)
+		
+		
 		print(name, ": equipped ", item.display_name)
 		await create_local_timer(0.0001)
+		
+		
 		perform_pullout()
 		hold_mode = HoldMode.AIM
 		
-		print("FUCK YOU")
+		print("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT:", item.display_name)
 		
 	else:
 		#await animation_node.switch()
 		animation_node.equip_item(null)
 		hold_mode = HoldMode.HOLSTER
 		print(name, ": visually unequipped any item")
-
-
-
-
-# SWITCHING WEAPONS
-#func set_inventory_selection(index: int):
-	#inventory_data.set_current_index(index)
-	##inventory_data.item_mode = InventoryData.ItemMode.ACTIVE
-	#update_equipped_item()
-
-
-
-
-
 
 func drop_current_item():
 	if inventory_data.current_index >= 0:

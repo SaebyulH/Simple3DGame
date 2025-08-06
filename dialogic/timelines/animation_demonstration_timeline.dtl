@@ -1,0 +1,26 @@
+animation_demonstration_character: Hello.
+animation_demonstration_character: I am here to demonstrate some animations.
+animation_demonstration_character: This is a pullout animation
+[signal arg="pullout"]
+animation_demonstration_character: This is a reload animation
+[signal arg="reload"]
+animation_demonstration_character: This is a inspect animation
+[signal arg="inspect"]
+animation_demonstration_character: I can even change How I look
+[signal arg="randomize"]
+animation_demonstration_character: How's that
+[signal arg="randomize"]
+animation_demonstration_character: Or this?
+[signal arg="randomize"]
+animation_demonstration_character: Or this?
+[signal arg="randomize"]
+animation_demonstration_character: This is a shooting animation
+[signal arg="primary_fire"]
+animation_demonstration_character: Sorry I didn't mean that.
+- Fuck you. Asshole
+	main_character: Fuck you. Asshole
+	animation_demonstration_character: No, Fuck you!
+	[signal arg="hostile"]
+- Okay, I forgive you
+	main_character: Okay, I forgive you
+	animation_demonstration_character: Thank you

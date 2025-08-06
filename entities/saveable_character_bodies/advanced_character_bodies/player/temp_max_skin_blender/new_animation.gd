@@ -1,11 +1,11 @@
 extends Node3D
 @export var player: AdvancedCharacter
-@export var blend_lerp_speed: float = 6
+@export var blend_lerp_speed: float = 3
 
 @onready var animation_tree: AnimationTree = $"../NewAnimationTree"
-@onready var equipped_item :EquippedItem= $"../Human_Ultimate_Current/rig/Skeleton3D/HandBone/EquippedItem"
+@onready var equipped_item :EquippedItem= $"../Human_Ultimate_Lipsync/rig/Skeleton3D/HandBone/EquippedItem"
 @onready var target := $"../Target"
-@onready var skeleton: Skeleton3D = $Skeleton3D
+@onready var ik := $"../Human_Ultimate_Lipsync/rig/Skeleton3D/SkeletonIK3D"
 
 var smoothed_head_direction: Vector3
 var head : Node3D
@@ -23,35 +23,59 @@ const SPRINT_BLEND_SPACE := "parameters/sprint_blend_space/blend_position"
 const CROUCH_WALK_SPRINT_BLEND := "parameters/crouch_walk_sprint_blend/blend_amount"
 const HOLD_AIM_SCOPE_BLEND := "parameters/hold_aim_scope_blend/blend_amount"
 const UPPER_BODY_BLEND := "parameters/upper_body_blend/blend_amount"
+const JUMP_BLEND := "parameters/jump_blend/blend_amount"
+
 
 const SHOOT_REQUEST := "parameters/shoot_oneshot/request"
 const RELOAD_REQUEST := "parameters/reload_oneshot/request"
 const INSPECT_REQUEST := "parameters/inspect_oneshot/request"
 const PULLOUT_REQUEST := "parameters/pullout_oneshot/request"
 const SWITCH_REQUEST := "parameters/switch_oneshot/request"
-
 const LIPSYNC_REQUEST := "parameters/lipsync_blend_tree/lipsync_transition/transition_request"
 const EXPRESSION_REQUEST := "parameters/expression_blend_tree/expression_transition/transition_request"
-
-
 const AIM_SCOPE_SHOOT_TRANSITION_REQUEST := "parameters/aim_scope_shoot_transition/transition_request"
-
-
-@onready var ik := $"../Human_Ultimate_Current/rig/Skeleton3D/SkeletonIK3D"
 
 func get_equipped_item_child():
 	return equipped_item.get_child(0) if equipped_item.get_child_count() > 0 else null
 
-
 func equip_item(item_data: ItemData):
 	equipped_item.equip_item(item_data)
-	update_animation_inputs()
+	update_animation_inputs(item_data)
+	
+func randomize_character():
+	var mesh_instance: MeshInstance3D = $"../Human_Ultimate_Lipsync/rig/Skeleton3D/ultimate_human_mesh"
+	var mesh: Mesh = mesh_instance.mesh
+
+	if not mesh:
+		print("No mesh assigned!")
+		return
+
+	# Randomize blend shapes
+	var blend_shape_count = mesh.get_blend_shape_count()
+	for i in blend_shape_count:
+		var name = mesh.get_blend_shape_name(i)
+		var path = "blend_shapes/" + name
+
+		if name == "Sex":
+			mesh_instance.set(path, randi() % 2) # 0 or 1
+		else:
+			mesh_instance.set(path, randf_range(-1.0, 1.0)) # -1 to 1
+
+	# Randomize material colors per instance
+	for surface_index in mesh_instance.get_surface_override_material_count():
+		var base_material := mesh.surface_get_material(surface_index)
+		if base_material and base_material is StandardMaterial3D:
+			var new_material := base_material.duplicate()
+			new_material.albedo_color = Color(randf(), randf(), randf())
+			mesh_instance.set_surface_override_material(surface_index, new_material)
 
 
-
-
-
+	
+	
+	
 func _ready():
+	animation_tree.tree_root = animation_tree.tree_root.duplicate(true)
+
 	animation_tree.active = true
 	
 	head = player.get_node_or_null("Head")
@@ -63,14 +87,12 @@ func _ready():
 	
 	var target_direction = (head.global_transform.origin + head.global_transform.basis.z * 1000) - target.global_transform.origin
 	target.global_transform.basis = Basis().looking_at(target_direction.normalized(), Vector3.UP)
-	
+
 	
 func _physics_process(delta: float) -> void:
 	var is_on_floor = player.is_on_floor()
 	var is_sprinting = player.move_mode == player.MoveMode.SPRINT
 	var is_crouching = player.move_mode == player.MoveMode.CROUCH
-	#var has_weapon = (player.inventory_data.item_mode == InventoryData.ItemMode.ACTIVE or player.inventory_data.item_mode == InventoryData.ItemMode.HOLSTER)
-	#var hold_mode = player.hold_mode
 	
 	var local_velocity = global_transform.basis.inverse() * player.velocity
 	var velocity_2d = Vector2(-local_velocity.x, -local_velocity.z)
@@ -125,6 +147,7 @@ func _physics_process(delta: float) -> void:
 	
 	animation_tree.set(AIM_SCOPE_SHOOT_TRANSITION_REQUEST, aim_scope_shoot_transition)
 	
+	animation_tree.set(JUMP_BLEND, 0 if is_on_floor else 1)
 	
 
 	# === Camera control ===
@@ -132,8 +155,6 @@ func _physics_process(delta: float) -> void:
 	var current_basis = target.global_transform.basis
 	var target_basis = Basis().looking_at(target_direction.normalized(), Vector3.UP)
 	target.global_transform.basis = current_basis.slerp(target_basis, blend_lerp_speed * delta)
-	#var target_direction = (head.global_transform.origin + head.global_transform.basis.z * 1000) - target.global_transform.origin
-	#target.global_transform.basis = Basis().looking_at(target_direction.normalized(), Vector3.UP)
 	
 #func switch(blend_position: float):
 	#pass
@@ -154,38 +175,24 @@ func _physics_process(delta: float) -> void:
 	#await get_tree().process_frame
 	#print(name, ": Firing one-shot")
 	#animation_tree.set(SWITCH_WEAPON, AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-	
-	
-	
 
 #TODO: REMEMBER THE GUN NEEDS AN ANIM PLAYER LOL
-#func switch() -> void:
-	#print(name, ": switch() called")
-	#animation_tree.set(SWITCH_REQUEST, AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-	#
-	#if not equipped_item or not equipped_item.get_child(0):
-		#print(name, ": NO EQUIPPED ITEM TO PUT AWAY")
-		#return
-	#print(name, ": equipped item exists")
-	#
-	#
-	#var anim_player = find_animation_player(equipped_item)
-	#if anim_player and anim_player.has_animation("glock_switch"):
-		#
-		#print(name, ": playing glock_switch")
-		#anim_player.play("glock_switch")
-		#
-		#await get_tree().create_timer(anim_player.current_animation_length).timeout
-		#print(name, ": switch anim done (manual wait)")
-#
-		#print(name, ": switch anim done")
-	#else:
-		#print(name, "No anim player found or no anim called", "glock_switch")
-
-func update_animation_inputs():
-	if not player.inventory_data.get_current_item():
+func switch() -> void:
+	animation_tree.set(SWITCH_REQUEST, AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+	
+	if not equipped_item or not equipped_item.get_child(0):
+		print(name, ": NO EQUIPPED ITEM TO PUT AWAY")
 		return
-	var animation_prefix: String = player.inventory_data.get_current_item().animation_name
+	print(name, ": equipped item exists")
+	
+	#TODO
+	if equipped_item.get_child(0) is ViewModel:
+		equipped_item.get_child(0).play_animation("glock_switch")
+
+func update_animation_inputs(item_data: ItemData):
+	if not item_data:
+		return
+	var animation_prefix: String = item_data.animation_name
 	
 	
 	update_animation("hold", animation_prefix, "hold")
@@ -201,8 +208,9 @@ func update_animation_inputs():
 	update_animation("pullout", animation_prefix, "pullout")
 	update_animation("switch", animation_prefix, "switch")
 	play_item_animation("aim")
-	
-	
+
+func get_ragdoll() -> Node:
+	return $"../Human_Ultimate_Lipsync"
 
 func update_animation(anim_node_name: String, anim_prefix: String, anim_name: String):
 	var root = animation_tree.tree_root as AnimationNodeBlendTree
@@ -236,10 +244,6 @@ func shoot():
 func inspect():
 	animation_tree.set(INSPECT_REQUEST, AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 	play_item_animation("inspect")
-	
-	
-	
-	
 
 func set_lip_shape(arg: String):
 	animation_tree.set(LIPSYNC_REQUEST, arg)

@@ -9,7 +9,7 @@ func auto_camera(character_name: String):
 	for character in get_tree().get_nodes_in_group("characters"):
 		
 		
-		if character is AdvancedCharacter and character.name == character_name:
+		if character is AdvancedCharacter and character.dialogic_name == character_name:
 			if(idk >= 0.5):
 				character.set_selfie_cam()
 				print("FOUND")
@@ -20,14 +20,14 @@ func auto_camera(character_name: String):
 
 func change_selfie_cam(character_name: String):
 	for character in get_tree().get_nodes_in_group("characters"):
-		if character is AdvancedCharacter and character.name == character_name:
+		if character is AdvancedCharacter and character.dialogic_name == character_name:
 			character.set_selfie_cam()
 			print("FOUND")
 		print("NOT FOUND")
 
 func change_ots_cam(character_name: String):
 	for character in get_tree().get_nodes_in_group("characters"):
-		if character is AdvancedCharacter and character.name == character_name:
+		if character is AdvancedCharacter and character.dialogic_name == character_name:
 			character.set_ots_cam()
 			print("FOUND")
 		print("NOT FOUND")
