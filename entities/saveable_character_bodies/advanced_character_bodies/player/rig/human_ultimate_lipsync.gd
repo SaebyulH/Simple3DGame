@@ -37,7 +37,7 @@ func enable_ragdoll():
 	
 	for child in $rig/Skeleton3D/PhysicalBoneSimulator3D.get_children():
 		child.set_collision_layer_value(1, true)
-		child.set_collision_layer_value(2, false) #IMPORTANT AS WE WANfadsfasdfdsaT IT TO STILL BE INTERACTABLE
+		child.set_collision_layer_value(2, true) #IMPORTANT AS WE WANfadsfasdfdsaT IT TO STILL BE INTERACTABLE VIA GUNS
 		
 		child.set_collision_mask_value(1, true)
 		child.set_collision_mask_value(2, false)
