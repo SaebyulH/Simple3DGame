@@ -21,10 +21,10 @@ points = PackedVector3Array(-0.0137762, 0.0872591, 0.0656432, -0.0171413, 0.0586
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_yot2w"]
 points = PackedVector3Array(0.00302937, 0.0213922, 0.0629021, -0.00309127, 0.0213922, 0.0629021, -0.00309127, 0.0454913, 0.0602256, 0.00302937, 0.0454913, 0.0453105, 0.00302937, 0.0454913, 0.0602256, -0.00309127, 0.0454913, 0.0453105, 0.00284534, 0.024263, 0.0544656, 0.00280038, 0.0293589, 0.0502167, -0.00309127, 0.0221566, 0.0571651, -0.00286228, 0.0293589, 0.0502167, -0.00309127, 0.023688, 0.0544886, 0.00288379, 0.021591, 0.0592062, 0.00302937, 0.0447244, 0.0453105, -0.00309127, 0.0210087, 0.0594609, -0.00309127, 0.0447244, 0.0453105, 0.00302937, 0.0210087, 0.0629021, -0.00309127, 0.0210087, 0.0629021, 0.00276256, 0.0259195, 0.0530608)
 
-[node name="Ak" type="RigidBody3D"]
+[node name="Ak" type="RigidBody3D" node_paths=PackedStringArray("collision_shape")]
 collision_layer = 3
 script = ExtResource("1_qlkbm")
-display_name = null
+collision_shape = NodePath("CollisionShape3D")
 metadata/_custom_type_script = "uid://08ceup4wtg1b"
 
 [node name="ak2" parent="." instance=ExtResource("2_pvd18")]

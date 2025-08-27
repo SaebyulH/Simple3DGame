@@ -1,4 +1,5 @@
 extends Node
+class_name Processor
 
 @onready var pause_menu = get_parent().get_node("PauseMenu")
 @onready var player_hud = get_parent().get_node("PlayerHUD")

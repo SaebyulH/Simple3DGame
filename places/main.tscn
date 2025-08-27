@@ -37,12 +37,12 @@ glow_intensity = 1.14
 fog_density = 0.0025
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_qredp"]
-vertices = PackedVector3Array(-5.87518, 0.500937, -0.358789, -4.39518, 0.500937, -0.358789, -4.39518, 0.500937, -14.3788, -5.93518, 0.500937, -0.358789, -14.7152, 0.500937, -14.3788, -14.7152, 0.500937, -0.358789, -14.7152, 0.500937, 1.90121, -5.93518, 0.500937, 1.90121, -5.97518, 0.500937, 1.86121, -5.97518, 0.500937, -0.318789, -5.59518, 0.500937, 1.86121, -5.63518, 0.500937, 1.90121, -4.39518, 0.500937, 1.90121, -5.81518, 0.500937, -0.25879, -5.59518, 0.500937, 0.58121, -5.85518, 5.46094, 1.78121, -5.71518, 5.46094, 1.78121, -5.71518, 5.46094, 0.62121, -5.85518, 5.46094, 0.16121, -4.39518, 0.500937, 15.9612, -14.7152, 0.500937, 15.9612)
-polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(3, 2, 0), PackedInt32Array(5, 4, 3), PackedInt32Array(3, 4, 2), PackedInt32Array(8, 7, 6), PackedInt32Array(5, 3, 9), PackedInt32Array(8, 6, 9), PackedInt32Array(9, 6, 5), PackedInt32Array(12, 11, 10), PackedInt32Array(13, 0, 1), PackedInt32Array(13, 1, 14), PackedInt32Array(10, 14, 12), PackedInt32Array(12, 14, 1), PackedInt32Array(16, 15, 17), PackedInt32Array(17, 15, 18), PackedInt32Array(11, 12, 19), PackedInt32Array(7, 11, 19), PackedInt32Array(6, 7, 20), PackedInt32Array(20, 7, 19)]
+vertices = PackedVector3Array(-5.92518, 0.410937, -2.93879, 1.38482, 0.410937, -2.93879, 1.38482, 0.410937, -14.3388, -5.95518, 0.410937, -2.93879, -14.6752, 0.410937, -14.3388, -14.6752, 0.410937, -2.93879, -7.53518, 0.410937, -1.83879, -6.01518, 0.410937, -1.83879, -6.04518, 0.410937, -2.84879, -6.02518, 0.410937, -2.88879, -8.19518, 0.410937, -1.83879, -14.6752, 0.410937, -1.83879, -5.57518, 0.410937, -2.01879, -5.52518, 0.410937, -0.94879, -5.00518, 0.410937, -0.95879, -5.82518, 0.410937, -2.83879, 1.38482, 0.410937, -0.95879, -5.88518, 0.410937, -2.91879, -5.84518, 5.37094, -0.74879, -5.63518, 5.37094, -0.74879, -5.70518, 5.37094, -0.79879, -5.77518, 5.37094, -0.82879, -5.76518, 5.37094, -1.94879, -5.81518, 5.37094, -2.09879, -5.72518, 5.37094, -0.83879, -14.6752, 0.410937, -1.37879, -9.66518, 0.410937, -1.37879, -9.73518, 0.410937, -1.42879, -9.75518, 0.410937, -1.49879, -9.70518, 0.410937, -1.56879, -9.60518, 0.410937, -1.60879, -8.80518, 0.410937, -1.82879, -7.49518, 0.410937, -1.81879, -7.44518, 0.410937, -1.74879, -7.43518, 0.410937, -1.47879, -5.99518, 0.410937, -1.37879, -8.09518, 0.410937, -1.37879, -7.52518, 0.410937, -1.38879, -7.48518, 0.410937, -1.40879, -7.64518, 5.37094, -1.58879, -7.64518, 5.37094, -1.63879, -8.17518, 5.37094, -1.63879, -8.78518, 5.37094, -1.62879, -8.93518, 5.37094, -1.58879, -6.28518, 0.410937, -0.938789, -5.98518, 0.410937, -0.938789, -7.11518, 0.410937, -0.70879, -7.13518, 0.410937, -0.48879, -7.20518, 0.410937, -0.53879, -14.6752, 0.410937, -0.48879, -7.17518, 0.410937, -0.67879, -7.22518, 0.410937, -0.608789, -4.96518, 0.410937, -0.938789, -4.91518, 0.410937, -0.86879, -4.90518, 0.410937, -0.74879, 1.38482, 0.410937, -0.48879, -4.90518, 0.410937, -0.58879, -5.98518, 0.410937, -0.48879, -4.99518, 0.410937, -0.49879, -4.95518, 0.410937, -0.518789, -5.10518, 5.37094, -0.69879, -5.11518, 5.37094, -0.75879, -6.26518, 5.37094, -0.73879, -6.40518, 5.37094, -0.688789, -5.89518, 0.410937, -0.38879, 1.38482, 0.410937, -0.38879, -14.6752, 0.410937, -0.38879, -5.92518, 0.410937, -0.38879, -7.07518, 0.410937, 1.54121, -6.01518, 0.410937, 1.52121, -6.01518, 0.410937, -0.29879, -5.99518, 0.410937, -0.33879, -7.87518, 0.410937, 1.76121, -7.96518, 0.410937, 1.80121, -14.6752, 0.410937, 1.99121, -7.92518, 0.410937, 1.99121, -7.99518, 0.410937, 1.94121, -8.01518, 0.410937, 1.90121, -8.01518, 0.410937, 1.87121, -5.64518, 0.410937, 1.93121, -5.71518, 0.410937, 1.93121, -5.77518, 0.410937, 1.98121, 1.38482, 0.410937, 1.99121, -7.30518, 0.410937, 1.99121, -5.82518, 0.410937, -0.33879, -5.57518, 0.410937, 1.88121, -5.55518, 0.410937, 1.84121, -5.56518, 0.410937, 0.601211, -5.79518, 0.410937, -0.27879, -5.76518, 5.37094, 0.62121, -5.81518, 5.37094, 0.441211, -5.81518, 5.37094, 1.63121, -5.75518, 5.37094, 1.73121, -7.16518, 5.37094, 1.77121, -5.85518, 5.37094, 1.78121, -6.13518, 5.37094, 1.73121, -7.05518, 5.37094, 1.74121, -5.86518, 5.37094, 1.70121, -5.83518, 5.37094, 1.75121, -5.90518, 5.37094, 1.72121, -14.6752, 0.410937, 15.9312, 1.38482, 0.410937, 15.9312)
+polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(2, 0, 3), PackedInt32Array(5, 4, 3), PackedInt32Array(3, 4, 2), PackedInt32Array(8, 7, 6), PackedInt32Array(9, 8, 6), PackedInt32Array(9, 6, 3), PackedInt32Array(3, 6, 10), PackedInt32Array(11, 5, 10), PackedInt32Array(10, 5, 3), PackedInt32Array(12, 14, 13), PackedInt32Array(12, 15, 14), PackedInt32Array(14, 15, 16), PackedInt32Array(16, 15, 1), PackedInt32Array(1, 17, 0), PackedInt32Array(15, 17, 1), PackedInt32Array(20, 19, 21), PackedInt32Array(21, 19, 18), PackedInt32Array(24, 21, 22), PackedInt32Array(22, 21, 23), PackedInt32Array(21, 24, 20), PackedInt32Array(27, 26, 25), PackedInt32Array(28, 27, 25), PackedInt32Array(28, 25, 29), PackedInt32Array(29, 25, 11), PackedInt32Array(11, 31, 30), PackedInt32Array(30, 29, 11), PackedInt32Array(11, 10, 31), PackedInt32Array(32, 6, 7), PackedInt32Array(7, 33, 32), PackedInt32Array(33, 7, 34), PackedInt32Array(34, 7, 35), PackedInt32Array(37, 35, 36), PackedInt32Array(38, 34, 35), PackedInt32Array(37, 38, 35), PackedInt32Array(40, 39, 41), PackedInt32Array(41, 39, 42), PackedInt32Array(42, 39, 43), PackedInt32Array(35, 45, 44), PackedInt32Array(44, 46, 35), PackedInt32Array(35, 46, 36), PackedInt32Array(48, 47, 26), PackedInt32Array(26, 47, 25), PackedInt32Array(25, 47, 49), PackedInt32Array(50, 36, 46), PackedInt32Array(36, 50, 51), PackedInt32Array(51, 48, 36), PackedInt32Array(36, 48, 26), PackedInt32Array(52, 14, 16), PackedInt32Array(53, 52, 16), PackedInt32Array(54, 53, 16), PackedInt32Array(56, 54, 55), PackedInt32Array(55, 54, 16), PackedInt32Array(55, 57, 58), PackedInt32Array(59, 56, 55), PackedInt32Array(55, 58, 59), PackedInt32Array(19, 61, 60), PackedInt32Array(62, 18, 63), PackedInt32Array(63, 18, 19), PackedInt32Array(63, 19, 60), PackedInt32Array(65, 64, 55), PackedInt32Array(55, 64, 57), PackedInt32Array(49, 47, 66), PackedInt32Array(66, 47, 67), PackedInt32Array(64, 67, 57), PackedInt32Array(57, 67, 47), PackedInt32Array(70, 69, 68), PackedInt32Array(70, 68, 71), PackedInt32Array(71, 68, 72), PackedInt32Array(66, 67, 71), PackedInt32Array(72, 73, 71), PackedInt32Array(71, 73, 74), PackedInt32Array(71, 74, 66), PackedInt32Array(76, 75, 74), PackedInt32Array(77, 76, 74), PackedInt32Array(78, 77, 74), PackedInt32Array(73, 78, 74), PackedInt32Array(80, 79, 81), PackedInt32Array(81, 79, 82), PackedInt32Array(81, 82, 83), PackedInt32Array(84, 64, 65), PackedInt32Array(82, 79, 85), PackedInt32Array(82, 85, 86), PackedInt32Array(86, 87, 82), PackedInt32Array(82, 87, 65), PackedInt32Array(88, 84, 65), PackedInt32Array(65, 87, 88), PackedInt32Array(92, 91, 89), PackedInt32Array(89, 91, 90), PackedInt32Array(96, 95, 93), PackedInt32Array(93, 95, 94), PackedInt32Array(98, 97, 92), PackedInt32Array(92, 97, 91), PackedInt32Array(98, 94, 99), PackedInt32Array(99, 94, 95), PackedInt32Array(99, 97, 98), PackedInt32Array(100, 74, 75), PackedInt32Array(100, 75, 83), PackedInt32Array(82, 101, 83), PackedInt32Array(83, 101, 100)]
 sample_partition_type = 1
-cell_size = 0.02
-cell_height = 0.08
-agent_radius = 0.05
+cell_size = 0.01
+cell_height = 0.01
+agent_radius = 0.1
 
 [node name="Main" type="Node3D"]
 
@@ -66,18 +66,34 @@ collision_layer = 3
 collision_mask = 3
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Map Geometry/NavigationRegion3D/CSGCombiner3D"]
-transform = Transform3D(30.4662, 0, 0, 0, 2.53779, 0, 0, 0, 30.4662, -9.55554, -0.870168, 0.79431)
-size = Vector3(0.342651, 1, 1)
+transform = Transform3D(30.4662, 0, 0, 0, 2.53779, 0, 0, 0, 30.4662, -6.64448, -0.870168, 0.79431)
+size = Vector3(0.533752, 1, 1)
 
 [node name="CSGPolygon3D" type="CSGPolygon3D" parent="Map Geometry/NavigationRegion3D/CSGCombiner3D"]
 transform = Transform3D(2.11482, 0, 0, 0, -9.24419e-08, -5.01604, 0, 2.11482, -2.19258e-07, -5.91023, 0.338062, -0.282031)
+polygon = PackedVector2Array(0, 0, 0, 1, 0.116449, 0.995046, 0.111021, 0.410681)
+
+[node name="CSGPolygon3D2" type="CSGPolygon3D" parent="Map Geometry/NavigationRegion3D/CSGCombiner3D"]
+transform = Transform3D(-0.012328, 2.11478, -4.38509e-07, -9.24401e-08, -1.85422e-07, -5.01604, -2.11478, -0.012328, 2.21814e-07, -7.90519, 0.338062, 1.88461)
+polygon = PackedVector2Array(0, 0, 0, 1, 0.116449, 0.995046, 0.111021, 0.410681)
+
+[node name="CSGPolygon3D3" type="CSGPolygon3D" parent="Map Geometry/NavigationRegion3D/CSGCombiner3D"]
+transform = Transform3D(-0.012328, 2.11478, -4.38509e-07, -9.24401e-08, -1.85422e-07, -5.01604, -2.11478, -0.012328, 2.21814e-07, -7.1238, 0.338045, -0.592257)
+polygon = PackedVector2Array(0, 0, 0, 1, 0.116449, 0.995046, 0.111021, 0.410681)
+
+[node name="CSGPolygon3D4" type="CSGPolygon3D" parent="Map Geometry/NavigationRegion3D/CSGCombiner3D"]
+transform = Transform3D(-0.012328, 2.11478, -4.38509e-07, -9.24401e-08, -1.85422e-07, -5.01604, -2.11478, -0.012328, 2.21814e-07, -9.65489, 0.338045, -1.47978)
+polygon = PackedVector2Array(0, 0, 0, 1, 0.116449, 0.995046, 0.111021, 0.410681)
+
+[node name="CSGPolygon3D5" type="CSGPolygon3D" parent="Map Geometry/NavigationRegion3D/CSGCombiner3D"]
+transform = Transform3D(2.11359, 0.0721093, -1.49523e-08, -3.15201e-09, -9.24957e-08, -5.01604, -0.0721093, 2.11359, -2.19003e-07, -5.94044, 0.338045, -2.83846)
 polygon = PackedVector2Array(0, 0, 0, 1, 0.116449, 0.995046, 0.111021, 0.410681)
 
 [node name="Saveables" type="Node3D" parent="."]
 script = ExtResource("2_ab8f5")
 
 [node name="ShitGrenadeLauncher" parent="Saveables" instance=ExtResource("20_6577w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.7095, 4.52553, 10.1153)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.6756, 4.52553, 4.37227)
 
 [node name="ShitPistol" parent="Saveables" instance=ExtResource("4_dgel4")]
 transform = Transform3D(0.999096, 0, 0, 0, 0.999096, 0, 0, 0, 0.999096, -31.1696, 4.48749, 9.89791)
@@ -92,60 +108,149 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.9361, 4.36743, 10.161)
 display_name = ""
 
 [node name="Player" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("11_pxqo5")]
-transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, -27.1781, 3.30561, 10.13)
+transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, -37.8633, 3.30561, 7.02224)
 destination_node = NodePath("../AdvancedCharacter")
 
 [node name="AdvancedCharacter4Hostile" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_lvsl2")]
-transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -35.8062, 4.21871, 5.35035)
+transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -28.6641, 4.21871, 3.87287)
 hostile = true
 dialogic_name = "Harvard Lister"
 destination_node = NodePath("../Player")
 
 [node name="AdvancedCharacter5Hostile" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_lvsl2")]
-transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -35.8628, 4.21871, 4.1064)
+transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -28.7207, 4.21871, 2.62892)
 hostile = true
 dialogic_name = "Harvard Lister"
 destination_node = NodePath("../Player")
 
 [node name="AdvancedCharacter6Hostile" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_lvsl2")]
-transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -35.8628, 4.21871, 2.82004)
+transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -28.7207, 4.21871, 1.34256)
+hostile = true
+dialogic_name = "Harvard Lister"
+destination_node = NodePath("../Player")
+
+[node name="AdvancedCharacter4Hostile2" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_lvsl2")]
+transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -54.1581, 4.21871, -13.7335)
+hostile = true
+dialogic_name = "Harvard Lister"
+destination_node = NodePath("../Player")
+
+[node name="AdvancedCharacter5Hostile2" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_lvsl2")]
+transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -54.2147, 4.21871, -14.9775)
+hostile = true
+dialogic_name = "Harvard Lister"
+destination_node = NodePath("../Player")
+
+[node name="AdvancedCharacter6Hostile2" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_lvsl2")]
+transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -54.2147, 4.21871, -16.2638)
+hostile = true
+dialogic_name = "Harvard Lister"
+destination_node = NodePath("../Player")
+
+[node name="AdvancedCharacter4Hostile3" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_lvsl2")]
+transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -30.636, 4.21871, -8.89495)
+hostile = true
+dialogic_name = "Harvard Lister"
+destination_node = NodePath("../Player")
+
+[node name="AdvancedCharacter5Hostile3" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_lvsl2")]
+transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -30.6926, 4.21871, -10.1389)
+hostile = true
+dialogic_name = "Harvard Lister"
+destination_node = NodePath("../Player")
+
+[node name="AdvancedCharacter6Hostile3" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_lvsl2")]
+transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -30.6926, 4.21871, -11.4253)
+hostile = true
+dialogic_name = "Harvard Lister"
+destination_node = NodePath("../Player")
+
+[node name="AdvancedCharacter4Hostile4" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_lvsl2")]
+transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -39.8341, 4.21871, 32.161)
+hostile = true
+dialogic_name = "Harvard Lister"
+destination_node = NodePath("../Player")
+
+[node name="AdvancedCharacter5Hostile4" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_lvsl2")]
+transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -39.8907, 4.21871, 30.917)
+hostile = true
+dialogic_name = "Harvard Lister"
+destination_node = NodePath("../Player")
+
+[node name="AdvancedCharacter6Hostile4" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_lvsl2")]
+transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -39.8907, 4.21871, 29.6307)
+hostile = true
+dialogic_name = "Harvard Lister"
+destination_node = NodePath("../Player")
+
+[node name="AdvancedCharacter4Hostile5" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_lvsl2")]
+transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -3.26343, 3.99656, 83.3968)
+hostile = true
+dialogic_name = "Harvard Lister"
+destination_node = NodePath("../Player")
+
+[node name="AdvancedCharacter5Hostile5" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_lvsl2")]
+transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -3.32003, 3.99656, 82.1529)
+hostile = true
+dialogic_name = "Harvard Lister"
+destination_node = NodePath("../Player")
+
+[node name="AdvancedCharacter6Hostile5" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_lvsl2")]
+transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -3.32003, 3.99656, 80.8665)
+hostile = true
+dialogic_name = "Harvard Lister"
+destination_node = NodePath("../Player")
+
+[node name="AdvancedCharacter4Hostile6" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_lvsl2")]
+transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -71.506, 3.98292, 85.9215)
+hostile = true
+dialogic_name = "Harvard Lister"
+destination_node = NodePath("../Player")
+
+[node name="AdvancedCharacter5Hostile6" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_lvsl2")]
+transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -71.5625, 3.98292, 84.6776)
+hostile = true
+dialogic_name = "Harvard Lister"
+destination_node = NodePath("../Player")
+
+[node name="AdvancedCharacter6Hostile6" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_lvsl2")]
+transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -71.5625, 3.98292, 83.3912)
 hostile = true
 dialogic_name = "Harvard Lister"
 destination_node = NodePath("../Player")
 
 [node name="AdvancedCharacter" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_lvsl2")]
-transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -28.0315, 4.21871, 5.0535)
+transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -43.0802, 4.21871, 2.33097)
 dialogic_name = "Harvard Lister"
 destination_node = NodePath("../Player")
 
 [node name="AdvancedCharacter2" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_lvsl2")]
-transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -26.854, 4.21871, 5.07291)
+transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -41.9027, 4.21871, 2.35038)
 dialogic_name = "Advanced Character"
 destination_node = NodePath("../Player")
 
 [node name="AdvancedCharacter3" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_lvsl2")]
-transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -29.2607, 4.21871, 4.9888)
+transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -44.3094, 4.21871, 2.26627)
 dialogic_name = "Animation Demonstration Character"
 destination_node = NodePath("../Player")
 
 [node name="Glock" parent="Saveables" instance=ExtResource("17_ab8f5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.6044, 4.1698, 11.0221)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.9328, 4.1698, 2.94426)
 
 [node name="Glock2" parent="Saveables" instance=ExtResource("17_ab8f5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.3159, 4.1698, 11.0446)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.6443, 4.1698, 2.96676)
 
 [node name="Glock3" parent="Saveables" instance=ExtResource("17_ab8f5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.1998, 4.1698, 11.0559)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.5282, 4.1698, 2.97806)
 
 [node name="Glock4" parent="Saveables" instance=ExtResource("17_ab8f5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.9938, 4.1698, 11.0596)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.3222, 4.1698, 2.98176)
 
 [node name="Ak" parent="Saveables" instance=ExtResource("13_ryxa0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.9309, 4.14035, 10.8217)
-display_name = ""
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.9452, 4.14035, 1.21805)
 
 [node name="Crowbar" parent="Saveables" instance=ExtResource("14_ab8f5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.6719, 4.05137, 10.6559)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.6862, 4.05137, 1.05225)
 
 [node name="Processor" type="Node3D" parent="."]
 script = ExtResource("19_6577w")
@@ -156,10 +261,14 @@ script = ExtResource("19_6577w")
 layer = 2
 visible = false
 
-[node name="InventoryScreen" parent="." node_paths=PackedStringArray("player") instance=ExtResource("19_ab8f5")]
+[node name="InventoryScreen" parent="." instance=ExtResource("19_ab8f5")]
 layer = 3
 visible = false
-player = NodePath("../Saveables/Player")
+
+[node name="InventoryPanel" parent="InventoryScreen/MarginContainer/VBoxContainer2" index="1" node_paths=PackedStringArray("player")]
+player = NodePath("../../../../Saveables/Player")
 
 [node name="TradeMenu" parent="." instance=ExtResource("18_ryxa0")]
 visible = false
+
+[editable path="InventoryScreen"]

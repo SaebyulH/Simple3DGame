@@ -13,6 +13,8 @@ const CROUCH_FACTOR := 0.66
 const INTERACT_DISTANCE := 2.0 # Interact Distance for interactable props
 
 const ACCELERATION := 1.0
+const MOVEMENT_INACCURACY_MULTIPLIER := 0.4 #how much movement impacts inaccuracy
+const CROUCH_INACCURACY_MULTIPLIER := 0.7 # crouching reduces inaccuract by 30%
 
 # Universal
 var display_name :String
@@ -25,12 +27,18 @@ var hold_mode := HoldMode.AIM
 var interact_target: Node = null
 var trade_target: Node = null
 
+var inaccuracy:float=0
+var max_inaccuracy:float=30.0
+
+
+
+
 @export var hostile := false
 
 @export var dialogic_name := "THIS MUST MATCH THE DISPLAY NAME OF AN EXISTING DIALOGIC CHARACTER"
 ######################################################
 # Universal
-@onready var processor: Node = get_parent().get_parent().get_node("Processor")
+@onready var processor: Processor = get_parent().get_parent().get_node("Processor")
 @onready var skin:= $Skin/MaxSkin
 @onready var animation_node := $Skin/MaxSkin/NewAnimation
 
@@ -140,7 +148,11 @@ func DialogicSignal(arg: String):
 	
 # Talking to the character
 func interact(player: AdvancedCharacter):
+	if hostile:
+		return
 	interact_target = player
+	player.interact_target = self
+	
 	var to_target = interact_target.global_transform.origin - global_transform.origin
 	to_target.y = 0  # Ignore vertical difference to only rotate on Y axis
 
@@ -194,9 +206,16 @@ func _on_audio_stream_player_lipsync_mouth_shape_changed(mouth_shape: int) -> vo
 	animation_node.set_lip_shape(lip_shape)
 
 # Process functions ############################################################
-#func _process(delta):
-	#pass
-
+func _process(delta):
+	if inventory_data.get_current_item():
+		inaccuracy -= inventory_data.get_current_item().inaccuracy_reset_speed * delta
+		if inaccuracy < 0:
+			inaccuracy = 0
+		elif inaccuracy > max_inaccuracy:
+			inaccuracy = max_inaccuracy
+		
+			
+			
 # Basic Script to be hostile when attacked or just stand there and talk if not
 func _physics_process(delta):
 
@@ -244,17 +263,37 @@ func hunt_target(delta):
 		# Smoothly rotate head (optional)
 		head.rotation.x = lerp_angle(head.rotation.x, pitch_angle, delta * 5.0)
 		
+		
+		
 		# Check if player is within weapon hitscan_range, then fire
 		var item = inventory_data.get_current_item()
 		if item and destination_node:  # destination_node is assumed to be the player
 			#var distance_to_target = global_position.distance_to(destination_node.global_position)
 			if distance_to_target <= item.hitscan_range: #TODO: this is bc they suck at aiming in lore ig
-				move_mode = MoveMode.CROUCH
-				perform_primary_fire()
+				
+				# NPC's tolerance: the closer the player is, the more forgiving they are with inaccuracy
+				# For example: tolerance = distance_to_target * 0.1 means 10% of distance in degrees allowed
+				var tolerance = distance_to_target * 0.1  # tweak multiplier as needed
+
+				if inaccuracy <= tolerance:
+					move_mode = MoveMode.CROUCH
+					perform_primary_fire()
+				else:
+					move_mode = MoveMode.SPRINT
+					
 			else:
 				move_mode = MoveMode.SPRINT
+				
+		
 		# Move
 		velocity = direction.normalized() * get_effective_speed()
+		
+		
+		
+		
+		
+		
+		
 		velocity.y = y_velocity
 		move_and_slide()
 	else:
@@ -434,6 +473,7 @@ func fire_weapon_with_delay() -> void:
 
 	var result: bool = inventory_data.shoot_current_weapon()
 	if result:
+		gun_sound.pitch_scale = 1.0 if inventory_data.get_current_weapon_ammo_count() >=10 else 1.5
 		gun_sound.stream = load(item.sound_path)
 		gun_sound.play()
 		animation_node.shoot()
@@ -451,6 +491,23 @@ func fire_weapon_with_delay() -> void:
 		if item.shooting_type == ItemData.ShootingType.HITSCAN:
 			# Do raycast
 			attack_raycast.target_position = Vector3.FORWARD * item.hitscan_range
+			# Reset rotation to face forward
+			attack_raycast.rotation = Vector3.ZERO
+			
+			inaccuracy += inventory_data.get_current_item().first_shot_inaccuracy
+			
+			var effective_inaccuracy = (inaccuracy + velocity.length()*MOVEMENT_INACCURACY_MULTIPLIER)
+			if move_mode == MoveMode.CROUCH: 
+				effective_inaccuracy *= CROUCH_INACCURACY_MULTIPLIER
+			
+			# Apply random rotation based on inaccuracy (in degrees)
+			attack_raycast.rotate_x(deg_to_rad(randf_range(-effective_inaccuracy, effective_inaccuracy)))
+			attack_raycast.rotate_y(deg_to_rad(randf_range(-effective_inaccuracy, effective_inaccuracy)))
+			
+			inaccuracy += inventory_data.get_current_item().subsequent_shot_inaccuracy
+			
+			
+			
 			attack_raycast.force_raycast_update()
 			
 			if attack_raycast.is_colliding():
@@ -513,6 +570,9 @@ func fire_weapon_with_delay() -> void:
 	await create_local_timer(item.between_shooting_delay)
 
 	can_shoot = true
+
+
+
 
 func play_sound(sound_path: String):
 	hit_sound.stream = load(sound_path)

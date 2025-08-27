@@ -34,7 +34,7 @@ func get_display_name() -> String:
 func enable_ragdoll():
 	$AnimationPlayer.active = false
 	$AnimationPlayer.stop()
-	
+
 	for child in $rig/Skeleton3D/PhysicalBoneSimulator3D.get_children():
 		child.set_collision_layer_value(1, true)
 		child.set_collision_layer_value(2, true) #IMPORTANT AS WE WANfadsfasdfdsaT IT TO STILL BE INTERACTABLE VIA GUNS

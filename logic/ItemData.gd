@@ -2,10 +2,11 @@ extends Resource
 class_name ItemData
 
 
-enum ItemType {RIFLE, PISTOL, MISC}
 #enum AmmoType {REVOLVER_AMMO, SNIPER_AMMO}
-enum ShootingMode {AUTO, SEMI_AUTO, SAFETY}
+enum ItemType {RIFLE, PISTOL, MELEE, MISC}
+enum ShootingMode {AUTO, SEMI_AUTO, NON_AUTO}
 enum ShootingType {HITSCAN, PROJECTILE}
+
 # Data stats
 @export var item_type: ItemType 
 @export var display_name: String
@@ -21,19 +22,27 @@ enum ShootingType {HITSCAN, PROJECTILE}
 @export var shooting_mode : ShootingMode
 @export var shooting_type : ShootingType
 
+@export var first_shot_inaccuracy: float #in degrees
+@export var subsequent_shot_inaccuracy: float #degrees
+@export var inaccuracy_reset_speed: float #degrees per second
+
+
+
 @export var initial_shooting_delay : float # How long to shoot each bullet BEFORE pressing button
 @export var between_shooting_delay: float  # how long added AFTER each bullet
-
 
 @export var hitscan_range: float
 @export var damage: int
 
 # Visual stats
 @export var scene_path: String
-@export var view_model: PackedScene  # New field to store the item's 3D mesh
-@export var projectile_path: String
+@export var view_model_path: String  # New field to store the item's 3D mesh
 @export var sound_path: String
 @export var animation_name: String
+
+
+@export var projectile_path: String
+
 
 func _to_string() -> String:
 	var text := "Item: %s\n" % display_name
@@ -55,7 +64,7 @@ func _to_string() -> String:
 
 	text += "Visuals:\n"
 	text += "  Scene Path: %s\n" % scene_path
-	text += "  View Model: %s\n" % (view_model.resource_path if view_model else "None")
+	text += "  View Model: %s\n" % view_model_path
 	text += "  Projectile Path: %s\n" % projectile_path
 	text += "  Sound Path: %s\n" % sound_path
 	text += "  Animation: %s\n" % animation_name

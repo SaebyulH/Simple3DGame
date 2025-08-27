@@ -15,6 +15,8 @@ var mouse_sensitivity := 0.003
 var camera_mode := CameraMode.FIRST_PERSON
 
 
+var has_fired_semi :bool = false
+
 @onready var spring := $Head/SpringParent/SpringArm3D
 @onready var camera := $Head/SpringParent/SpringArm3D/MarginThing/Camera3D
 
@@ -37,7 +39,22 @@ func setup_uninitialized_variables():
 	
 # Process functions ############################################################
 func _process(delta):
+	super(delta)
 	elapsed_time += delta
+	
+	if inventory_data.get_current_item():
+		match inventory_data.get_current_item().shooting_mode:
+			ItemData.ShootingMode.AUTO:
+				if Input.is_action_pressed("primary_fire"):
+					perform_primary_fire()
+			ItemData.ShootingMode.SEMI_AUTO, ItemData.ShootingMode.NON_AUTO:
+				if Input.is_action_pressed("primary_fire") and not has_fired_semi:
+					perform_primary_fire()
+					has_fired_semi = true
+				elif not Input.is_action_pressed("primary_fire"):
+					has_fired_semi = false
+	
+	
 	# HUD
 	if hud:
 		#hud.update_time(elapsed_time)
@@ -101,7 +118,7 @@ func _physics_process(delta):
 		
 		if bullet_time:
 			if velocity == Vector3.ZERO:
-				Engine.time_scale = 0.01
+				Engine.time_scale = 0.05
 			else:
 				Engine.time_scale = 1.0
 		else:
@@ -188,10 +205,10 @@ func _unhandled_input(event):
 			if interact_target.has_method("trade"):
 				interact_target.trade(self)
 				
-	if event.is_action_pressed("primary_fire"):
-		perform_primary_fire()
-	if event.is_action_pressed("secondary_fire"):
-		perform_secondary_fire()
+	#if event.is_action_pressed("primary_fire"):
+		#perform_primary_fire()
+	#if event.is_action_pressed("secondary_fire"):
+		#perform_secondary_fire()
 	if event.is_action_pressed("reload"):
 		perform_reload()
 	if event.is_action_pressed("inspect"):

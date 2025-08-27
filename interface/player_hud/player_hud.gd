@@ -65,8 +65,11 @@ func _ready() -> void:
 	update_ammo_label(player.inventory_data)
 
 func update_player_stats(display_name: String):
-	player_stats_label.text = player.character_data.to_string()
+	player_stats_label.text = player.character_data.to_string() + "\nInaccuarcy: " + str(player.inaccuracy)
 
+	
+	
+	
 	var health :int= player.character_data.health
 	var max_health :int= player.character_data.max_health
 	var health_ratio := float(health) / max_health

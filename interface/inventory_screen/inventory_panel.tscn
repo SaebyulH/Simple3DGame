@@ -1,0 +1,78 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvjhxqu0bmfxw"]
+
+[ext_resource type="Script" uid="uid://ii74mr68tt7w" path="res://interface/inventory_screen/inventory_panel.gd" id="1_qrb6d"]
+
+[node name="InventoryPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_qrb6d")
+metadata/_edit_use_anchors_ = true
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="GridContainer" type="GridContainer" parent="HBoxContainer2"]
+visible = false
+layout_mode = 2
+
+[node name="ItemList" type="ItemList" parent="HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+allow_reselect = true
+same_column_width = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer2"]
+layout_mode = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="SubViewport" type="SubViewport" parent="HBoxContainer2/VBoxContainer/SubViewportContainer"]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+msaa_3d = 2
+size = Vector2i(256, 256)
+render_target_update_mode = 4
+
+[node name="ItemPreviewRoot" type="Node3D" parent="HBoxContainer2/VBoxContainer/SubViewportContainer/SubViewport"]
+
+[node name="Camera3D" type="Camera3D" parent="HBoxContainer2/VBoxContainer/SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.466513)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="HBoxContainer2/VBoxContainer/SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 4, 3)
+light_energy = 2.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+
+[node name="ItemDetails" type="Label" parent="HBoxContainer2/VBoxContainer/ScrollContainer"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "fasdfdasfadsfsadf"
+autowrap_mode = 2
+clip_text = true
+text_overrun_behavior = 3
+
+[node name="DropButton" type="Button" parent="HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+text = "Drop Item"

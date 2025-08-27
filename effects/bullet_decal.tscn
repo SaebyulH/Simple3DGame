@@ -11,7 +11,7 @@ albedo_texture = ExtResource("1_vndxi")
 [node name="BulletDecal" type="Node3D"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(-0.00931306, -1.42516e-09, 3.55886e-17, 0, -7.1258e-10, -0.00931306, 8.14173e-10, -0.0163019, 4.07087e-10, 0, 0, -0.007)
+transform = Transform3D(-0.00931306, -1.42516e-09, 3.55886e-17, 0, -7.1258e-10, -0.00931306, 8.14173e-10, -0.0163019, 4.07087e-10, 0, 0, -0.0027428)
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_vy821")
 surface_material_override/0 = SubResource("StandardMaterial3D_q5jea")

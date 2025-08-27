@@ -20,9 +20,9 @@ static func create_player_inventory_data() -> InventoryData:
 	inventory_data.ammo_boxes = [] as Array[AmmoData] 
 
 	#inventory_data.add_item(ItemDataFactory.create_shit_rifle())
-	inventory_data.ammo_boxes.append(AmmoDataFactory.create_revolver_ammo(64))
-	inventory_data.ammo_boxes.append(AmmoDataFactory.create_rifle_ammo(64))
-	inventory_data.ammo_boxes.append(AmmoDataFactory.create_grenade_ammo(64))
+	inventory_data.ammo_boxes.append(AmmoDataFactory.create_revolver_ammo(16))
+	inventory_data.ammo_boxes.append(AmmoDataFactory.create_rifle_ammo(16))
+	inventory_data.ammo_boxes.append(AmmoDataFactory.create_grenade_ammo(16))
 	
 	
 	return inventory_data
