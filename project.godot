@@ -109,6 +109,10 @@ folder_colors={
 "res://places/": "gray"
 }
 
+[filesystem]
+
+import/blender/enabled=false
+
 [global_group]
 
 crit_hurtbox=""

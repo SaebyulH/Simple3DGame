@@ -65,30 +65,6 @@ use_collision = true
 collision_layer = 3
 collision_mask = 3
 
-[node name="CSGBox3D" type="CSGBox3D" parent="Map Geometry/NavigationRegion3D/CSGCombiner3D"]
-transform = Transform3D(30.4662, 0, 0, 0, 2.53779, 0, 0, 0, 30.4662, -6.64448, -0.870168, 0.79431)
-size = Vector3(0.533752, 1, 1)
-
-[node name="CSGPolygon3D" type="CSGPolygon3D" parent="Map Geometry/NavigationRegion3D/CSGCombiner3D"]
-transform = Transform3D(2.11482, 0, 0, 0, -9.24419e-08, -5.01604, 0, 2.11482, -2.19258e-07, -5.91023, 0.338062, -0.282031)
-polygon = PackedVector2Array(0, 0, 0, 1, 0.116449, 0.995046, 0.111021, 0.410681)
-
-[node name="CSGPolygon3D2" type="CSGPolygon3D" parent="Map Geometry/NavigationRegion3D/CSGCombiner3D"]
-transform = Transform3D(-0.012328, 2.11478, -4.38509e-07, -9.24401e-08, -1.85422e-07, -5.01604, -2.11478, -0.012328, 2.21814e-07, -7.90519, 0.338062, 1.88461)
-polygon = PackedVector2Array(0, 0, 0, 1, 0.116449, 0.995046, 0.111021, 0.410681)
-
-[node name="CSGPolygon3D3" type="CSGPolygon3D" parent="Map Geometry/NavigationRegion3D/CSGCombiner3D"]
-transform = Transform3D(-0.012328, 2.11478, -4.38509e-07, -9.24401e-08, -1.85422e-07, -5.01604, -2.11478, -0.012328, 2.21814e-07, -7.1238, 0.338045, -0.592257)
-polygon = PackedVector2Array(0, 0, 0, 1, 0.116449, 0.995046, 0.111021, 0.410681)
-
-[node name="CSGPolygon3D4" type="CSGPolygon3D" parent="Map Geometry/NavigationRegion3D/CSGCombiner3D"]
-transform = Transform3D(-0.012328, 2.11478, -4.38509e-07, -9.24401e-08, -1.85422e-07, -5.01604, -2.11478, -0.012328, 2.21814e-07, -9.65489, 0.338045, -1.47978)
-polygon = PackedVector2Array(0, 0, 0, 1, 0.116449, 0.995046, 0.111021, 0.410681)
-
-[node name="CSGPolygon3D5" type="CSGPolygon3D" parent="Map Geometry/NavigationRegion3D/CSGCombiner3D"]
-transform = Transform3D(2.11359, 0.0721093, -1.49523e-08, -3.15201e-09, -9.24957e-08, -5.01604, -0.0721093, 2.11359, -2.19003e-07, -5.94044, 0.338045, -2.83846)
-polygon = PackedVector2Array(0, 0, 0, 1, 0.116449, 0.995046, 0.111021, 0.410681)
-
 [node name="Saveables" type="Node3D" parent="."]
 script = ExtResource("2_ab8f5")
 
