@@ -10,3 +10,16 @@ func update():
 	inventory_panel.update()
 	#update_header()
 	
+
+
+func _on_inventory_pressed() -> void:
+	
+	pass # Replace with function body.
+
+
+func _on_character_pressed() -> void:
+	pass # Replace with function body.
+
+
+func _on_journal_pressed() -> void:
+	pass # Replace with function body.

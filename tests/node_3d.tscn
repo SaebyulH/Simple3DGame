@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://dweu14ic437gq"]
+
+[ext_resource type="PackedScene" uid="uid://datllcbt5rrnf" path="res://assets/models/Dynamic Parent TEST/Dynamic Parent test BODY.fbx" id="1_y8i07"]
+[ext_resource type="PackedScene" uid="uid://cef0ytstae2lm" path="res://assets/models/Dynamic Parent TEST/Dynamic Parent test ITEM.fbx" id="2_1vr56"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Dynamic Parent test BODY" parent="." instance=ExtResource("1_y8i07")]
+
+[node name="Skeleton3D" parent="Dynamic Parent test BODY/Body" index="0"]
+bones/0/position = Vector3(0.00418781, 0.0111763, -0.00528541)
+bones/1/position = Vector3(0, 0.01, -2.06795e-25)
+bones/1/rotation = Quaternion(-3.8351e-08, -1.73533e-08, -0.7649, 0.644149)
+bones/2/position = Vector3(7.88071e-12, 0.00980005, 5.35253e-17)
+bones/2/rotation = Quaternion(0.357406, 0.0231836, 0.28206, 0.890037)
+bones/2/scale = Vector3(1, 1, 1)
+bones/3/position = Vector3(1.39008e-10, 0.0194286, -2.87883e-16)
+bones/3/rotation = Quaternion(0.218924, -0.00665337, 0.04904, 0.974486)
+bones/3/scale = Vector3(1, 1, 1)
+bones/5/position = Vector3(0.030527, -0.0138021, 0.0154108)
+bones/5/rotation = Quaternion(-0.698869, 0.107621, 0.700731, 0.0947425)
+
+[node name="Dynamic Parent test ITEM" parent="." instance=ExtResource("2_1vr56")]
+
+[node name="Skeleton3D" parent="Dynamic Parent test ITEM/Item" index="0"]
+bones/1/rotation = Quaternion(0, 0, 0, 1)
+
+[editable path="Dynamic Parent test BODY"]
+[editable path="Dynamic Parent test ITEM"]

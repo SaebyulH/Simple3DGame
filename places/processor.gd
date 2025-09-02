@@ -139,7 +139,7 @@ func spawn_projectile(scene_path: String, character: Node3D):
 	if instance is RigidBody3D:
 		instance.linear_velocity = launch_direction * speed
 	
-func spawn_ragdoll_near_node(spawn: HumanUltimateLipsync, spawner: Node3D):
+func spawn_ragdoll_near_node(spawn: Human2026, spawner: Node3D):
 	#saveables_node.add_child(spawn)
 	spawn.reparent(saveables_node, true)
 	spawn.enable_ragdoll()

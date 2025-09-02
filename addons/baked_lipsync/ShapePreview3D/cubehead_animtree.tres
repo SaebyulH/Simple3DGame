@@ -110,6 +110,7 @@ input_8/reset = true
 
 [resource]
 graph_offset = Vector2(-437.397, 206.729)
+nodes/output/position = Vector2(1120, 213.333)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_02ed5")
 nodes/Animation/position = Vector2(-560, 400)
 "nodes/Animation 10/node" = SubResource("AnimationNodeAnimation_80ilg")
@@ -144,5 +145,4 @@ nodes/expression/node = SubResource("AnimationNodeTransition_ikfk0")
 nodes/expression/position = Vector2(240, -26.6667)
 nodes/mouth/node = SubResource("AnimationNodeTransition_0meny")
 nodes/mouth/position = Vector2(160, 560)
-nodes/output/position = Vector2(1120, 213.333)
-node_connections = [&"blend", 0, &"expression", &"blend", 1, &"mouth", &"expression", 0, &"Animation 10", &"expression", 1, &"Animation 11", &"expression", 2, &"Animation 12", &"expression", 3, &"Animation 13", &"expression", 4, &"Animation 14", &"mouth", 0, &"Animation", &"mouth", 1, &"Animation 2", &"mouth", 2, &"Animation 3", &"mouth", 3, &"Animation 4", &"mouth", 4, &"Animation 5", &"mouth", 5, &"Animation 6", &"mouth", 6, &"Animation 7", &"mouth", 7, &"Animation 8", &"mouth", 8, &"Animation 9", &"output", 0, &"blend"]
+node_connections = [&"output", 0, &"blend", &"blend", 0, &"expression", &"blend", 1, &"mouth", &"expression", 0, &"Animation 10", &"expression", 1, &"Animation 11", &"expression", 2, &"Animation 12", &"expression", 3, &"Animation 13", &"expression", 4, &"Animation 14", &"mouth", 0, &"Animation", &"mouth", 1, &"Animation 2", &"mouth", 2, &"Animation 3", &"mouth", 3, &"Animation 4", &"mouth", 4, &"Animation 5", &"mouth", 5, &"Animation 6", &"mouth", 6, &"Animation 7", &"mouth", 7, &"Animation 8", &"mouth", 8, &"Animation 9"]
