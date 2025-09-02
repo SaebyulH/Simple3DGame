@@ -18,11 +18,16 @@ var smoothed_upper_body_blend: float = 0.0
 
 const CROUCH_BLEND_SPACE := "parameters/crouch_blend_space/blend_position"
 const WALK_BLEND_SPACE := "parameters/walk_blend_space/blend_position"
+
+
+
+
 const SPRINT_BLEND_SPACE := "parameters/sprint_blend_space/blend_position"
 
 const CROUCH_WALK_SPRINT_BLEND := "parameters/crouch_walk_sprint_blend/blend_amount"
 const HOLD_AIM_SCOPE_BLEND := "parameters/hold_aim_scope_blend/blend_amount"
 const UPPER_BODY_BLEND := "parameters/upper_body_blend/blend_amount"
+
 const JUMP_BLEND := "parameters/jump_blend/blend_amount"
 
 
@@ -34,7 +39,7 @@ const SWITCH_REQUEST := "parameters/switch_oneshot/request"
 const LIPSYNC_REQUEST := "parameters/lipsync_blend_tree/lipsync_transition/transition_request"
 const EXPRESSION_REQUEST := "parameters/expression_blend_tree/expression_transition/transition_request"
 const AIM_SCOPE_SHOOT_TRANSITION_REQUEST := "parameters/aim_scope_shoot_transition/transition_request"
-
+#
 func get_equipped_item_child():
 	return equipped_item.get_child(0) if equipped_item.get_child_count() > 0 else null
 
@@ -77,6 +82,8 @@ func _ready():
 	animation_tree.tree_root = animation_tree.tree_root.duplicate(true)
 
 	animation_tree.active = true
+	
+	
 	
 	head = player.get_node_or_null("Head")
 	if not head:

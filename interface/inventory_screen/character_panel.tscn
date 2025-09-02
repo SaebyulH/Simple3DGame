@@ -1,0 +1,76 @@
+[gd_scene load_steps=2 format=3 uid="uid://dift4f24aycw6"]
+
+[ext_resource type="PackedScene" uid="uid://dn3e2ahhf1yda" path="res://assets/models/human/Human_Ultimate_Lipsync.glb" id="1_cui71"]
+
+[node name="CharacterPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="GridContainer" type="GridContainer" parent="HBoxContainer2"]
+visible = false
+layout_mode = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SubViewport" type="SubViewport" parent="HBoxContainer2/SubViewportContainer"]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+msaa_3d = 2
+size = Vector2i(821, 816)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="HBoxContainer2/SubViewportContainer/SubViewport"]
+transform = Transform3D(0.959225, 0.0613437, -0.275906, -3.72529e-09, 0.976164, 0.217036, 0.282643, -0.208186, 0.936361, -0.273682, 1.57996, 1.48458)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="HBoxContainer2/SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 4, 3)
+light_energy = 2.0
+
+[node name="ItemPreviewRoot" type="Node3D" parent="HBoxContainer2/SubViewportContainer/SubViewport"]
+
+[node name="Human_Ultimate_Lipsync" parent="HBoxContainer2/SubViewportContainer/SubViewport/ItemPreviewRoot" instance=ExtResource("1_cui71")]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+vertical_scroll_mode = 2
+
+[node name="CharacterDetails" type="Label" parent="HBoxContainer2/VBoxContainer/ScrollContainer"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "fasdfdasfadsfsadf"
+autowrap_mode = 2
+clip_text = true
+text_overrun_behavior = 3
+
+[node name="DropButton" type="Button" parent="HBoxContainer2/VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Drop Item"
+
+[connection signal="pressed" from="HBoxContainer2/VBoxContainer/DropButton" to="." method="_on_drop_button_pressed"]

@@ -8,9 +8,11 @@ const DEFAULT_SKIN_ROTATION := Vector3(0, 0, 0)
 const SNAP_FIRST_PERSON_DISTANCE := 1
 const SPRING_EXTENDED_LENGTH := 2.7 #1.8
 const GRAVITY := 9.8
-const SPRINT_FACTOR := 1.33
-const CROUCH_FACTOR := 0.66
+const SPRINT_FACTOR := 1.5
+const CROUCH_FACTOR := 0.5
 const INTERACT_DISTANCE := 2.0 # Interact Distance for interactable props
+
+const CRIT_MULTIPLIER := 2
 
 const ACCELERATION := 1.0
 const MOVEMENT_INACCURACY_MULTIPLIER := 0.4 #how much movement impacts inaccuracy
@@ -277,6 +279,9 @@ func hunt_target(delta):
 
 				if inaccuracy <= tolerance:
 					move_mode = MoveMode.CROUCH
+					
+					#make them worse
+					inaccuracy +=3.5
 					perform_primary_fire()
 				else:
 					move_mode = MoveMode.SPRINT
@@ -391,7 +396,7 @@ func change_health(amount: int):
 func die():
 	for item in inventory_data.items:
 		processor.spawn_pickup_near_character(item, self)
-	processor.spawn_ragdoll_near_node($Skin/MaxSkin/Human_Ultimate_Lipsync, self)
+	processor.spawn_ragdoll_near_node($Skin/MaxSkin/Human2026, self)
 	queue_free()
 
 func change_wealth(amount: int):
@@ -452,7 +457,8 @@ func perform_primary_fire() -> void:
 
 func create_local_timer(wait_time: float) -> void:
 	if wait_time < 0.05:
-		wait_time = 0.05
+		return
+		#wait_time = 0.05
 	var timer := Timer.new()
 	timer.wait_time = wait_time
 	timer.one_shot = true
@@ -465,7 +471,7 @@ func create_local_timer(wait_time: float) -> void:
 ## The coroutine for firing after initial delay
 func fire_weapon_with_delay() -> void:
 	var item = inventory_data.get_current_item()
-	
+	var muzzle_location : Vector3 = Vector3.ZERO
 	# Wait initial shooting delay BEFORE firing
 	await create_local_timer(item.initial_shooting_delay)
 	
@@ -484,11 +490,16 @@ func fire_weapon_with_delay() -> void:
 			if weapon and weapon.has_node("MuzzleOrigin"):
 				var muzzle = weapon.get_node("MuzzleOrigin")
 				muzzle_flash.global_position = muzzle.global_position
+				muzzle_location = muzzle.global_position
 				muzzle_flash.global_rotation = muzzle.global_rotation
 				muzzle_flash.fire_weapon()
 		
 		# PROJECTILE VS HITSCAN
 		if item.shooting_type == ItemData.ShootingType.HITSCAN:
+			
+			
+			
+			
 			# Do raycast
 			attack_raycast.target_position = Vector3.FORWARD * item.hitscan_range
 			# Reset rotation to face forward
@@ -509,6 +520,12 @@ func fire_weapon_with_delay() -> void:
 			
 			
 			attack_raycast.force_raycast_update()
+			
+			
+			
+			
+			
+			
 			
 			if attack_raycast.is_colliding():
 				var target = attack_raycast.get_collider()
@@ -551,7 +568,7 @@ func fire_weapon_with_delay() -> void:
 						crit = false
 					
 					var enemy = find_enemy_root(target)
-					var multiplier = 4.0 if crit else 1.0
+					var multiplier = CRIT_MULTIPLIER if crit else 1.0
 					if enemy:
 						enemy.change_health(-(item.damage * multiplier))
 						if "hit_sound" in enemy and enemy is not Player:
@@ -563,6 +580,45 @@ func fire_weapon_with_delay() -> void:
 							
 						
 					print(name, ": Hitscan Attacked ", target, " for ", item.damage, " damage")
+		
+		elif item.shooting_type == ItemData.ShootingType.DELAYED_HITSCAN:
+			# Reset rotation to face forward
+			attack_raycast.rotation = Vector3.ZERO
+			attack_raycast.target_position = Vector3.FORWARD * item.hitscan_range
+
+			# Apply inaccuracy
+			inaccuracy += inventory_data.get_current_item().first_shot_inaccuracy
+			var effective_inaccuracy = (inaccuracy + velocity.length() * MOVEMENT_INACCURACY_MULTIPLIER)
+			if move_mode == MoveMode.CROUCH:
+				effective_inaccuracy *= CROUCH_INACCURACY_MULTIPLIER
+
+			attack_raycast.rotate_x(deg_to_rad(randf_range(-effective_inaccuracy, effective_inaccuracy)))
+			attack_raycast.rotate_y(deg_to_rad(randf_range(-effective_inaccuracy, effective_inaccuracy)))
+
+			inaccuracy += inventory_data.get_current_item().subsequent_shot_inaccuracy
+
+			# Force raycast to update
+			attack_raycast.force_raycast_update()
+
+			# Check what we hit
+			var hit_position: Vector3
+			if attack_raycast.is_colliding():
+				hit_position = attack_raycast.get_collision_point()
+			else:
+				# No hit, just shoot straight to max range
+				hit_position = attack_raycast.global_position + attack_raycast.global_transform.basis.z * item.hitscan_range
+
+			# Spawn bullet
+			var bullet_scene: PackedScene = preload("res://entities/test/hitscan_bullet.tscn")
+			var bullet = bullet_scene.instantiate() as DelayedHitscanBullet
+			get_tree().current_scene.add_child(bullet)
+
+			# Place bullet at muzzle (or raycast origin)
+			bullet.global_position = attack_raycast.global_position
+
+			# Aim bullet toward hit point
+			bullet.setup(muzzle_location, hit_position, item.damage)
+
 		elif item.shooting_type == ItemData.ShootingType.PROJECTILE:
 			processor.spawn_projectile(item.projectile_path, head)
 			
@@ -579,15 +635,15 @@ func play_sound(sound_path: String):
 	hit_sound.play()
 	
 
-func find_enemy_root(node)-> Node:
+static func find_enemy_root(node)-> Node:
 	while node != null:
 		#if node.is_in_group("damageable_character"):
 		if node.has_method("change_health"):
-			print(name, ": enemy found with change health function")
+			print("STATIC FUNC", ": enemy found with change health function")
 			
 			return node
 		node = node.get_parent()
-	print(name, ": enemy NOT found with change health function")
+	print("STATIC FUNC", ": enemy NOT found with change health function")
 	return null
 
 #Uses interact one bc it is meant to be not accurate

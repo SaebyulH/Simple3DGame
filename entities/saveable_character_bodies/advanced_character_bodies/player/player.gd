@@ -118,7 +118,7 @@ func _physics_process(delta):
 		
 		if bullet_time:
 			if velocity == Vector3.ZERO:
-				Engine.time_scale = 0.05
+				Engine.time_scale = 0.01
 			else:
 				Engine.time_scale = 1.0
 		else:

@@ -155,7 +155,7 @@ static func create_glock() -> ItemData:
 	item_data.ammo_type = AmmoDataFactory.create_revolver_ammo()
 	item_data.mag_size = 8
 	item_data.shooting_mode = ItemData.ShootingMode.SEMI_AUTO
-	item_data.shooting_type = ItemData.ShootingType.HITSCAN
+	item_data.shooting_type = ItemData.ShootingType.DELAYED_HITSCAN
 
 	item_data.first_shot_inaccuracy = 0.6
 	item_data.subsequent_shot_inaccuracy = 7

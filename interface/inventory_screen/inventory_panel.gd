@@ -69,6 +69,8 @@ func update_preview():
 			item_instance.owner = preview # Needed for proper scene ownership
 
 
+
+
 func _on_drop_button_pressed() -> void:
 	player.drop_current_item() # Replace with function body.
 	update()

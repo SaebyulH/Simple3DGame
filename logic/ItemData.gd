@@ -5,7 +5,7 @@ class_name ItemData
 #enum AmmoType {REVOLVER_AMMO, SNIPER_AMMO}
 enum ItemType {RIFLE, PISTOL, MELEE, MISC}
 enum ShootingMode {AUTO, SEMI_AUTO, NON_AUTO}
-enum ShootingType {HITSCAN, PROJECTILE}
+enum ShootingType {HITSCAN, PROJECTILE, DELAYED_HITSCAN}
 
 # Data stats
 @export var item_type: ItemType 
