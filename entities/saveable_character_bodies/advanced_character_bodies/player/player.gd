@@ -20,7 +20,7 @@ var has_fired_semi :bool = false
 @onready var spring := $Head/SpringParent/SpringArm3D
 @onready var camera := $Head/SpringParent/SpringArm3D/MarginThing/Camera3D
 
-@onready var head_bone := $Skin/MaxSkin/Human_Ultimate_Lipsync/rig/Skeleton3D/HeadBone/AdjustedHead
+@onready var head_bone := $Skin/MaxSkin/Human2026/Armature/Skeleton3D/HeadBone/AdjustedHead
 @onready var hud := get_parent().get_parent().get_node("PlayerHUD") as PlayerHUD
 #@onready var timer := $ShootTimer
 # Ready ##########################################################

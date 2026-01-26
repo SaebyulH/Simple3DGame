@@ -42,13 +42,13 @@ var max_inaccuracy:float=30.0
 # Universal
 @onready var processor: Processor = get_parent().get_parent().get_node("Processor")
 @onready var skin:= $Skin/MaxSkin
-@onready var animation_node := $Skin/MaxSkin/NewAnimation
+@onready var animation_node := $Skin/MaxSkin/Animation2026
 
 @onready var interact_raycast : RayCast3D #= $Head/InteractRayCast3D
 @onready var attack_raycast : RayCast3D #= $Head/AttackRayCast3D2
 
-#@onready var equipped_item := $Skin/MaxSkin/Human_Ultimate_Lipsync/rig/Skeleton3D/HandBone/EquippedItem  # Update path as needed
-@onready var muzzle_flash := $Skin/MaxSkin/Human_Ultimate_Lipsync/rig/Skeleton3D/HandBone/MuzzleFlash
+@onready var equipped_item := $Skin/MaxSkin/Human2026/Armature/Skeleton3D/HandBone/EquippedItem  # Update path as needed
+@onready var muzzle_flash := $Skin/MaxSkin/Human2026/Armature/Skeleton3D/HandBone/MuzzleFlash
 @onready var navigation_agent : NavigationAgent3D = $NavigationAgent3D
 @onready var head := $Head
 
@@ -59,8 +59,8 @@ var max_inaccuracy:float=30.0
 @onready var initial_timer := $InitialShotTimer
 @onready var between_timer := $BetweenShotTimer
 
-@onready var gun_sound := $Skin/MaxSkin/Human_Ultimate_Lipsync/rig/Skeleton3D/HandBone/GunSound
-@onready var hit_sound := $Skin/MaxSkin/Human_Ultimate_Lipsync/rig/Skeleton3D/HeadBone/HitSound
+@onready var gun_sound := $Skin/MaxSkin/Human2026/Armature/Skeleton3D/HandBone/GunSound
+@onready var hit_sound := $Skin/MaxSkin/Human2026/Armature/Skeleton3D/HeadBone/HitSound
 
 @onready var selfie_cam := $SelfieCamera
 @onready var ots_cam := $OTSCamera
