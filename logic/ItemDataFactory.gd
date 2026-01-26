@@ -185,7 +185,7 @@ static func create_ak() -> ItemData:
 	item_data.ammo_type = AmmoDataFactory.create_rifle_ammo()
 	item_data.mag_size = 8
 	item_data.shooting_mode = ItemData.ShootingMode.AUTO
-	item_data.shooting_type = ItemData.ShootingType.HITSCAN
+	item_data.shooting_type = ItemData.ShootingType.DELAYED_HITSCAN
 	
 	item_data.first_shot_inaccuracy = 0.4
 	item_data.subsequent_shot_inaccuracy = 4.7

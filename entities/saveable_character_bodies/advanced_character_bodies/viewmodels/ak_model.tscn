@@ -8,22 +8,15 @@ script = ExtResource("1_3rxve")
 
 [node name="ak2" parent="." instance=ExtResource("1_w0tfg")]
 
-[node name="Skeleton3D" parent="ak2/ak" index="0"]
-bones/0/position = Vector3(-0.00667147, 0.0754366, 0.00912352)
-bones/0/rotation = Quaternion(0.612477, 0.0145857, 0.128428, -0.779849)
-bones/2/rotation = Quaternion(-0.707107, 5.53607e-08, -5.79949e-08, 0.707107)
-bones/3/position = Vector3(0.0115354, 0.119468, 0.0307888)
-bones/4/position = Vector3(-1.72992e-08, 0.148015, -0.103329)
-bones/4/rotation = Quaternion(0.707107, 2.1689e-08, 2.95915e-08, 0.707107)
-bones/5/position = Vector3(1.58321e-08, 0.149993, 0.0325996)
-bones/5/rotation = Quaternion(3.72529e-09, -5.58793e-09, 1.61989e-07, 1)
-
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="ak2/ak/Skeleton3D" index="6"]
-transform = Transform3D(0.966587, 0.218176, 0.134569, -0.182442, 0.216756, 0.959027, 0.180068, -0.951534, 0.249318, -0.00667147, 0.0754366, 0.00912352)
+transform = Transform3D(-1, 0, 0, 0, 0, 1, 0, 1, 0, -7.433664e-10, 0.05999998, -0.0022813752)
 bone_name = "root"
 bone_idx = 0
 
 [node name="MuzzleOrigin" type="Node3D" parent="ak2/ak/Skeleton3D/BoneAttachment3D"]
 transform = Transform3D(-1, 1.49012e-08, 1.49012e-08, -2.98023e-08, -1.49012e-08, 1, -2.6077e-08, 1, -2.98023e-08, -0.000431295, 0.620473, 0.02309)
+
+[node name="MuzzleOrigin" type="Node3D" parent="."]
+transform = Transform3D(-1, 1.49012e-08, 1.49012e-08, -2.98023e-08, -1.49012e-08, 1, -2.6077e-08, 1, -2.98023e-08, 0.13792396, 0.23069847, -0.58091193)
 
 [editable path="ak2"]

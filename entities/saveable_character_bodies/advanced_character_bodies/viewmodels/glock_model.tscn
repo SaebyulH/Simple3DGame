@@ -17,12 +17,14 @@ bones/2/position = Vector3(-1.01061e-08, 0.0386503, -0.0542198)
 bones/3/rotation = Quaternion(0.715219, -5.85195e-05, -5.99895e-05, 0.698901)
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="glock2/glock/Skeleton3D" index="1"]
-transform = Transform3D(-0.990103, 0.072392, -0.120232, 0.136894, 0.309392, -0.941029, -0.0309243, -0.948175, -0.31624, -0.0178968, 0.0383498, -0.00921483)
+transform = Transform3D(-0.99010277, 0.072391964, -0.12023155, 0.1368938, 0.30939218, -0.9410294, -0.03092428, -0.94817495, -0.31624004, -0.0178968, 0.0383498, -0.00921483)
+visible = false
 bone_name = "root"
 bone_idx = 0
 
 [node name="MuzzleOrigin" type="Node3D" parent="glock2/glock/Skeleton3D/BoneAttachment3D"]
 transform = Transform3D(1, -1.58325e-07, 1.86265e-09, 1.86265e-09, 3.57628e-07, 1, -1.69501e-07, -1, 3.57628e-07, 0.000129094, 0.218727, -0.0582923)
+visible = false
 
 [node name="MuzzleOrigin" type="Node3D" parent="."]
 transform = Transform3D(-0.990103, 0.120232, 0.072392, 0.136894, 0.941029, 0.309393, -0.0309242, 0.316241, -0.948175, 0.00481806, 0.160333, -0.196489)

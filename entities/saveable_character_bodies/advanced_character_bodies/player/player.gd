@@ -2,6 +2,7 @@ extends AdvancedCharacter
 class_name Player
 
 var bullet_time := false
+
 # Player Specific
 enum CameraMode { FIRST_PERSON, THIRD_PERSON }
 const ENEMY_STATS_DISTANCE := 15.0 # Distance to see enemy stats
@@ -14,12 +15,13 @@ var spring_interp_speed: float = 5.0  # Adjust speed as needed
 var mouse_sensitivity := 0.003
 var camera_mode := CameraMode.FIRST_PERSON
 
-var desired_yaw := 0.0
+
 #var head_yaw: float = 0.0
-const MAX_HEAD_YAW := deg_to_rad(60.0)
 
 
-var has_fired_semi :bool = false
+# Tracks if the player has fired a round. Relevant for Semi-Auto. 
+# Only matters to player and not other charactrs as this is merely an input based thing. 
+var has_fired_semi :bool = false 
 
 @onready var spring := $Head/SpringParent/SpringArm3D
 @onready var camera := $Head/SpringParent/SpringArm3D/MarginThing/Camera3D
@@ -170,28 +172,37 @@ func _physics_process(delta):
 func _unhandled_input(event):
 # Looking Around
 	if event is InputEventMouseMotion:
+		change_turn(
+			event.relative.y * mouse_sensitivity, # pitch
+			event.relative.x * mouse_sensitivity  # yaw
+		)
+
 		# --- HEAD YAW ---
-		head_yaw -= event.relative.x * mouse_sensitivity
-
-		var overflow: float = 0.0
-		if head_yaw > MAX_HEAD_YAW:
-			overflow = head_yaw - MAX_HEAD_YAW
-			head_yaw = MAX_HEAD_YAW
-		elif head_yaw < -MAX_HEAD_YAW:
-			overflow = head_yaw + MAX_HEAD_YAW
-			head_yaw = -MAX_HEAD_YAW
-
-		# Apply head yaw
-		head.rotation.y = head_yaw
-
-		# --- BODY YAW (ONLY ON OVERFLOW) ---
-		if overflow != 0.0:
-			self.rotation.y += overflow
-			head.rotation.y = head_yaw  # reapply after correction
-
-		# --- HEAD PITCH ---
-		var new_pitch: float = head.rotation.x - event.relative.y * mouse_sensitivity
-		head.rotation.x = clamp(new_pitch, deg_to_rad(-80), deg_to_rad(80))
+		#head_yaw -= event.relative.x * mouse_sensitivity
+	#
+		#var effective_max_head_yaw : float = max_head_yaw if Vector3(velocity.x, 0.0, velocity.z) == Vector3.ZERO else 0.0
+		#
+		#var overflow: float = 0.0
+		#if head_yaw > effective_max_head_yaw:
+			#overflow = head_yaw - effective_max_head_yaw
+			#head_yaw = effective_max_head_yaw
+		#elif head_yaw < -effective_max_head_yaw:
+			#overflow = head_yaw + effective_max_head_yaw
+			#head_yaw = -effective_max_head_yaw
+#
+		## Apply head yaw
+		#head.rotation.y = head_yaw
+#
+		## --- BODY YAW (ONLY ON OVERFLOW) ---
+		#if overflow != 0.0:
+			#self.rotation.y += overflow
+			#head.rotation.y = head_yaw  # reapply after correction
+			#if velocity.y == 0:
+				#is_turning_on_ground = true
+		#
+		## --- HEAD PITCH ---
+		#var new_pitch: float = head.rotation.x - event.relative.y * mouse_sensitivity
+		#head.rotation.x = clamp(new_pitch, deg_to_rad(-80), deg_to_rad(80))
 		
 		
 	# Scrolling

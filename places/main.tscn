@@ -205,10 +205,14 @@ display_name = ""
 
 [node name="Player" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("11_pxqo5")]
 transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, -5.21816, 21.65021, 31.279444)
+hostile = false
+dialogic_name = "THIS MUST MATCH THE DISPLAY NAME OF AN EXISTING DIALOGIC CHARACTER"
 destination_node = NodePath("../AdvancedCharacter")
+max_head_yaw = 0.8726646259971648
+body_turn_duration = 0.5
 
 [node name="AdvancedCharacter4Hostile" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_lvsl2")]
-transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -2.3455555, 20.574774, 14.806934)
+transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -2.3455555, 20.574774, -7.000942)
 hostile = true
 dialogic_name = "Harvard Lister"
 destination_node = NodePath("../Player")

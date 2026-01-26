@@ -1,9 +1,15 @@
 extends SaveableCharacterBody3D
+
 class_name AdvancedCharacter
 
 # Universal
 enum MoveMode {WALK, SPRINT, CROUCH}
+# HOLSTER means weapon is on the character's back, belt, etc and is not held in the hand
+# HOLD means weapon is held in the hand but is not aimed. TODO: Return to this mode out of combat to avoid weapon blocking view.
+# AIM means weapon is held and aimed, but character is not using sight/scope
+# SCOPE means weapon is aimed directly in front of character's right eye TODO: Add left handed viewmodel support: will require additional animations
 enum HoldMode {HOLSTER, HOLD, AIM, SCOPE}
+
 const DEFAULT_SKIN_ROTATION := Vector3(0, 0, 0)
 const SNAP_FIRST_PERSON_DISTANCE := 1
 const SPRING_EXTENDED_LENGTH := 2.7 #1.8
@@ -32,11 +38,10 @@ var trade_target: Node = null
 var inaccuracy:float=0
 var max_inaccuracy:float=30.0
 
-
-
+var scan_interval := 0.5   # scan twice a second
+var next_scan_time := 0.0
 
 @export var hostile := false
-
 @export var dialogic_name := "THIS MUST MATCH THE DISPLAY NAME OF AN EXISTING DIALOGIC CHARACTER"
 ######################################################
 # Universal
@@ -52,7 +57,6 @@ var max_inaccuracy:float=30.0
 @onready var navigation_agent : NavigationAgent3D = $NavigationAgent3D
 @onready var head := $Head
 
-
 # This is what will be attacked. TODO make this more universal
 @export var destination_node : AdvancedCharacter
 
@@ -65,18 +69,18 @@ var max_inaccuracy:float=30.0
 @onready var selfie_cam := $SelfieCamera
 @onready var ots_cam := $OTSCamera
 
-
 var dialogic_current_speaker :String
-# Ready empty for now ##########################################################
 
-#var head_y_rotation : float = 0
-#var max_head_y_rotation: float = 50 #degrees
 
-var head_yaw := 0.0 # radians
-@export var max_head_yaw_deg := 50.0
+
+@export var max_head_yaw := deg_to_rad(50.0)
 @export var body_turn_duration := 0.5
+var head_yaw := 0.0 # radians
+#var desired_yaw := 0.0
+var is_turning_on_ground : bool
 
-var is_turning_body := false
+
+#var is_turning_body := false
 var body_turn_timer := 0.0
 var body_turn_start_y := 0.0
 var body_turn_target_y := 0.0
@@ -235,6 +239,7 @@ func _process(delta):
 # Basic Script to be hostile when attacked or just stand there and talk if not
 func _physics_process(delta):
 
+	
 	if not is_on_floor():
 		y_velocity -= GRAVITY * delta
 	else:
@@ -256,8 +261,80 @@ func _physics_process(delta):
 
 		
 
-var scan_interval := 0.5   # scan twice a second
-var next_scan_time := 0.0
+
+
+
+
+func set_turn(pitch: float, yaw: float) -> void:
+	head_yaw = yaw
+
+	var effective_max_head_yaw: float = max_head_yaw \
+		if Vector3(velocity.x, 0.0, velocity.z) == Vector3.ZERO \
+		else 0.0
+
+	var overflow: float = 0.0
+	if head_yaw > effective_max_head_yaw:
+		overflow = head_yaw - effective_max_head_yaw
+		head_yaw = effective_max_head_yaw
+	elif head_yaw < -effective_max_head_yaw:
+		overflow = head_yaw + effective_max_head_yaw
+		head_yaw = -effective_max_head_yaw
+
+	# Apply head yaw
+	head.rotation.y = head_yaw
+
+	# --- BODY YAW (ONLY ON OVERFLOW) ---
+	if overflow != 0.0:
+		self.rotation.y += overflow
+		head.rotation.y = head_yaw
+		if velocity.y == 0.0:
+			is_turning_on_ground = true
+
+	# --- HEAD PITCH ---
+	head.rotation.x = clamp(pitch, deg_to_rad(-80), deg_to_rad(80))
+
+func change_turn(pitch: float, yaw: float) -> void:
+	var target_yaw: float = head_yaw - yaw
+	var target_pitch: float = head.rotation.x - pitch
+
+	set_turn(target_pitch, target_yaw)
+
+
+#func look_at_target(target_pos: Vector3) -> void:
+	#var head_origin: Vector3 = head.global_transform.origin
+	#var to_target: Vector3 = (target_pos - head_origin).normalized()
+#
+	## Convert to BODY local space (this matches head_yaw definition)
+	#var body_local_dir: Vector3 = global_transform.basis.inverse() * to_target
+#
+	## This is the yaw *relative to the body*
+	#var target_yaw: float = -atan2(body_local_dir.x, body_local_dir.z)
+#
+	## This is pitch relative to the body too
+	#var target_pitch: float = -atan2(
+		#body_local_dir.y,
+		#sqrt(body_local_dir.x * body_local_dir.x + body_local_dir.z * body_local_dir.z)
+	#)
+#
+	#set_turn(target_pitch, target_yaw)
+
+func aim_at(target_pos: Vector3, delta: float) -> void:
+	# --- BODY YAW ---
+	var body_dir: Vector3 = target_pos - global_position
+	body_dir.y = 0
+
+	if body_dir.length_squared() > 0.001:
+		var desired_yaw: float = atan2(-body_dir.x, -body_dir.z)
+		global_rotation.y = desired_yaw
+
+	# --- HEAD PITCH ---
+	var head_pos: Vector3 = head.global_position
+	var to_target: Vector3 = target_pos - head_pos
+
+	var flat_distance: float = Vector2(to_target.x, to_target.z).length()
+	if flat_distance > 0.001:
+		var pitch_angle: float = atan2(to_target.y, flat_distance)
+		head.rotation.x = lerp_angle(head.rotation.x, pitch_angle, delta * 5.0)
 
 
 
@@ -265,52 +342,50 @@ var next_scan_time := 0.0
 
 
 
-func hunt_target(delta):
+
+
+
+
+
+
+func hunt_target(delta: float) -> void:
 	if not destination_node:
 		return
 
 	print(name, ": HUNTING TARGET")
 
-	var aim_node = destination_node
-	if destination_node.head:
+	# --- Aim target ---
+	var aim_node: Node = destination_node
+	if destination_node.has_node("Head"):
 		aim_node = destination_node.head
 
-	# Distance used for both movement and shooting
-	var distance_to_target = global_position.distance_to(destination_node.global_position)
+	# --- Distance used for movement and shooting ---
+	var distance_to_target: float = global_position.distance_to(destination_node.global_position)
 
-	# Move only if allowed
+	# --- Movement ---
 	if character_data.can_move:
-		var direction = Vector3()
+		# Path direction (navigation)
+		var next_pos: Vector3 = navigation_agent.get_next_path_position()
+		var direction: Vector3 = (next_pos - global_position).normalized()
+
+		velocity = direction * get_effective_speed()
+
+		# Make sure navigation keeps updating
 		navigation_agent.target_position = destination_node.global_position
-		direction = navigation_agent.get_next_path_position() - global_position
 
-		# Rotate body (Y axis only)
-		var look_dir = aim_node.global_position - global_position
-		look_dir.y = 0
-		if look_dir.length_squared() > 0.001:
-			var desired_yaw := atan2(-look_dir.x, -look_dir.z)
-			update_head_body_yaw(desired_yaw, delta)
-
-		# Rotate head (pitch) toward destination
-		var head_pos = head.global_position
-		var to_target = aim_node.global_position - head_pos
-		var flat_distance = Vector2(to_target.x, to_target.z).length()
-		var pitch_angle = atan2(to_target.y, flat_distance)
-		head.rotation.x = lerp_angle(head.rotation.x, pitch_angle, delta * 5.0)
-
-		# Movement
-		velocity = direction.normalized() * get_effective_speed()
+		# Aim at target
+		aim_at(aim_node.global_position, delta)
 	else:
 		velocity = Vector3.ZERO
 
 	velocity.y = y_velocity
 	move_and_slide()
 
-	# ---- Shooting (runs every frame) ----
+	# --- Shooting ---
 	var item = inventory_data.get_current_item()
 	if item and destination_node:
 		if distance_to_target <= item.hitscan_range:
-			var tolerance = distance_to_target * 0.1
+			var tolerance: float = distance_to_target * 0.1
 
 			if inaccuracy <= tolerance:
 				move_mode = MoveMode.CROUCH
@@ -320,6 +395,7 @@ func hunt_target(delta):
 				move_mode = MoveMode.SPRINT
 		else:
 			move_mode = MoveMode.SPRINT
+
 
 
 # Get the effective speed, taking into account move mode
@@ -359,40 +435,6 @@ func find_interactable_parent(node: Node) -> Node:
 		return find_interactable_parent(node.get_parent())
 	else:
 		return null
-
-func update_head_body_yaw(
-	desired_world_yaw: float,
-	delta: float
-) -> void:
-
-	var max_yaw := deg_to_rad(max_head_yaw_deg)
-
-	if not is_turning_body:
-		var body_yaw := rotation.y
-		var delta_yaw := wrapf(desired_world_yaw - body_yaw, -PI, PI)
-
-		head_yaw += delta_yaw
-		head_yaw = clamp(head_yaw, -max_yaw, max_yaw)
-		head.rotation.y = head_yaw
-
-		if abs(head_yaw) >= max_yaw:
-			is_turning_body = true
-			body_turn_timer = 0.0
-			body_turn_start_y = rotation.y
-			body_turn_target_y = desired_world_yaw
-	else:
-		body_turn_timer += delta
-		var t := clampf(body_turn_timer / body_turn_duration, 0.0, 1.0)
-
-		rotation.y = lerp_angle(body_turn_start_y, body_turn_target_y, t)
-		head_yaw = lerp(head_yaw, 0.0, t)
-		head.rotation.y = head_yaw
-
-		if t >= 1.0:
-			is_turning_body = false
-			head_yaw = 0.0
-			head.rotation.y = 0.0
-
 
 
 
@@ -662,7 +704,7 @@ func fire_weapon_with_delay() -> void:
 			get_tree().current_scene.add_child(bullet)
 
 			# Place bullet at muzzle (or raycast origin)
-			bullet.global_position = attack_raycast.global_position
+			#bullet.global_position = attack_raycast.global_position
 
 			# Aim bullet toward hit point
 			bullet.setup(muzzle_location, hit_position, item.damage)

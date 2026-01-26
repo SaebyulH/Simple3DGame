@@ -9,7 +9,7 @@ const SPRINT_BLEND_SPACE := "parameters/sprint_blend_space/blend_position"
 const CROUCH_WALK_SPRINT_BLEND := "parameters/crouch_walk_sprint_blend/blend_amount"
 @onready var equipped_item :EquippedItem= $"../Human2026/Armature/Skeleton3D/HandBone/EquippedItem"
 @onready var ik : SkeletonIK3D= $"../Human2026/Armature/Skeleton3D/SkeletonIK3D"
-
+@onready var target : Node3D = $"../Target"
 #func _ready() -> void:
 
 func equip_item(item_data: ItemData):
@@ -17,6 +17,11 @@ func equip_item(item_data: ItemData):
 	#update_animation_inputs(item_data)
 
 func _process(delta: float) -> void:
+	
+	var head = player.get_node("Head")
+	target.global_rotation = Vector3(-head.global_rotation.x, head.global_rotation.y + PI, head.global_rotation.z)
+
+
 	if player.hold_mode == AdvancedCharacter.HoldMode.HOLSTER:
 		#hold_aim_scope = -1
 		#upper_body_blend_target = 0
@@ -51,33 +56,80 @@ func _physics_process(delta: float) -> void:
 	animation_tree.set(SPRINT_BLEND_SPACE, velocity_2d)  
 	animation_tree.set(CROUCH_WALK_SPRINT_BLEND, -1 if player.move_mode == AdvancedCharacter.MoveMode.CROUCH else 0 if player.move_mode == AdvancedCharacter.MoveMode.WALK else 1)
 
-func randomize_character():
-	var mesh_instance: MeshInstance3D = $"../Human2026/Armature/Skeleton3D/ultimate_human_mesh_Baked"
-	var mesh: Mesh = mesh_instance.mesh
-
-	if not mesh:
-		print("No mesh assigned!")
+func randomize_character() -> void:
+	var meshes_parent: Node = $"../Human2026/default_shirt_and_jeans/Skeleton3D"
+	if not meshes_parent:
+		push_error("Meshes parent node not found")
 		return
 
-	# Randomize blend shapes
-	var blend_shape_count = mesh.get_blend_shape_count()
-	for i in blend_shape_count:
-		var name = mesh.get_blend_shape_name(i)
-		var path = "blend_shapes/" + name
+	var body_meshes: Array[MeshInstance3D] = [$"../Human2026/default_shirt_and_jeans/Skeleton3D/ultimate_human_mesh_Baked_001", $"../Human2026/default_shirt_and_jeans/Skeleton3D/ultimate_human_mesh_Baked_002"]
+	var hair_meshes: Array[MeshInstance3D] = [$"../Human2026/default_shirt_and_jeans/Skeleton3D/Female_Bob_Haircut_Baked", ]
 
-		if name == "Sex":
-			mesh_instance.set(path, randi() % 2) # 0 or 1
+	# Collect meshes
+	for child: Node in meshes_parent.get_children():
+		if child is MeshInstance3D:
+			var mesh_instance := child as MeshInstance3D
+			if "Hair" in mesh_instance.name:
+				hair_meshes.append(mesh_instance)
+			else:
+				body_meshes.append(mesh_instance)
+
+	if body_meshes.is_empty():
+		push_error("No body meshes found")
+		return
+
+	# Use first body mesh as reference
+	var reference_mesh_instance: MeshInstance3D = body_meshes[0]
+	var reference_mesh: Mesh = reference_mesh_instance.mesh
+	if not reference_mesh:
+		push_error("Reference body mesh has no mesh assigned")
+		return
+
+	# Generate shared random values for body blend shapes
+	var body_blendshape_values: Dictionary = {}
+
+	for i: int in range(reference_mesh.get_blend_shape_count()):
+		var shape_name: String = reference_mesh.get_blend_shape_name(i)
+
+		if shape_name == "SEX":
+			body_blendshape_values[shape_name] = int(randi() % 2)
 		else:
-			mesh_instance.set(path, randf_range(-1.0, 1.0)) # -1 to 1
+			body_blendshape_values[shape_name] = randf_range(-1.0, 1.0)
 
-	# Randomize material colors per instance
-	#for surface_index in mesh_instance.get_surface_override_material_count():
-		#var base_material := mesh.surface_get_material(surface_index)
-		#if base_material and base_material is StandardMaterial3D:
-			#var new_material := base_material.duplicate()
-			#new_material.albedo_color = Color(randf(), randf(), randf())
-			#mesh_instance.set_surface_override_material(surface_index, new_material)
+	# Apply to body meshes
+	for mesh_instance: MeshInstance3D in body_meshes:
+		var mesh: Mesh = mesh_instance.mesh
+		if not mesh:
+			push_error("Body mesh '%s' has no mesh assigned" % mesh_instance.name)
+			continue
 
+		for shape_name: String in body_blendshape_values.keys():
+			var shape_index: int = mesh.find_blend_shape_by_name(shape_name)
+			if shape_index == -1:
+				push_error(
+					"Blend shape '%s' missing on body mesh '%s'" %
+					[shape_name, mesh_instance.name]
+				)
+				continue
+
+			mesh_instance.set(
+				"blend_shapes/" + shape_name,
+				body_blendshape_values[shape_name]
+			)
+
+	# Randomize hair independently
+	for hair_instance: MeshInstance3D in hair_meshes:
+		var hair_mesh: Mesh = hair_instance.mesh
+		if not hair_mesh:
+			push_error("Hair mesh '%s' has no mesh assigned" % hair_instance.name)
+			continue
+
+		for i: int in range(hair_mesh.get_blend_shape_count()):
+			var shape_name: String = hair_mesh.get_blend_shape_name(i)
+			hair_instance.set(
+				"blend_shapes/" + shape_name,
+				randf_range(-1.0, 1.0)
+			)
 
 
 func pullout():
