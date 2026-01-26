@@ -52,7 +52,7 @@ func _physics_process(delta: float) -> void:
 	animation_tree.set(CROUCH_WALK_SPRINT_BLEND, -1 if player.move_mode == AdvancedCharacter.MoveMode.CROUCH else 0 if player.move_mode == AdvancedCharacter.MoveMode.WALK else 1)
 
 func randomize_character():
-	var mesh_instance: MeshInstance3D = $"../Human_Ultimate_Lipsync/rig/Skeleton3D/ultimate_human_mesh"
+	var mesh_instance: MeshInstance3D = $"../Human2026/Armature/Skeleton3D/ultimate_human_mesh_Baked"
 	var mesh: Mesh = mesh_instance.mesh
 
 	if not mesh:

@@ -14,6 +14,10 @@ var spring_interp_speed: float = 5.0  # Adjust speed as needed
 var mouse_sensitivity := 0.003
 var camera_mode := CameraMode.FIRST_PERSON
 
+var desired_yaw := 0.0
+#var head_yaw: float = 0.0
+const MAX_HEAD_YAW := deg_to_rad(60.0)
+
 
 var has_fired_semi :bool = false
 
@@ -30,9 +34,7 @@ func _ready() -> void:
 #OVERRIDE
 func setup_uninitialized_variables():
 	character_data = CharacterDataFactory.create_player_character_data()
-	inventory_data = InventoryDataFactory.create_player_inventory_data()	
-	interact_raycast = $Head/SpringParent/SpringArm3D/MarginThing/Camera3D/InteractRayCast3D
-	attack_raycast = $Head/SpringParent/SpringArm3D/MarginThing/Camera3D/AttackRayCast3D
+	inventory_data = InventoryDataFactory.create_player_inventory_data()
 	dialogic_name = "You"
 	display_name = dialogic_name
 
@@ -166,16 +168,32 @@ func _physics_process(delta):
 
 # Controls #####################################################################
 func _unhandled_input(event):
-	# Looking Around
+# Looking Around
 	if event is InputEventMouseMotion:
-		# Rotate the body (yaw)
-		rotate_y(-event.relative.x * mouse_sensitivity)
+		# --- HEAD YAW ---
+		head_yaw -= event.relative.x * mouse_sensitivity
 
-		# Rotate the head (pitch), but track and clamp it manually
-		var new_pitch = head.rotation_degrees.x - event.relative.y * mouse_sensitivity * 180.0 / PI
-		new_pitch = clamp(new_pitch, -80, 80)  # Limit vertical look angle to ±80°
-		head.rotation_degrees.x = new_pitch
+		var overflow: float = 0.0
+		if head_yaw > MAX_HEAD_YAW:
+			overflow = head_yaw - MAX_HEAD_YAW
+			head_yaw = MAX_HEAD_YAW
+		elif head_yaw < -MAX_HEAD_YAW:
+			overflow = head_yaw + MAX_HEAD_YAW
+			head_yaw = -MAX_HEAD_YAW
 
+		# Apply head yaw
+		head.rotation.y = head_yaw
+
+		# --- BODY YAW (ONLY ON OVERFLOW) ---
+		if overflow != 0.0:
+			self.rotation.y += overflow
+			head.rotation.y = head_yaw  # reapply after correction
+
+		# --- HEAD PITCH ---
+		var new_pitch: float = head.rotation.x - event.relative.y * mouse_sensitivity
+		head.rotation.x = clamp(new_pitch, deg_to_rad(-80), deg_to_rad(80))
+		
+		
 	# Scrolling
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP and event.pressed:

@@ -44,8 +44,8 @@ var max_inaccuracy:float=30.0
 @onready var skin:= $Skin/MaxSkin
 @onready var animation_node := $Skin/MaxSkin/Animation2026
 
-@onready var interact_raycast : RayCast3D #= $Head/InteractRayCast3D
-@onready var attack_raycast : RayCast3D #= $Head/AttackRayCast3D2
+@onready var interact_raycast : RayCast3D = $Head/InteractRayCast3D
+@onready var attack_raycast : RayCast3D = $Head/AttackRayCast3D
 
 @onready var equipped_item := $Skin/MaxSkin/Human2026/Armature/Skeleton3D/HandBone/EquippedItem  # Update path as needed
 @onready var muzzle_flash := $Skin/MaxSkin/Human2026/Armature/Skeleton3D/HandBone/MuzzleFlash
@@ -69,6 +69,19 @@ var max_inaccuracy:float=30.0
 var dialogic_current_speaker :String
 # Ready empty for now ##########################################################
 
+#var head_y_rotation : float = 0
+#var max_head_y_rotation: float = 50 #degrees
+
+var head_yaw := 0.0 # radians
+@export var max_head_yaw_deg := 50.0
+@export var body_turn_duration := 0.5
+
+var is_turning_body := false
+var body_turn_timer := 0.0
+var body_turn_start_y := 0.0
+var body_turn_target_y := 0.0
+
+
 func _ready() -> void:
 	super()
 	add_to_group("characters")
@@ -87,8 +100,6 @@ func setup_uninitialized_variables():
 	character_data = CharacterDataFactory.create_advanced_npc_character_data()
 	inventory_data = InventoryDataFactory.create_advanced_npc_inventory_data()
 	display_name = dialogic_name
-	interact_raycast = get_node_or_null("Head/InteractRayCast3D")
-	attack_raycast = get_node_or_null("Head/AttackRayCast3D")
 
 func setup_skin():
 	skin.rotation = DEFAULT_SKIN_ROTATION
@@ -276,8 +287,9 @@ func hunt_target(delta):
 		# Rotate body (Y axis only)
 		var look_dir = aim_node.global_position - global_position
 		look_dir.y = 0
-		if look_dir.length_squared() > 0.01:
-			look_at(global_position + look_dir.normalized(), Vector3.UP)
+		if look_dir.length_squared() > 0.001:
+			var desired_yaw := atan2(-look_dir.x, -look_dir.z)
+			update_head_body_yaw(desired_yaw, delta)
 
 		# Rotate head (pitch) toward destination
 		var head_pos = head.global_position
@@ -348,6 +360,38 @@ func find_interactable_parent(node: Node) -> Node:
 	else:
 		return null
 
+func update_head_body_yaw(
+	desired_world_yaw: float,
+	delta: float
+) -> void:
+
+	var max_yaw := deg_to_rad(max_head_yaw_deg)
+
+	if not is_turning_body:
+		var body_yaw := rotation.y
+		var delta_yaw := wrapf(desired_world_yaw - body_yaw, -PI, PI)
+
+		head_yaw += delta_yaw
+		head_yaw = clamp(head_yaw, -max_yaw, max_yaw)
+		head.rotation.y = head_yaw
+
+		if abs(head_yaw) >= max_yaw:
+			is_turning_body = true
+			body_turn_timer = 0.0
+			body_turn_start_y = rotation.y
+			body_turn_target_y = desired_world_yaw
+	else:
+		body_turn_timer += delta
+		var t := clampf(body_turn_timer / body_turn_duration, 0.0, 1.0)
+
+		rotation.y = lerp_angle(body_turn_start_y, body_turn_target_y, t)
+		head_yaw = lerp(head_yaw, 0.0, t)
+		head.rotation.y = head_yaw
+
+		if t >= 1.0:
+			is_turning_body = false
+			head_yaw = 0.0
+			head.rotation.y = 0.0
 
 
 

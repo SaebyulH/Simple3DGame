@@ -8,7 +8,7 @@ extends Node3D
 @onready var ik := $"../Human_Ultimate_Lipsync/rig/Skeleton3D/SkeletonIK3D"
 
 var smoothed_head_direction: Vector3
-var head : Node3D
+var head : Node3D = player.get_node("Head")
 
 var smoothed_velocity: Vector2 = Vector2.ZERO
 var smoothed_crouch_walk_sprint :float= 0
