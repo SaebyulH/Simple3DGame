@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://by88g1j3kvcfw"]
+[gd_scene format=3 uid="uid://by88g1j3kvcfw"]
 
 [ext_resource type="Texture2D" uid="uid://cv0d8c4u0sjh8" path="res://assets/environments/qwantani_moonrise_puresky_4k.exr" id="1_r1q15"]
 [ext_resource type="Script" uid="uid://7dex21wiy8ay" path="res://places/saveables.gd" id="2_ab8f5"]
@@ -29,6 +29,14 @@ sky_material = SubResource("PanoramaSkyMaterial_ryxa0")
 background_mode = 2
 sky = SubResource("Sky_ab8f5")
 tonemap_mode = 2
+ssr_enabled = true
+ssao_enabled = true
+ssil_enabled = true
+sdfgi_enabled = true
+glow_enabled = true
+adjustment_enabled = true
+adjustment_contrast = 0.9
+adjustment_saturation = 1.22
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_r1q15"]
 vertices = PackedVector3Array(-10.664667, 0.05268359, -2.023365, -7.414667, 0.05268359, -4.023365, -8.164667, 0.05268359, -4.523365, -8.164667, 0.05268359, -6.523365, -17.414667, 0.05268359, -0.773365, -10.664667, 0.05268359, -0.523365, -6.914667, 0.05268359, -6.773365, -6.914667, 0.05268359, -14.273365, -17.414667, 0.05268359, -14.273365, -3.1646671, 0.05268359, -4.273365, -3.1646671, 0.05268359, -2.023365, -2.4146671, 0.05268359, -2.023365, -2.1646671, 0.05268359, -4.773365, 7.835333, 0.05268359, -4.773365, 7.835333, 0.05268359, -5.023365, -5.664667, 0.05268359, -6.523365, -5.664667, 0.05268359, -4.523365, 7.835333, 0.05268359, -14.273365, 15.585333, 0.05268359, -5.023365, 15.585333, 0.05268359, -14.273365, -7.664667, 2.0526836, -6.273365, -7.664667, 2.0526836, -4.773365, -6.164667, 2.0526836, -4.773365, -6.164667, 2.0526836, -6.273365, -7.414667, 0.05268359, -6.023365, -7.414667, 0.05268359, -5.023365, -6.414667, 0.05268359, -5.023365, -6.414667, 0.05268359, -6.023365, 8.335333, 0.05268359, -4.523365, 0.5853329, 0.05268359, -1.023365, 0.5853329, 0.05268359, -0.523365, 0.8353329, 0.05268359, -0.02336502, 3.0853329, 0.05268359, -0.523365, 8.585333, 0.05268359, 1.976635, 8.335333, 0.05268359, 5.976635, 9.335333, 0.05268359, 5.976635, 7.085333, 0.05268359, -0.27336502, 7.335333, 0.05268359, 1.726635, 8.085333, 0.05268359, -0.773365, 4.335333, 0.05268359, -0.523365, 4.585333, 0.05268359, -0.02336502, 9.835333, 0.05268359, 7.476635, 15.585333, 0.05268359, 7.476635, 1.0853329, 7.052684, -4.273365, 1.0853329, 7.052684, -1.273365, 7.835333, 7.052684, -1.273365, 7.835333, 7.052684, -4.523365, -1.9146671, 4.852683, -4.273365, -1.9146671, 4.852683, -2.023365, 0.33533287, 4.852683, -2.023365, 0.33533287, 4.852683, -4.273365, -1.6646671, 0.05268359, -4.023365, -1.6646671, 0.05268359, -2.273365, 0.08533287, 0.05268359, -2.273365, 0.08533287, 0.05268359, -4.023365, 1.5853329, 0.05268359, -3.773365, 1.5853329, 0.05268359, -1.773365, 7.335333, 0.05268359, -1.773365, 7.335333, 0.05268359, -4.023365, -3.9146671, 0.05268359, -3.523365, -6.414667, 0.05268359, -3.523365, -6.664667, 0.05268359, -1.273365, -3.9146671, 0.05268359, 0.976635, -9.914667, 0.05268359, 0.976635, -9.914667, 0.05268359, -1.273365, -8.914667, 0.1526835, -2.273365, -7.414667, 0.05268359, -2.023365, -7.414667, 0.05268359, -3.023365, -6.664667, 5.6526833, -2.523365, -6.664667, 5.6526833, -2.023365, -3.9146671, 5.6526833, -2.023365, -3.9146671, 5.6526833, -2.523365, -4.602167, 5.4526834, -2.523365, -4.602167, 5.4526834, -2.023365, -10.164667, 8.502684, 1.476635, -3.6646671, 8.502684, 1.476635, -3.6646671, 8.502684, -1.523365, -10.164667, 8.502684, -1.773365, -10.164667, 8.502684, 0.82663536, -3.6646671, 8.502684, 0.8766346, -3.1646671, 7.552684, 0.976635, -2.6646671, 7.552684, 1.476635, -1.4146671, 7.552684, 1.476635, -1.1646671, 7.552684, -0.523365, -1.4146671, 7.552684, -1.523365, -2.9146671, 7.552684, -1.523365, -0.16466713, 0.05268359, -1.523365, 0.5853329, 0.05268359, -1.523365, -1.1646671, 0.05268359, -1.023365, -2.4146671, 0.05268359, -1.023365, -2.6646671, 0.05268359, -0.523365, -2.6646671, 0.05268359, 0.976635, -0.16466713, 0.05268359, 0.726635, -0.16466713, 0.05268359, -0.523365, -7.914667, 0.05268359, 6.976635, -7.914667, 0.05268359, 1.976635, -10.414667, 0.05268359, 1.976635, -17.414667, 0.05268359, 6.976635, 3.0853329, 2.6026838, 0.976635, 3.0853329, 2.6026838, 1.476635, 4.335333, 2.6026838, 1.476635, 4.335333, 2.6026838, -0.02336502, 3.3353329, 2.6026838, -0.02336502, 4.335333, 2.6026838, 0.976635, 1.3353329, 2.6026838, 1.476635, 2.8353329, 2.6026838, 1.476635, 2.5853329, 2.6026838, 0.22663498, 1.3353329, 2.6026838, 0.22663498, 2.3353329, 2.5026834, 1.476635, 5.335333, 2.0526836, 0.22663498, 5.335333, 2.0526836, 1.726635, 6.835333, 2.0526836, 1.726635, 6.835333, 2.0526836, 0.22663498, 6.335333, 2.0526836, 0.22663498, 6.835333, 1.9526837, 1.226635, 3.5853329, 0.05268359, 0.47663498, 3.5853329, 0.05268359, 0.976635, 4.085333, 0.05268359, 0.976635, 4.085333, 0.05268359, 0.47663498, 5.585333, 0.05268359, 0.47663498, 5.585333, 0.05268359, 1.476635, 6.335333, 0.05268359, 1.476635, 6.335333, 0.05268359, 0.47663498, 0.08533287, 0.05268359, 1.226635, 0.8353329, 0.05268359, 1.726635, 0.8353329, 0.05268359, 0.726635, 0.08533287, 0.05268359, 8.976635, -0.16466713, 0.05268359, 8.226635, -2.9146671, 0.05268359, 8.476635, -4.164667, 0.05268359, 8.976635, -3.4146671, 0.05268359, 1.726635, -3.9146671, 0.05268359, 1.976635, -6.164667, 0.05268359, 9.226635, -6.164667, 0.05268359, 18.726635, 4.335333, 0.05268359, 18.726635, 4.335333, 0.05268359, 9.226635, -4.164667, 7.052684, 2.726635, -4.164667, 7.052684, 1.976635, -7.414667, 7.052684, 1.976635, -7.664667, 7.052684, 4.726635, -7.664667, 7.052684, 8.726635, -4.414667, 7.052684, 8.976635, -4.164667, 6.9026833, 2.351635, -4.8146667, 7.052684, 1.976635, -5.0646667, 7.052684, 8.926636, 0.5853329, 3.4026835, 3.226635, 0.5853329, 3.4026835, 1.976635, -2.6646671, 3.4026835, 1.976635, -2.9146671, 3.4026835, 3.976635, -2.9146671, 3.4026835, 5.476635, 0.33533287, 3.4026835, 5.476635, 0.5853329, 3.2526834, 2.601635, -0.06466675, 3.4026835, 1.976635, 1.8353329, 7.052684, 5.226635, 1.5853329, 7.052684, 3.226635, 1.0853329, 7.052684, 1.976635, 0.8353329, 7.052684, 4.976635, 0.8353329, 7.052684, 5.476635, 0.9853325, 7.0026836, 3.1766357, 4.335333, 7.052684, 3.976635, 4.335333, 7.052684, 1.976635, 3.3353329, 7.052684, 2.976635, 3.5853329, 7.052684, 4.976635, 4.085333, 7.052684, 5.476635, 4.335333, 6.9026833, 3.309969, 3.6853333, 7.052684, 1.976635, 4.835333, 7.052684, 4.726635, 4.835333, 7.052684, 5.476635, 8.085333, 7.052684, 5.476635, 8.335333, 7.052684, 3.976635, 8.335333, 7.052684, 1.976635, 5.085333, 7.052684, 1.976635, 4.960333, 7.0026836, 3.351635, 5.4853325, 7.052684, 5.476635, 8.335333, 6.9026833, 3.309969, 7.6853333, 7.052684, 1.976635, 7.1054173, 7.052684, 4.228544, -4.664667, 0.05268359, 2.726635, -6.914667, 0.05268359, 2.476635, -7.164667, 0.05268359, 4.476635, -7.164667, 0.05268359, 8.226635, -4.914667, 0.05268359, 8.476635, 0.08533287, 0.05268359, 2.976635, 0.08533287, 0.05268359, 2.476635, -2.1646671, 0.05268359, 2.476635, -2.4146671, 0.05268359, 3.976635, -2.4146671, 0.05268359, 4.976635, -0.16466713, 0.05268359, 4.976635, 1.5853329, 0.05268359, 4.976635, 3.5853329, 0.05268359, 4.976635, 3.8353329, 0.05268359, 3.976635, 3.8353329, 0.05268359, 2.476635, 1.5853329, 0.05268359, 2.476635, 7.585333, 0.05268359, 4.976635, 7.835333, 0.05268359, 3.726635, 7.835333, 0.05268359, 2.476635, 5.585333, 0.05268359, 2.476635, 5.335333, 0.05268359, 4.726635, 2.0853329, 8.802684, 3.476635, 2.0853329, 8.802684, 4.726635, 3.0853329, 8.802684, 4.726635, 3.0853329, 8.802684, 3.476635, 2.3353329, 7.052684, 3.726635, 2.3353329, 7.052684, 4.226635, 2.8353329, 7.052684, 4.226635, 2.8353329, 7.052684, 3.726635, -2.4146671, 0.05268359, 5.976635, -2.4146671, 0.05268359, 7.726635, -0.41466713, 0.05268359, 7.476635, -0.41466713, 0.05268359, 5.976635, -0.16466713, 2.7026837, 7.726635, 0.08533287, 2.7026837, 6.226635, -0.41466713, 2.7026837, 5.976635, -0.9146671, 2.7026837, 7.726635, -1.1646671, 4.7526836, 7.476635, -0.9146671, 4.7526836, 6.976635, -0.9146671, 4.7526836, 6.226635, -2.1646671, 4.7526836, 6.226635, -2.1646671, 4.7526836, 7.476635, 4.335333, 2.8526838, 6.476635, 4.335333, 2.7526834, 7.476635, 9.085333, 2.8526838, 7.476635, 9.085333, 2.7526834, 6.476635, 7.7281895, 3.7526834, 6.476635, 7.0496197, 4.0026836, 6.476635, 6.371048, 4.0026836, 6.476635, 5.6924763, 3.8026836, 6.476635, 5.0139046, 3.2526834, 6.476635, 5.0139046, 3.1026838, 7.476635, 5.6924763, 3.7026837, 7.476635, 6.371048, 3.9526837, 7.476635, 7.0496197, 3.9526837, 7.476635, 7.7281895, 3.8026836, 7.476635, 3.3353329, 7.052684, 8.726635, 3.5853329, 7.052684, 8.226635, 3.5853329, 7.052684, 6.476635, 0.33533287, 7.052684, 6.476635, 0.33533287, 7.052684, 8.726635, 3.5853329, 6.9026833, 7.643301, 0.33533287, 7.052684, 8.164135, -7.914667, 0.05268359, 8.976635, -17.414667, 0.05268359, 18.726635, -1.9146671, 2.7026837, 6.726635, -1.9146671, 2.7026837, 7.226635, -1.4146671, 2.7026837, 7.226635, -1.4146671, 2.7026837, 6.726635, 0.8353329, 0.05268359, 8.226635, 3.0853329, 0.05268359, 8.226635, 3.0853329, 0.05268359, 6.976635, 0.8353329, 0.05268359, 6.726635, 4.585333, 0.05268359, 6.726635, 4.585333, 0.05268359, 7.226635, 8.835333, 0.05268359, 7.226635, 8.835333, 0.05268359, 6.726635, 9.585333, 0.05268359, 8.226635, 5.085333, 0.05268359, 8.226635, 5.085333, 0.05268359, 8.976635, 15.585333, 0.05268359, 18.726635, 3.8353329, 4.0026836, 8.726635, 4.835333, 4.0026836, 8.726635, 4.585333, 4.0026836, 7.976635, 3.8353329, 4.0026836, 7.976635)
@@ -38,24 +46,24 @@ agent_radius = 0.2
 region_min_size = 1.0
 detail_sample_distance = 3.0
 
-[node name="Main" type="Node3D"]
+[node name="Main" type="Node3D" unique_id=1283806487]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2080043699]
 environment = SubResource("Environment_6577w")
 
-[node name="OtherWorldObjects" type="Node3D" parent="."]
+[node name="OtherWorldObjects" type="Node3D" parent="." unique_id=437677247]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.32246, 0.930827, 11.3677)
 
-[node name="Lighting" type="Node3D" parent="."]
+[node name="Lighting" type="Node3D" parent="." unique_id=1069496904]
 
-[node name="Map Geometry" type="Node3D" parent="."]
+[node name="Map Geometry" type="Node3D" parent="." unique_id=1753318682]
 transform = Transform3D(5.94833, 0, 0, 0, 5.94833, 0, 0, 0, 5.94833, 0, -0.263391, 0)
 
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="Map Geometry"]
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="Map Geometry" unique_id=1381943815]
 transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, -0.0005556913, 0, -0.0038316406)
 navigation_mesh = SubResource("NavigationMesh_r1q15")
 
-[node name="Backupbuildinggen" parent="Map Geometry/NavigationRegion3D" instance=ExtResource("2_r1q15")]
+[node name="Backupbuildinggen" parent="Map Geometry/NavigationRegion3D" unique_id=76081537 instance=ExtResource("2_r1q15")]
 transform = Transform3D(0.168114, 0, 0, 0, 0.168114, 0, 0, 0, 0.168114, 0, 0, 0)
 
 [node name="Test Geo_009 " parent="Map Geometry/NavigationRegion3D/Backupbuildinggen" index="0"]
@@ -185,89 +193,85 @@ collision_mask = 3
 collision_layer = 3
 collision_mask = 3
 
-[node name="Saveables" type="Node3D" parent="."]
+[node name="Saveables" type="Node3D" parent="." unique_id=94352881]
 script = ExtResource("2_ab8f5")
 
-[node name="ShitGrenadeLauncher" parent="Saveables" instance=ExtResource("20_6577w")]
+[node name="ShitGrenadeLauncher" parent="Saveables" unique_id=441318850 instance=ExtResource("20_6577w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.12241, 4.52553, -11.4033)
 
-[node name="ShitPistol" parent="Saveables" instance=ExtResource("4_dgel4")]
+[node name="ShitPistol" parent="Saveables" unique_id=1841254324 instance=ExtResource("4_dgel4")]
 transform = Transform3D(0.999096, 0, 0, 0, 0.999096, 0, 0, 0, 0.999096, 12.6284, 4.48749, -5.87767)
 display_name = ""
 
-[node name="ShitRifle" parent="Saveables" instance=ExtResource("5_ymo8n")]
+[node name="ShitRifle" parent="Saveables" unique_id=1551453282 instance=ExtResource("5_ymo8n")]
 transform = Transform3D(0.999096, 0, 0, 0, 0.999096, 0, 0, 0, 0.999096, 11.7693, 4.39603, -5.71078)
 display_name = ""
 
-[node name="ScrapMetal" parent="Saveables" instance=ExtResource("6_r1q15")]
+[node name="ScrapMetal" parent="Saveables" unique_id=546752351 instance=ExtResource("6_r1q15")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.8619, 4.36743, -5.61458)
 display_name = ""
 
-[node name="Player" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("11_pxqo5")]
+[node name="Player" parent="Saveables" unique_id=1577778008 node_paths=PackedStringArray("destination_node") instance=ExtResource("11_pxqo5")]
 transform = Transform3D(1.00096, 0, 0, 0, 1.00096, 0, 0, 0, 1.00096, -5.21816, 21.65021, 31.279444)
-hostile = false
-dialogic_name = "THIS MUST MATCH THE DISPLAY NAME OF AN EXISTING DIALOGIC CHARACTER"
 destination_node = NodePath("../AdvancedCharacter")
-max_head_yaw = 0.8726646259971648
-body_turn_duration = 0.5
 
-[node name="AdvancedCharacter4Hostile" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_lvsl2")]
+[node name="AdvancedCharacter4Hostile" parent="Saveables" unique_id=1406755738 node_paths=PackedStringArray("destination_node") instance=ExtResource("15_lvsl2")]
 transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -2.3455555, 20.574774, -7.000942)
+destination_node = NodePath("../Player")
 hostile = true
 dialogic_name = "Harvard Lister"
-destination_node = NodePath("../Player")
 
-[node name="AdvancedCharacter" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_lvsl2")]
+[node name="AdvancedCharacter" parent="Saveables" unique_id=635171663 node_paths=PackedStringArray("destination_node") instance=ExtResource("15_lvsl2")]
 transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -10.2907, 20.232899, 24.5761)
+destination_node = NodePath("../Player")
 dialogic_name = "Harvard Lister"
-destination_node = NodePath("../Player")
 
-[node name="AdvancedCharacter2" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_lvsl2")]
+[node name="AdvancedCharacter2" parent="Saveables" unique_id=1124954999 node_paths=PackedStringArray("destination_node") instance=ExtResource("15_lvsl2")]
 transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -9.11324, 20.232899, 24.5955)
+destination_node = NodePath("../Player")
 dialogic_name = "Advanced Character"
-destination_node = NodePath("../Player")
 
-[node name="AdvancedCharacter3" parent="Saveables" node_paths=PackedStringArray("destination_node") instance=ExtResource("15_lvsl2")]
+[node name="AdvancedCharacter3" parent="Saveables" unique_id=1041903060 node_paths=PackedStringArray("destination_node") instance=ExtResource("15_lvsl2")]
 transform = Transform3D(0.999814, 0, 0, 0, 0.999814, 0, 0, 0, 0.999814, -11.5199, 20.232899, 24.5114)
-dialogic_name = "Animation Demonstration Character"
 destination_node = NodePath("../Player")
+dialogic_name = "Animation Demonstration Character"
 
-[node name="Glock" parent="Saveables" instance=ExtResource("17_ab8f5")]
+[node name="Glock" parent="Saveables" unique_id=421300440 instance=ExtResource("17_ab8f5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.89078, 19.083, 29.64306)
 
-[node name="Glock2" parent="Saveables" instance=ExtResource("17_ab8f5")]
+[node name="Glock2" parent="Saveables" unique_id=1722258242 instance=ExtResource("17_ab8f5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.60228, 19.083, 29.66556)
 
-[node name="Glock3" parent="Saveables" instance=ExtResource("17_ab8f5")]
+[node name="Glock3" parent="Saveables" unique_id=2027778825 instance=ExtResource("17_ab8f5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.48618, 19.083, 29.676859)
 
-[node name="Glock4" parent="Saveables" instance=ExtResource("17_ab8f5")]
+[node name="Glock4" parent="Saveables" unique_id=650560959 instance=ExtResource("17_ab8f5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.28018, 19.083, 29.68056)
 
-[node name="Ak" parent="Saveables" instance=ExtResource("13_ryxa0")]
+[node name="Ak" parent="Saveables" unique_id=274972557 instance=ExtResource("13_ryxa0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.90318, 19.0536, 27.91686)
 
-[node name="Crowbar" parent="Saveables" instance=ExtResource("14_ab8f5")]
+[node name="Crowbar" parent="Saveables" unique_id=2077204038 instance=ExtResource("14_ab8f5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.64418, 18.9646, 27.75106)
 
-[node name="Processor" type="Node3D" parent="."]
+[node name="Processor" type="Node3D" parent="." unique_id=1988621338]
 script = ExtResource("19_6577w")
 in_dialogue = null
 
-[node name="PlayerHUD" parent="." instance=ExtResource("13_rbe76")]
+[node name="PlayerHUD" parent="." unique_id=407091463 instance=ExtResource("13_rbe76")]
 
-[node name="PauseMenu" parent="." instance=ExtResource("14_7b1b0")]
+[node name="PauseMenu" parent="." unique_id=258543104 instance=ExtResource("14_7b1b0")]
 layer = 2
 visible = false
 
-[node name="InventoryScreen" parent="." instance=ExtResource("19_ab8f5")]
+[node name="InventoryScreen" parent="." unique_id=578898212 instance=ExtResource("19_ab8f5")]
 layer = 3
 visible = false
 
 [node name="InventoryPanel" parent="InventoryScreen/MarginContainer/VBoxContainer2" index="1" node_paths=PackedStringArray("player")]
 player = NodePath("../../../../Saveables/Player")
 
-[node name="TradeMenu" parent="." instance=ExtResource("18_ryxa0")]
+[node name="TradeMenu" parent="." unique_id=1339743220 instance=ExtResource("18_ryxa0")]
 visible = false
 
 [editable path="Map Geometry/NavigationRegion3D/Backupbuildinggen"]

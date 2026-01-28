@@ -2,7 +2,7 @@ extends SaveableCharacterBody3D
 
 class_name AdvancedCharacter
 
-# Universal
+# UNIVERSALS
 enum MoveMode {WALK, SPRINT, CROUCH}
 # HOLSTER means weapon is on the character's back, belt, etc and is not held in the hand
 # HOLD means weapon is held in the hand but is not aimed. TODO: Return to this mode out of combat to avoid weapon blocking view.
@@ -35,12 +35,30 @@ var hold_mode := HoldMode.AIM
 var interact_target: Node = null
 var trade_target: Node = null
 
+# Shooting
 var inaccuracy:float=0
 var max_inaccuracy:float=30.0
 
+# Targeting
 var scan_interval := 0.5   # scan twice a second
 var next_scan_time := 0.0
 
+# Dialogic
+var dialogic_current_speaker :String
+
+# Head Turn Logic ##################################################################################
+var max_head_yaw := deg_to_rad(75)
+const RESET_TIME: float = 0.6
+var head_yaw := 0.0 # radians
+var head_pitch := 0.0
+var target_head_yaw : float
+var turn_timer : float = 0.0
+#var desired_yaw := 0.0
+enum TurnMode {TURN_LEFT, NOT_TURNING, TURN_RIGHT}
+var turn_state := TurnMode.NOT_TURNING
+
+# This is what will be attacked. TODO make this more universal
+@export var destination_node : AdvancedCharacter
 @export var hostile := false
 @export var dialogic_name := "THIS MUST MATCH THE DISPLAY NAME OF AN EXISTING DIALOGIC CHARACTER"
 ######################################################
@@ -57,9 +75,6 @@ var next_scan_time := 0.0
 @onready var navigation_agent : NavigationAgent3D = $NavigationAgent3D
 @onready var head := $Head
 
-# This is what will be attacked. TODO make this more universal
-@export var destination_node : AdvancedCharacter
-
 @onready var initial_timer := $InitialShotTimer
 @onready var between_timer := $BetweenShotTimer
 
@@ -69,30 +84,14 @@ var next_scan_time := 0.0
 @onready var selfie_cam := $SelfieCamera
 @onready var ots_cam := $OTSCamera
 
-var dialogic_current_speaker :String
 
 
-
-@export var max_head_yaw := deg_to_rad(50.0)
-@export var body_turn_duration := 0.5
-var head_yaw := 0.0 # radians
-#var desired_yaw := 0.0
-var is_turning_on_ground : bool
-
-
-#var is_turning_body := false
-var body_turn_timer := 0.0
-var body_turn_start_y := 0.0
-var body_turn_target_y := 0.0
-
-
+# READY AND SETUP ##################################################################################
 func _ready() -> void:
 	super()
 	add_to_group("characters")
 	setup_uninitialized_variables()
 	update_equipped_item()
-	
-	
 	setup_dialogic_signals()
 	setup_skin()
 	unimmobilize()
@@ -133,11 +132,8 @@ func setup_dialogic_signals():
 	Dialogic.Text.animation_textbox_new_text.connect(func():
 		animation_node.set_random_expression()
 	)
-
-
-
-
 	
+# PLAYER INTERACTION, LIPSYNC, DIALOGUE ############################################################
 func DialogicSignal(arg: String):
 	if arg == "hostile":
 		if dialogic_current_speaker == dialogic_name:
@@ -165,7 +161,7 @@ func DialogicSignal(arg: String):
 	if arg == "randomize":
 		if dialogic_current_speaker == dialogic_name:
 			animation_node.randomize_character()
-	
+
 # Talking to the character
 func interact(player: AdvancedCharacter):
 	if hostile:
@@ -199,9 +195,7 @@ func set_ots_cam():
 	var to = interact_target.head if interact_target.head else interact_target
 	ots_cam.look_at(to.global_position + Vector3(0, -0.3, 0))
 	ots_cam.set_current(true)
-
-
-
+	
 func _on_audio_stream_player_lipsync_mouth_shape_changed(mouth_shape: int) -> void:
 	var lip_shape :String = "X"
 	match mouth_shape:
@@ -227,19 +221,17 @@ func _on_audio_stream_player_lipsync_mouth_shape_changed(mouth_shape: int) -> vo
 
 # Process functions ############################################################
 func _process(delta):
+	#_update_turn(delta)
+	head.global_position = $Skin/MaxSkin/Human2026/Armature/Skeleton3D/HeadBone/AdjustedHead.global_position
 	if inventory_data.get_current_item():
 		inaccuracy -= inventory_data.get_current_item().inaccuracy_reset_speed * delta
 		if inaccuracy < 0:
 			inaccuracy = 0
 		elif inaccuracy > max_inaccuracy:
 			inaccuracy = max_inaccuracy
-		
 
-			
 # Basic Script to be hostile when attacked or just stand there and talk if not
 func _physics_process(delta):
-
-	
 	if not is_on_floor():
 		y_velocity -= GRAVITY * delta
 	else:
@@ -256,22 +248,20 @@ func _physics_process(delta):
 		var now = Time.get_ticks_msec() / 1000.0
 		if now >= next_scan_time:
 			next_scan_time = now + scan_interval
-
 		hunt_target(delta)
 
-		
-
-
-
-
-
+# HEAD TURN MECHANIC ##############################################################################
 func set_turn(pitch: float, yaw: float) -> void:
+	
 	head_yaw = yaw
+	head_pitch = pitch
 
-	var effective_max_head_yaw: float = max_head_yaw \
-		if Vector3(velocity.x, 0.0, velocity.z) == Vector3.ZERO \
+	var effective_max_head_yaw: float = (
+		max_head_yaw
+		if Vector3(velocity.x, 0.0, velocity.z) == Vector3.ZERO
 		else 0.0
-
+	)
+	
 	var overflow: float = 0.0
 	if head_yaw > effective_max_head_yaw:
 		overflow = head_yaw - effective_max_head_yaw
@@ -279,19 +269,22 @@ func set_turn(pitch: float, yaw: float) -> void:
 	elif head_yaw < -effective_max_head_yaw:
 		overflow = head_yaw + effective_max_head_yaw
 		head_yaw = -effective_max_head_yaw
-
-	# Apply head yaw
-	head.rotation.y = head_yaw
-
-	# --- BODY YAW (ONLY ON OVERFLOW) ---
+		
+	# Overflow into body yaw
 	if overflow != 0.0:
 		self.rotation.y += overflow
 		head.rotation.y = head_yaw
-		if velocity.y == 0.0:
-			is_turning_on_ground = true
-
-	# --- HEAD PITCH ---
-	head.rotation.x = clamp(pitch, deg_to_rad(-80), deg_to_rad(80))
+		if velocity.y == 0:
+			turn_state = TurnMode.TURN_LEFT if overflow < 0 else TurnMode.TURN_RIGHT
+	else: turn_state = TurnMode.NOT_TURNING
+			
+	## If over the limit, start reset
+	#if abs(head_yaw) > effective_max_head_yaw:
+		#self.rotation.y += head_yaw
+		#head_yaw = 0.0
+		#
+	head.rotation.x = clamp(head_pitch, deg_to_rad(-80), deg_to_rad(80))
+	head.rotation.y = head_yaw
 
 func change_turn(pitch: float, yaw: float) -> void:
 	var target_yaw: float = head_yaw - yaw
@@ -299,26 +292,7 @@ func change_turn(pitch: float, yaw: float) -> void:
 
 	set_turn(target_pitch, target_yaw)
 
-
-#func look_at_target(target_pos: Vector3) -> void:
-	#var head_origin: Vector3 = head.global_transform.origin
-	#var to_target: Vector3 = (target_pos - head_origin).normalized()
-#
-	## Convert to BODY local space (this matches head_yaw definition)
-	#var body_local_dir: Vector3 = global_transform.basis.inverse() * to_target
-#
-	## This is the yaw *relative to the body*
-	#var target_yaw: float = -atan2(body_local_dir.x, body_local_dir.z)
-#
-	## This is pitch relative to the body too
-	#var target_pitch: float = -atan2(
-		#body_local_dir.y,
-		#sqrt(body_local_dir.x * body_local_dir.x + body_local_dir.z * body_local_dir.z)
-	#)
-#
-	#set_turn(target_pitch, target_yaw)
-
-func aim_at(target_pos: Vector3, delta: float) -> void:
+func aim_at(target_pos: Vector3) -> void:
 	# --- BODY YAW ---
 	var body_dir: Vector3 = target_pos - global_position
 	body_dir.y = 0
@@ -334,20 +308,9 @@ func aim_at(target_pos: Vector3, delta: float) -> void:
 	var flat_distance: float = Vector2(to_target.x, to_target.z).length()
 	if flat_distance > 0.001:
 		var pitch_angle: float = atan2(to_target.y, flat_distance)
-		head.rotation.x = lerp_angle(head.rotation.x, pitch_angle, delta * 5.0)
+		head.rotation.x = pitch_angle
 
-
-
-
-
-
-
-
-
-
-
-
-
+# BEHAVIOUR AND TARGETING ##########################################################################
 func hunt_target(delta: float) -> void:
 	if not destination_node:
 		return
@@ -374,7 +337,7 @@ func hunt_target(delta: float) -> void:
 		navigation_agent.target_position = destination_node.global_position
 
 		# Aim at target
-		aim_at(aim_node.global_position, delta)
+		aim_at(aim_node.global_position)
 	else:
 		velocity = Vector3.ZERO
 
@@ -396,8 +359,6 @@ func hunt_target(delta: float) -> void:
 		else:
 			move_mode = MoveMode.SPRINT
 
-
-
 # Get the effective speed, taking into account move mode
 func get_effective_speed() -> float:
 	var factor: float
@@ -410,7 +371,6 @@ func get_effective_speed() -> float:
 	return character_data.speed * factor
 
 # Controls #####################################################################
-
 # Checks for interactable inside of a hitscan_range 
 func check_for_interactable():
 	var target = _get_interact_target()
@@ -436,8 +396,6 @@ func find_interactable_parent(node: Node) -> Node:
 	else:
 		return null
 
-
-
 func _get_interact_target() -> Node3D:
 	# This is so that in 3rd person we have more reach
 	interact_raycast.target_position = Vector3.FORWARD * (INTERACT_DISTANCE + SPRING_EXTENDED_LENGTH)
@@ -447,34 +405,6 @@ func _get_interact_target() -> Node3D:
 	else: 
 		return null
 
-# Save functions ###################################################################################
-func get_save_data() -> Dictionary:
-	var data = super()
-	data["scene_path"] = scene_path
-	data["move_mode"] = move_mode
-	data["inventory_data"] = inventory_data
-	data["character_data"] = character_data
-	#data["destination_node"] = destination_node
-	
-	data["head_rotation_x"] = $Head.rotation.x
-	return data
-
-#TODO: Fix to use composition
-func apply_save_data(data: Dictionary):
-	super(data)
-	if data.has("move_mode"):
-		move_mode = data["move_mode"]
-	if data.has("inventory_data"):
-		inventory_data = data["inventory_data"]
-	if data.has("character_data"):
-		character_data = data["character_data"]
-	#if data.has("destination_node"):
-		#destination_node = data["destination_node"]
-	if data.has("head_rotation_x"):
-		$Head.rotation.x = data["head_rotation_x"]
-	
-	# Set up rest based on the data
-	update_equipped_item()
 
 # Gameplay Functions ###############################################################################
 func change_health(amount: int):
@@ -532,7 +462,6 @@ func perform_primary_fire() -> void:
 		animation_node.equip_item(inventory_data.get_current_item())
 		return
 	
-	
 	if inventory_data.items.is_empty():
 		return
 
@@ -557,7 +486,6 @@ func create_local_timer(wait_time: float) -> void:
 	await timer.timeout
 	timer.queue_free()
 
-
 ## The coroutine for firing after initial delay
 func fire_weapon_with_delay() -> void:
 	var item = inventory_data.get_current_item()
@@ -565,8 +493,6 @@ func fire_weapon_with_delay() -> void:
 	# Wait initial shooting delay BEFORE firing
 	await create_local_timer(item.initial_shooting_delay)
 	
-
-
 	var result: bool = inventory_data.shoot_current_weapon()
 	if result:
 		gun_sound.pitch_scale = 1.0 if inventory_data.get_current_weapon_ammo_count() >=10 else 1.5
@@ -587,9 +513,6 @@ func fire_weapon_with_delay() -> void:
 		# PROJECTILE VS HITSCAN
 		if item.shooting_type == ItemData.ShootingType.HITSCAN:
 			
-			
-			
-			
 			# Do raycast
 			attack_raycast.target_position = Vector3.FORWARD * item.hitscan_range
 			# Reset rotation to face forward
@@ -607,25 +530,11 @@ func fire_weapon_with_delay() -> void:
 			
 			inaccuracy += inventory_data.get_current_item().subsequent_shot_inaccuracy
 			
-			
-			
 			attack_raycast.force_raycast_update()
-			
-			
-			
-			
-			
-			
 			
 			if attack_raycast.is_colliding():
 				var target = attack_raycast.get_collider()
 				if target:
-					
-					
-					
-					
-					
-					
 					#Add bullet hole
 					var bullet_hole = preload("res://effects/bullet_decal.tscn").instantiate()
 					target.add_child(bullet_hole)
@@ -717,9 +626,6 @@ func fire_weapon_with_delay() -> void:
 
 	can_shoot = true
 
-
-
-
 func play_sound(sound_path: String):
 	hit_sound.stream = load(sound_path)
 	hit_sound.play()
@@ -747,24 +653,15 @@ func check_for_raycast_collision() -> bool:
 				return true
 	return false
 
-
-
-
-
-
-
-
 # This updates the item that the player has equipped
 func update_equipped_item():
 	if inventory_data.get_current_item():
 		
 		var item = inventory_data.get_current_item()
 		animation_node.equip_item(item)
-		
-		
+
 		print(name, ": equipped ", item.display_name)
 		await create_local_timer(0.0001)
-		
 		
 		perform_pullout()
 		hold_mode = HoldMode.AIM
@@ -799,3 +696,31 @@ func immobilize():
 func unimmobilize():
 	character_data.can_move = true
 ####################################################################################################
+# Save functions ###################################################################################
+func get_save_data() -> Dictionary:
+	var data = super()
+	data["scene_path"] = scene_path
+	data["move_mode"] = move_mode
+	data["inventory_data"] = inventory_data
+	data["character_data"] = character_data
+	#data["destination_node"] = destination_node
+	
+	data["head_rotation_x"] = $Head.rotation.x
+	return data
+
+#TODO: Fix to use composition
+func apply_save_data(data: Dictionary):
+	super(data)
+	if data.has("move_mode"):
+		move_mode = data["move_mode"]
+	if data.has("inventory_data"):
+		inventory_data = data["inventory_data"]
+	if data.has("character_data"):
+		character_data = data["character_data"]
+	#if data.has("destination_node"):
+		#destination_node = data["destination_node"]
+	if data.has("head_rotation_x"):
+		$Head.rotation.x = data["head_rotation_x"]
+	
+	# Set up rest based on the data
+	update_equipped_item()

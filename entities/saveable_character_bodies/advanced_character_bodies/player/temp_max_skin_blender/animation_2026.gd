@@ -7,10 +7,17 @@ const CROUCH_BLEND_SPACE := "parameters/crouch_blend_space/blend_position"
 const WALK_BLEND_SPACE := "parameters/walk_blend_space/blend_position"
 const SPRINT_BLEND_SPACE := "parameters/sprint_blend_space/blend_position"
 const CROUCH_WALK_SPRINT_BLEND := "parameters/crouch_walk_sprint_blend/blend_amount"
+const TURN_BLEND := "parameters/turn_blend/blend_amount"
+
 @onready var equipped_item :EquippedItem= $"../Human2026/Armature/Skeleton3D/HandBone/EquippedItem"
 @onready var ik : SkeletonIK3D= $"../Human2026/Armature/Skeleton3D/SkeletonIK3D"
 @onready var target : Node3D = $"../Target"
 #func _ready() -> void:
+
+
+
+const TURN_BLEND_SPACE := "parameters/turn_blend_space/blend_position"
+const TURN_REQUEST := "parameters/turn_oneshot/request"
 
 func equip_item(item_data: ItemData):
 	equipped_item.equip_item(item_data)
@@ -44,8 +51,21 @@ func _process(delta: float) -> void:
 		#aim_scope_shoot_transition = "is_scoping"
 		if not ik.is_running():
 			ik.start()
-func _physics_process(delta: float) -> void:
+			
+			
+			
+			
 	
+func _physics_process(delta: float) -> void:
+	if player.turn_state == player.TurnMode.TURN_LEFT:
+		animation_tree.set(TURN_BLEND_SPACE, -1)
+		animation_tree.set(TURN_BLEND, 1.0)
+	elif player.turn_state == player.TurnMode.TURN_RIGHT:
+		animation_tree.set(TURN_BLEND_SPACE, 1)
+		animation_tree.set(TURN_BLEND, 1.0)
+	else:
+		animation_tree.set(TURN_BLEND, 0.0)
+		
 	
 	
 	var local_velocity = global_transform.basis.inverse() * player.velocity

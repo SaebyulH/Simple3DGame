@@ -5,28 +5,27 @@ var bullet_time := false
 
 # Player Specific
 enum CameraMode { FIRST_PERSON, THIRD_PERSON }
+var camera_mode := CameraMode.FIRST_PERSON
 const ENEMY_STATS_DISTANCE := 15.0 # Distance to see enemy stats
-
-# Player Specific
 var elapsed_time := 0.0 
 var crouch_toggled := false
 var target_spring_length : float = 0.0
 var spring_interp_speed: float = 5.0  # Adjust speed as needed
 var mouse_sensitivity := 0.003
-var camera_mode := CameraMode.FIRST_PERSON
-
 
 #var head_yaw: float = 0.0
-
-
 # Tracks if the player has fired a round. Relevant for Semi-Auto. 
 # Only matters to player and not other charactrs as this is merely an input based thing. 
 var has_fired_semi :bool = false 
 
-@onready var spring := $Head/SpringParent/SpringArm3D
-@onready var camera := $Head/SpringParent/SpringArm3D/MarginThing/Camera3D
+@onready var spring_parent := $ViewPivot/SpringParent
+@onready var view_pivot := $ViewPivot
+
+@onready var spring := $ViewPivot/SpringParent/SpringArm3D
+@onready var camera := $ViewPivot/SpringParent/SpringArm3D/MarginThing/Camera3D
 
 @onready var head_bone := $Skin/MaxSkin/Human2026/Armature/Skeleton3D/HeadBone/AdjustedHead
+@onready var aim_raycast := $ViewPivot/SpringParent/SpringArm3D/MarginThing/Camera3D/AimRayCast3D
 @onready var hud := get_parent().get_parent().get_node("PlayerHUD") as PlayerHUD
 #@onready var timer := $ShootTimer
 # Ready ##########################################################
@@ -40,7 +39,6 @@ func setup_uninitialized_variables():
 	dialogic_name = "You"
 	display_name = dialogic_name
 
-	
 # Process functions ############################################################
 func _process(delta):
 	super(delta)
@@ -58,7 +56,6 @@ func _process(delta):
 				elif not Input.is_action_pressed("primary_fire"):
 					has_fired_semi = false
 	
-	
 	# HUD
 	if hud:
 		#hud.update_time(elapsed_time)
@@ -68,12 +65,10 @@ func _process(delta):
 		hud.update_player_stats(character_data.display_name)
 		hud.update_inventory_data(inventory_data)
 		hud.update_ammo_label(inventory_data)
-		
-		
+
 	# Interactions
 	check_for_interactable()
 	check_for_enemy() #updates HUD
-	
 	
 	# Camera
 	update_spring_length(delta)
@@ -127,83 +122,64 @@ func _physics_process(delta):
 				Engine.time_scale = 1.0
 		else:
 			Engine.time_scale = 1.0
-			
-		
-		
 		move_and_slide()
 		
-		
-		
 		# FACE DIRECTION IF PLAYER IS NOT AIMING BASICALLY
-		if camera_mode == CameraMode.THIRD_PERSON and (hold_mode == HoldMode.HOLD or hold_mode == HoldMode.HOLSTER):
-			if velocity.length() > 0.1:
-				var flat_velocity = velocity
-				flat_velocity.y = 0
-				var target_dir = flat_velocity.normalized()
-
-				# Get current and target rotations as Quaternions
-				var current_rot = skin.global_transform.basis.get_rotation_quaternion()
-				var target_basis = Basis.looking_at(-target_dir, Vector3.UP)
-				var target_rot = target_basis.get_rotation_quaternion()
-
-				# Interpolate rotation
-				var new_rot = current_rot.slerp(target_rot, delta * 8.0)
-
-				# Preserve original scale
-				var current_scale = skin.global_transform.basis.get_scale()
-				var new_basis = Basis(new_rot)
-				new_basis = Basis(
-					new_basis.x * current_scale.x,
-					new_basis.y * current_scale.y,
-					new_basis.z * current_scale.z
-				)
-				# Apply new transform
-				skin.global_transform = Transform3D(new_basis, skin.global_transform.origin)
-		else:
-			skin.rotation = DEFAULT_SKIN_ROTATION
+		#if camera_mode == CameraMode.THIRD_PERSON and (hold_mode == HoldMode.HOLD or hold_mode == HoldMode.HOLSTER):
+			#if velocity.length() > 0.1:
+				#var flat_velocity = velocity
+				#flat_velocity.y = 0
+				#var target_dir = flat_velocity.normalized()
+#
+				## Get current and target rotations as Quaternions
+				#var current_rot = skin.global_transform.basis.get_rotation_quaternion()
+				#var target_basis = Basis.looking_at(-target_dir, Vector3.UP)
+				#var target_rot = target_basis.get_rotation_quaternion()
+#
+				## Interpolate rotation
+				#var new_rot = current_rot.slerp(target_rot, delta * 8.0)
+#
+				## Preserve original scale
+				#var current_scale = skin.global_transform.basis.get_scale()
+				#var new_basis = Basis(new_rot)
+				#new_basis = Basis(
+					#new_basis.x * current_scale.x,
+					#new_basis.y * current_scale.y,
+					#new_basis.z * current_scale.z
+				#)
+				## Apply new transform
+				#skin.global_transform = Transform3D(new_basis, skin.global_transform.origin)
+		#else:
+			#skin.rotation = DEFAULT_SKIN_ROTATION
 	else:
 		velocity = Vector3.ZERO
 		velocity.y = y_velocity
 		move_and_slide()	
-		
-
 
 # Controls #####################################################################
-func _unhandled_input(event):
-# Looking Around
+func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
-		change_turn(
-			event.relative.y * mouse_sensitivity, # pitch
-			event.relative.x * mouse_sensitivity  # yaw
-		)
-
-		# --- HEAD YAW ---
-		#head_yaw -= event.relative.x * mouse_sensitivity
-	#
-		#var effective_max_head_yaw : float = max_head_yaw if Vector3(velocity.x, 0.0, velocity.z) == Vector3.ZERO else 0.0
-		#
-		#var overflow: float = 0.0
-		#if head_yaw > effective_max_head_yaw:
-			#overflow = head_yaw - effective_max_head_yaw
-			#head_yaw = effective_max_head_yaw
-		#elif head_yaw < -effective_max_head_yaw:
-			#overflow = head_yaw + effective_max_head_yaw
-			#head_yaw = -effective_max_head_yaw
-#
-		## Apply head yaw
-		#head.rotation.y = head_yaw
-#
-		## --- BODY YAW (ONLY ON OVERFLOW) ---
-		#if overflow != 0.0:
-			#self.rotation.y += overflow
-			#head.rotation.y = head_yaw  # reapply after correction
-			#if velocity.y == 0:
-				#is_turning_on_ground = true
-		#
-		## --- HEAD PITCH ---
-		#var new_pitch: float = head.rotation.x - event.relative.y * mouse_sensitivity
-		#head.rotation.x = clamp(new_pitch, deg_to_rad(-80), deg_to_rad(80))
+		# Step 1: update aim ray direction from mouse intent
+		view_pivot.rotation.y -= event.relative.x * mouse_sensitivity
+		self.rotation.y -= event.relative.x * mouse_sensitivity
 		
+		var new_pitch: float = view_pivot.rotation.x - event.relative.y * mouse_sensitivity
+		view_pivot.rotation.x = clamp(new_pitch, deg_to_rad(-80), deg_to_rad(80))
+		
+		# Step 2: force raycast update
+		aim_raycast.force_raycast_update()
+		
+		var aim_position := Vector3.ZERO
+		# Step 3: resolve aim position
+		if aim_raycast.is_colliding():
+			aim_position = aim_raycast.get_collision_point()
+		else:
+			# 1000 meters straight ahead of the ray
+			var origin: Vector3 = aim_raycast.global_transform.origin
+			var direction: Vector3 = -aim_raycast.global_transform.basis.z
+			aim_position = origin + direction * 1000.0
+			
+		aim_at(aim_position)
 		
 	# Scrolling
 	if event is InputEventMouseButton:
@@ -221,8 +197,6 @@ func _unhandled_input(event):
 				hold_mode = HoldMode.AIM
 				update_equipped_item()
 				
-		
-		
 	if event.is_action_pressed("interact") and interact_target:
 		if interact_target.has_method("interact"):
 			interact_target.interact(self)
@@ -340,6 +314,31 @@ func check_for_enemy():
 	# If nothing valid hit
 	hud.hide_enemy_stats()
 	
+
+# Gameplay Functions ###############################################################################
+func change_health(amount: int):
+	character_data.change_health(amount)
+	if character_data.health <= 0: die()
+
+func die():
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	get_tree().change_scene_to_file("res://interface/death_screen/death_screen.tscn")
+
+func change_wealth(amount: int):
+	super(amount)
+	if hud:
+		hud.update_wealth(character_data.wealth)
+
+func check_for_raycast_collision() -> bool:
+	return true
+
+func drop_current_item():
+	if inventory_data.current_index >= 0:
+		processor.spawn_pickup_near_character(inventory_data.remove_current_item(), self)
+		update_equipped_item()
+		
+
+####################################################################################################
 # Save functions ###################################################################################
 func get_save_data() -> Dictionary:
 	var data = super()
@@ -367,28 +366,3 @@ func apply_save_data(data: Dictionary):
 	
 	if camera_mode == CameraMode.THIRD_PERSON: 
 		target_spring_length = SPRING_EXTENDED_LENGTH
-
-# Gameplay Functions ###############################################################################
-func change_health(amount: int):
-	character_data.change_health(amount)
-	if character_data.health <= 0: die()
-
-func die():
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	get_tree().change_scene_to_file("res://interface/death_screen/death_screen.tscn")
-
-func change_wealth(amount: int):
-	super(amount)
-	if hud:
-		hud.update_wealth(character_data.wealth)
-
-func check_for_raycast_collision() -> bool:
-	return true
-
-func drop_current_item():
-	if inventory_data.current_index >= 0:
-		processor.spawn_pickup_near_character(inventory_data.remove_current_item(), self)
-		update_equipped_item()
-		
-
-####################################################################################################
